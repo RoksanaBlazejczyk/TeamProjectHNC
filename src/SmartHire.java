@@ -25,8 +25,8 @@ public class SmartHire {
     private JButton loginButton;
     private JButton createAccountButton;
     private JPanel background;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextField firstNameTxt;
+    private JTextField surnameTxt;
     private JButton createAccountBtn;
     private JButton chooseAvatarBtn;
     private JButton BGMusicButton;
@@ -34,18 +34,17 @@ public class SmartHire {
 
 
     public SmartHire() {
+        String firstnameTxt = "";
+        String surnameTxt = "";
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
 
             }
         });
     }
 
     public static void main(String[] args) {
-
         // Launch the GUI
         JFrame myApp = new JFrame("SmartHire App");
         myApp.setContentPane(new SmartHire().SmartHireHub); // Set the main panel
