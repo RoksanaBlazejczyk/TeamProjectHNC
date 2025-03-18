@@ -25,12 +25,12 @@ public class SmartHire {
     private JButton nextButton;
     private JTextField passwordTxt;
     private JTextField usernameTxt;
-    private JButton loginButton;
-    private JButton createAccountButton;
+    private JButton loginBtn;
+    private JButton createAccountBtn;
     private JPanel background;
     private JTextField firstNameTxt;
     private JTextField surnameTxt;
-    private JButton createAccountBtn;
+    private JButton createBtn;
     private JButton chooseAvatarBtn;
     private JButton BGMusicButton;
     private JButton settingsButton;
@@ -78,14 +78,14 @@ public class SmartHire {
 
     public SmartHire() {
 
-        loginButton.addActionListener(new ActionListener() {
+        loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 logIn();
 
             }
         });
-        createAccountButton.addActionListener(new ActionListener() {
+        createAccountBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 goToNextScreen();
