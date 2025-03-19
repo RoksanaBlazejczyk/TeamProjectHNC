@@ -110,8 +110,8 @@
             <children>
               <component id="43592" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag top="1" left="0" bottom="1" right="0" weightx="0.0" weighty="0.0"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
                   <text value="First Name: "/>
@@ -119,8 +119,8 @@
               </component>
               <component id="76617" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag top="1" left="0" bottom="1" right="0" weightx="0.0" weighty="0.0"/>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
                   <text value="Surname: "/>
@@ -128,46 +128,168 @@
               </component>
               <component id="2f286" class="javax.swing.JTextField" binding="surnameTxt">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
-                  <gridbag top="1" left="0" bottom="1" right="0" weightx="0.0" weighty="0.0"/>
+                  <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties/>
-              </component>
-              <component id="c3f71" class="javax.swing.JButton" binding="createBtn">
-                <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag top="1" left="0" bottom="1" right="0" weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Create"/>
-                </properties>
-              </component>
-              <component id="815a6" class="javax.swing.JButton" binding="avatarBtn">
-                <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag top="1" left="0" bottom="1" right="0" weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Choose Avatar"/>
-                </properties>
               </component>
               <component id="bedc4" class="javax.swing.JTextField" binding="firstNameTxt">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
-                  <gridbag top="1" left="0" bottom="1" right="0" weightx="0.0" weighty="0.0"/>
+                  <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties/>
               </component>
+              <component id="6508d" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <text value="Pick an avatar from below"/>
+                </properties>
+              </component>
+              <grid id="75139" binding="avatarPanel" layout-manager="GridBagLayout">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="0" bottom="5" right="0" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="63ce" class="javax.swing.JRadioButton" binding="avatar1RadioBtn">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar1.png"/>
+                      <selected value="false"/>
+                      <text value="Avatar1"/>
+                    </properties>
+                  </component>
+                  <component id="3bc29" class="javax.swing.JRadioButton" binding="avatar2RadioBtn">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar2.png"/>
+                      <text value="Avatar2"/>
+                    </properties>
+                  </component>
+                  <component id="ebae8" class="javax.swing.JRadioButton" binding="avatar3RadioBtn">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar3.png"/>
+                      <text value="Avatar3"/>
+                    </properties>
+                  </component>
+                  <component id="ec3b4" class="javax.swing.JRadioButton" binding="avatar4RadioBtn">
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar4.png"/>
+                      <text value="Avatar4"/>
+                    </properties>
+                  </component>
+                  <component id="e0946" class="javax.swing.JRadioButton" binding="avatar5RadioBtn">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar5.png"/>
+                      <text value="Avatar5"/>
+                    </properties>
+                  </component>
+                  <component id="2a046" class="javax.swing.JRadioButton" binding="avatar6RadioBtn">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar6.png"/>
+                      <text value="Avatar6"/>
+                    </properties>
+                  </component>
+                  <component id="460b" class="javax.swing.JRadioButton" binding="avatar7RadioBtn">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar7.png"/>
+                      <text value="Avatar7"/>
+                    </properties>
+                  </component>
+                  <component id="8cb19" class="javax.swing.JRadioButton" binding="avatar8RadioBtn">
+                    <constraints>
+                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar8.png"/>
+                      <text value="Avatar8"/>
+                    </properties>
+                  </component>
+                  <component id="27eb6" class="javax.swing.JRadioButton" binding="avatar9RadioBtn">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar9.png"/>
+                      <text value="Avatar9"/>
+                    </properties>
+                  </component>
+                  <component id="aaf4" class="javax.swing.JRadioButton" binding="avatar10RadioBtn">
+                    <constraints>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar10.png"/>
+                      <text value="Avatar10"/>
+                    </properties>
+                  </component>
+                  <component id="c4fcd" class="javax.swing.JRadioButton" binding="avatar11RadioBtn">
+                    <constraints>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar11.png"/>
+                      <text value="Avatar11"/>
+                    </properties>
+                  </component>
+                  <component id="4847" class="javax.swing.JRadioButton" binding="avatar12RadioBtn">
+                    <constraints>
+                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="avatars/avatar12.png"/>
+                      <text value="Avatar12"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
               <component id="86150" class="javax.swing.JTextField" binding="outputPasswordTxt">
                 <constraints>
-                  <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
-                  <gridbag weightx="0.0" weighty="0.0"/>
+                  <gridbag top="10" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
                   <background color="-2038820"/>
@@ -179,124 +301,16 @@
                   <text value="Your one-time password will be: "/>
                 </properties>
               </component>
-              <grid id="75139" binding="avatars" layout-manager="GridBagLayout">
+              <component id="c3f71" class="javax.swing.JButton" binding="createBtn">
                 <constraints>
-                  <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
+                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="63ce" class="javax.swing.JRadioButton" binding="avatar1RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar1"/>
-                    </properties>
-                  </component>
-                  <component id="3bc29" class="javax.swing.JRadioButton" binding="avatar2RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar2"/>
-                    </properties>
-                  </component>
-                  <component id="ebae8" class="javax.swing.JRadioButton" binding="avatar3RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar3"/>
-                    </properties>
-                  </component>
-                  <component id="ec3b4" class="javax.swing.JRadioButton" binding="avatar4RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar4"/>
-                    </properties>
-                  </component>
-                  <component id="e0946" class="javax.swing.JRadioButton" binding="avatar5RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar5"/>
-                    </properties>
-                  </component>
-                  <component id="2a046" class="javax.swing.JRadioButton" binding="avatar6RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar6"/>
-                    </properties>
-                  </component>
-                  <component id="460b" class="javax.swing.JRadioButton" binding="avatar7RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar7"/>
-                    </properties>
-                  </component>
-                  <component id="8cb19" class="javax.swing.JRadioButton" binding="avatar8RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar8"/>
-                    </properties>
-                  </component>
-                  <component id="27eb6" class="javax.swing.JRadioButton" binding="avatar9RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar9"/>
-                    </properties>
-                  </component>
-                  <component id="aaf4" class="javax.swing.JRadioButton" binding="avatar10RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar10"/>
-                    </properties>
-                  </component>
-                  <component id="c4fcd" class="javax.swing.JRadioButton" binding="avatar11RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar11"/>
-                    </properties>
-                  </component>
-                  <component id="4847" class="javax.swing.JRadioButton" binding="avatar12RadioButton" default-binding="true">
-                    <constraints>
-                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Avatar12"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
+                <properties>
+                  <enabled value="true"/>
+                  <text value="Create"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="3b0e3" binding="rulesScreen" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -336,6 +350,17 @@
             <border type="none"/>
             <children/>
           </grid>
+          <grid id="41503" binding="resultsScreen" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <card name="Card5"/>
+            </constraints>
+            <properties>
+              <name value="results"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
       <grid id="7b953" binding="controlPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
@@ -362,15 +387,6 @@
               <text value="BG music"/>
             </properties>
           </component>
-          <grid id="41503" binding="resultsScreen" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints/>
-            <properties>
-              <name value="results"/>
-            </properties>
-            <border type="none"/>
-            <children/>
-          </grid>
         </children>
       </grid>
       <grid id="c6e32" binding="nextPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
@@ -392,4 +408,20 @@
       </grid>
     </children>
   </grid>
+  <buttonGroups>
+    <group name="AvatarButtonGroup" bound="true">
+      <member id="63ce"/>
+      <member id="3bc29"/>
+      <member id="ebae8"/>
+      <member id="ec3b4"/>
+      <member id="e0946"/>
+      <member id="2a046"/>
+      <member id="460b"/>
+      <member id="8cb19"/>
+      <member id="27eb6"/>
+      <member id="aaf4"/>
+      <member id="c4fcd"/>
+      <member id="4847"/>
+    </group>
+  </buttonGroups>
 </form>

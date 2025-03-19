@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
-
 public class SmartHire {
 
     private JPanel SmartHireHub;
@@ -34,21 +33,21 @@ public class SmartHire {
     private JButton BGMusicButton;
     private JButton settingsButton;
     private JPanel rulesPanel;
-    private JButton avatarBtn;
     private JTextField outputPasswordTxt;
-    private JPanel avatars;
-    private JRadioButton avatar1RadioButton;
-    private JRadioButton avatar2RadioButton;
-    private JRadioButton avatar3RadioButton;
-    private JRadioButton avatar4RadioButton;
-    private JRadioButton avatar5RadioButton;
-    private JRadioButton avatar6RadioButton;
-    private JRadioButton avatar7RadioButton;
-    private JRadioButton avatar8RadioButton;
-    private JRadioButton avatar9RadioButton;
-    private JRadioButton avatar10RadioButton;
-    private JRadioButton avatar11RadioButton;
-    private JRadioButton avatar12RadioButton;
+    private JPanel avatarPanel;
+    private JRadioButton avatar1RadioBtn;
+    private JRadioButton avatar2RadioBtn;
+    private JRadioButton avatar3RadioBtn;
+    private JRadioButton avatar4RadioBtn;
+    private JRadioButton avatar5RadioBtn;
+    private JRadioButton avatar6RadioBtn;
+    private JRadioButton avatar7RadioBtn;
+    private JRadioButton avatar8RadioBtn;
+    private JRadioButton avatar9RadioBtn;
+    private JRadioButton avatar10RadioBtn;
+    private JRadioButton avatar11RadioBtn;
+    private JRadioButton avatar12RadioBtn;
+    private ButtonGroup AvatarButtonGroup;
 
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
@@ -83,13 +82,13 @@ public class SmartHire {
             return "Unknown Panel";
         }
     }
-    public void goToNextScreen(){
+
+    public void goToNextScreen() {
         String currentPanel = getCurrentPanel();
         if (currentPanel.equals("loginScreen")) {
             createAccount();
         }
     }
-
 
     public SmartHire() {
 
@@ -126,6 +125,7 @@ public class SmartHire {
             }
         });
     }
+
     /**
      * Generates a username in the format name_surname
      */
@@ -133,45 +133,57 @@ public class SmartHire {
         String firstName = firstNameTxt.getText().trim();
         String surname = surnameTxt.getText().trim();
 
-        // Validation
+        // Validation for first name and surname
         if (firstName.isEmpty() || surname.isEmpty()) {
             JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Format the username
-            String username = firstName + "_" + surname;
-
-            // Display the generated username
-            JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username, "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Optionally set the username to a text field or store it in a variable
-            usernameTxt.setText(username);  // Set the generated username in the text field
+            return; // Exit the method if validation fails
         }
-    }
 
+        // Validation for avatar selection
+        if (AvatarButtonGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please select an avatar!", "No avatar selected!", JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method if no avatar is selected
+        }
+
+        // Format the username
+        String username = firstName + "_" + surname;
+
+        // Display the generated username
+        JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username, "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        // Optionally set the username to a text field or store it in a variable
+        usernameTxt.setText(username);  // Set the generated username in the text field
+
+        // Navigate to the previous screen using CardLayout
+        CardLayout cards = (CardLayout) mainPanel.getLayout();
+        cards.previous(mainPanel);
+    }
 
     /**
      * Method to handle account creation logic
      */
     private void createAccount() {
+        //Disable create button until everything and avatar selected
         // Assuming firstNameTxt and surnameTxt are JTextField components
         String firstName = firstNameTxt.getText().trim();
         String surname = surnameTxt.getText().trim();
 
-        // Validation Logic
-        if (firstName.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your first name!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (firstName.length() < 2) {
-            JOptionPane.showMessageDialog(SmartHireHub, "First name must be at least 2 characters.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!firstName.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid first name! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (surname.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!surname.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid surname! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(SmartHireHub,
-                    "Account created successfully!\nWelcome, " + firstName + "_" + surname,
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
+        while (true) {// Validation Logic
+            if (firstName.isEmpty()) {
+                JOptionPane.showMessageDialog(SmartHireHub, "Please enter your first name!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            } else if (firstName.length() < 2) {
+                JOptionPane.showMessageDialog(SmartHireHub, "First name must be at least 2 characters.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!firstName.matches("[a-zA-Z ]+")) {
+                JOptionPane.showMessageDialog(SmartHireHub, "Invalid first name! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            } else if (surname.isEmpty()) {
+                JOptionPane.showMessageDialog(SmartHireHub, "Please enter your surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!surname.matches("[a-zA-Z ]+")) {
+                JOptionPane.showMessageDialog(SmartHireHub, "Invalid surname! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(SmartHireHub,
+                        "Account created successfully!\nWelcome, " + firstName + "_" + surname,
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 
