@@ -19,6 +19,7 @@
             <properties>
               <background color="-3290691"/>
               <foreground color="-3290691"/>
+              <name value="login"/>
               <preferredSize width="800" height="480"/>
             </properties>
             <border type="etched"/>
@@ -102,6 +103,7 @@
             </constraints>
             <properties>
               <background color="-3290691"/>
+              <name value="create"/>
             </properties>
             <border type="none"/>
             <children>
@@ -166,7 +168,9 @@
             <constraints>
               <card name="Card3"/>
             </constraints>
-            <properties/>
+            <properties>
+              <name value="rules"/>
+            </properties>
             <border type="none"/>
             <children/>
           </grid>
@@ -175,23 +179,15 @@
             <constraints>
               <card name="Card4"/>
             </constraints>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </grid>
-          <grid id="41503" binding="resultsScreen" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <card name="Card5"/>
-            </constraints>
-            <properties/>
+            <properties>
+              <name value="questions"/>
+            </properties>
             <border type="none"/>
             <children/>
           </grid>
         </children>
       </grid>
-      <grid id="7b953" binding="controlPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="7b953" binding="controlPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
         <constraints border-constraint="North"/>
         <properties>
           <background color="-3290691"/>
@@ -199,11 +195,7 @@
         <border type="none"/>
         <children>
           <component id="6d4ec" class="javax.swing.JButton" binding="settingsButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="50" height="-1"/>
-              </grid>
-            </constraints>
+            <constraints/>
             <properties>
               <background color="-7751195"/>
               <enabled value="false"/>
@@ -211,18 +203,26 @@
             </properties>
           </component>
           <component id="cfcb" class="javax.swing.JButton" binding="BGMusicButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="70" use-parent-layout="false"/>
-            </constraints>
+            <constraints/>
             <properties>
               <background color="-7751195"/>
               <enabled value="false"/>
+              <horizontalAlignment value="0"/>
               <text value="BG music"/>
             </properties>
           </component>
+          <grid id="41503" binding="resultsScreen" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints/>
+            <properties>
+              <name value="results"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
-      <grid id="c6e32" binding="nextPanel" layout-manager="GridBagLayout">
+      <grid id="c6e32" binding="nextPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints border-constraint="South"/>
         <properties>
           <background color="-3290691"/>
@@ -230,10 +230,7 @@
         <border type="none"/>
         <children>
           <component id="fc114" class="javax.swing.JButton" binding="nextButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0"/>
-            </constraints>
+            <constraints/>
             <properties>
               <background color="-7751195"/>
               <enabled value="false"/>

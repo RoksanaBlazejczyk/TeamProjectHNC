@@ -88,6 +88,16 @@ public class SmartHire {
         createAccountBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JPanel card = null;
+                for (Component comp : mainPanel.getComponents()) {
+                    if (comp.isVisible() == true) {
+                        card = (JPanel) comp;
+                    }
+                }
+                CardLayout cards = (CardLayout) mainPanel.getLayout();
+                if (card.getName().equals(loginScreen.getName())) {
+                    cards.next(mainPanel);
+                }
                 goToNextScreen();
 
             }
