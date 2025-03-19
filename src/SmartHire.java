@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 
@@ -50,6 +53,13 @@ public class SmartHire {
     private JRadioButton avatar11RadioButton;
     private JRadioButton avatar12RadioButton;
 
+    // Array to store usernames
+    private String[] usernames = new String[100];
+    private int usernameCount = 0;
+
+    // Array to store 100 random 4-digit passwords
+    private String[] passwords = new String[100];
+
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
@@ -92,6 +102,8 @@ public class SmartHire {
 
 
     public SmartHire() {
+        // Generate 100 random 4-digit passwords
+        generatePasswords();
 
         loginBtn.addActionListener(new ActionListener() {
             @Override
@@ -100,6 +112,8 @@ public class SmartHire {
 
             }
         });
+
+
         createAccountBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,6 +141,22 @@ public class SmartHire {
         });
     }
     /**
+     * Generates 100 unique random 4-digit passwords.
+     */
+    private void generatePasswords() {
+        Set<String> uniquePasswords = new HashSet<>();
+        Random random = new Random();
+
+        while (uniquePasswords.size() < 100) {
+            int randomPassword = 1000 + random.nextInt(9000);  // Generates a 4-digit number
+            uniquePasswords.add(String.valueOf(randomPassword));
+        }
+
+        passwords = uniquePasswords.toArray(new String[0]);
+        System.out.println("Passwords generated successfully!");
+    }
+
+    /**
      * Generates a username in the format name_surname
      */
     private void createUsername() {
@@ -147,6 +177,7 @@ public class SmartHire {
             usernameTxt.setText(username);  // Set the generated username in the text field
         }
     }
+
 
 
     /**
