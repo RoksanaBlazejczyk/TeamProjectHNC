@@ -32,10 +32,8 @@ public class SmartHire {
     private JTextField firstNameTxt;
     private JTextField surnameTxt;
     private JButton createBtn;
-    private JButton chooseAvatarBtn;
     private JButton BGMusicButton;
     private JButton settingsButton;
-    private JPanel rulesPanel;
     private JTextField outputPasswordTxt;
     private JPanel avatarPanel;
     private JRadioButton avatar1RadioBtn;
@@ -50,6 +48,10 @@ public class SmartHire {
     private JRadioButton avatar10RadioBtn;
     private JRadioButton avatar11RadioBtn;
     private JRadioButton avatar12RadioBtn;
+    private JTextPane RULESYouWillHaveTextPane;
+    private JPanel settingsPanel;
+    private JPanel topPanel;
+    private JPanel profilePanel;
     private ButtonGroup AvatarButtonGroup;
 
     // Array to store usernames
