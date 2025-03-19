@@ -102,7 +102,37 @@ public class SmartHire {
 
             }
         });
+
+        createBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createUsername();
+
+            }
+        });
     }
+    /**
+     * Generates a username in the format name_surname
+     */
+    private void createUsername() {
+        String firstName = firstNameTxt.getText().trim();
+        String surname = surnameTxt.getText().trim();
+
+        // Validation
+        if (firstName.isEmpty() || surname.isEmpty()) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Format the username
+            String username = firstName + "_" + surname;
+
+            // Display the generated username
+            JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username, "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            // Optionally set the username to a text field or store it in a variable
+            usernameTxt.setText(username);  // Set the generated username in the text field
+        }
+    }
+
 
     /**
      * Method to handle account creation logic
