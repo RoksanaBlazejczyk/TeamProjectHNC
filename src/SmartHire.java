@@ -1,4 +1,3 @@
-import projectPack.Authentication;
 /**
  * SmartHire IQ Team Project
  * Team: Roksana Blazejczyk, Marek Cudak, Robert Sneddon, Daniel Virlan
@@ -35,6 +34,21 @@ public class SmartHire {
     private JButton BGMusicButton;
     private JButton settingsButton;
     private JPanel rulesPanel;
+    private JButton avatarBtn;
+    private JTextField outputPasswordTxt;
+    private JPanel avatars;
+    private JRadioButton avatar1RadioButton;
+    private JRadioButton avatar2RadioButton;
+    private JRadioButton avatar3RadioButton;
+    private JRadioButton avatar4RadioButton;
+    private JRadioButton avatar5RadioButton;
+    private JRadioButton avatar6RadioButton;
+    private JRadioButton avatar7RadioButton;
+    private JRadioButton avatar8RadioButton;
+    private JRadioButton avatar9RadioButton;
+    private JRadioButton avatar10RadioButton;
+    private JRadioButton avatar11RadioButton;
+    private JRadioButton avatar12RadioButton;
 
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
