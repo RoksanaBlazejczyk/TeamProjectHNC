@@ -48,10 +48,10 @@ public class SmartHire {
     private JRadioButton avatar10RadioBtn;
     private JRadioButton avatar11RadioBtn;
     private JRadioButton avatar12RadioBtn;
-    private JTextPane RULESYouWillHaveTextPane;
-    private JPanel settingsPanel;
-    private JPanel topPanel;
-    private JPanel profilePanel;
+    private JTextPane rulesTxt;
+    //private JPanel settingsPanel;
+    //private JPanel topPanel;
+    //private JPanel profilePanel;
     private ButtonGroup AvatarButtonGroup;
 
     // Array to store usernames
@@ -201,44 +201,44 @@ public class SmartHire {
         String firstName = firstNameTxt.getText().trim();
         String surname = surnameTxt.getText().trim();
 
-        while (true) {// Validation Logic
-            if (firstName.isEmpty()) {
-                JOptionPane.showMessageDialog(SmartHireHub, "Please enter your first name!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            } else if (firstName.length() < 2) {
-                JOptionPane.showMessageDialog(SmartHireHub, "First name must be at least 2 characters.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            } else if (!firstName.matches("[a-zA-Z ]+")) {
-                JOptionPane.showMessageDialog(SmartHireHub, "Invalid first name! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            } else if (surname.isEmpty()) {
-                JOptionPane.showMessageDialog(SmartHireHub, "Please enter your surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            } else if (!surname.matches("[a-zA-Z ]+")) {
-                JOptionPane.showMessageDialog(SmartHireHub, "Invalid surname! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(SmartHireHub,
-                        "Account created successfully!\nWelcome, " + firstName + "_" + surname,
-                        "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-    }
-
-    /**
-     * Method to log in with firstName_surname and provided password
-     */
-    public void logIn() {
-        // Assuming firstNameTxt and surnameTxt are JTextField components
-        String firstName = firstNameTxt.getText().trim();
-        String surname = surnameTxt.getText().trim();
-
-        // Construct the username in the format firstName_surname
-        String Username = firstName + "_" + surname;
-
-        // Validate if both firstName and surname are provided (non-empty and non-null)
-        if (firstName.isEmpty() || surname.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid username. Please make sure both first name and surname are provided.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        // Validation Logic
+        if (firstName.isEmpty()) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your first name!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        } else if (firstName.length() < 2) {
+            JOptionPane.showMessageDialog(SmartHireHub, "First name must be at least 2 characters.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!firstName.matches("[a-zA-Z ]+")) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Invalid first name! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        } else if (surname.isEmpty()) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!surname.matches("[a-zA-Z ]+")) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Invalid surname! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            // Proceed with username validation
-            System.out.println("Username is valid: " + Username);
-            // You can add additional logic here to verify the username and password (authentication)
+            JOptionPane.showMessageDialog(SmartHireHub,
+                    "Account created successfully!\nWelcome, " + firstName + "_" + surname,
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+
+/**
+ * Method to log in with firstName_surname and provided password
+ */
+public void logIn() {
+    // Assuming firstNameTxt and surnameTxt are JTextField components
+    String firstName = firstNameTxt.getText().trim();
+    String surname = surnameTxt.getText().trim();
+
+    // Construct the username in the format firstName_surname
+    String Username = firstName + "_" + surname;
+
+    // Validate if both firstName and surname are provided (non-empty and non-null)
+    if (firstName.isEmpty() || surname.isEmpty()) {
+        JOptionPane.showMessageDialog(SmartHireHub, "Invalid username. Please make sure both first name and surname are provided.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } else {
+        // Proceed with username validation
+        System.out.println("Username is valid: " + Username);
+        // You can add additional logic here to verify the username and password (authentication)
+    }
+}
 
 }
