@@ -104,6 +104,7 @@
             <properties>
               <background color="-3290691"/>
               <name value="create"/>
+              <preferredSize width="800" height="480"/>
             </properties>
             <border type="none"/>
             <children>
@@ -163,16 +164,25 @@
               </component>
             </children>
           </grid>
-          <grid id="3b0e3" binding="rulesScreen" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+          <grid id="3b0e3" binding="rulesScreen" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <card name="Card3"/>
             </constraints>
             <properties>
               <name value="rules"/>
+              <preferredSize width="800" height="480"/>
             </properties>
             <border type="none"/>
-            <children/>
+            <children>
+              <grid id="5016d" binding="rulesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <preferredSize width="250" height="150"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
           </grid>
           <grid id="27a9c" binding="questionsScreen" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>

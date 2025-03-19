@@ -1,4 +1,4 @@
-//package projectPack;
+import projectPack.Authentication;
 /**
  * SmartHire IQ Team Project
  * Team: Roksana Blazejczyk, Marek Cudak, Robert Sneddon, Daniel Virlan
@@ -34,6 +34,7 @@ public class SmartHire {
     private JButton chooseAvatarBtn;
     private JButton BGMusicButton;
     private JButton settingsButton;
+    private JPanel rulesPanel;
 
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
