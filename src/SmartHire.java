@@ -49,14 +49,17 @@ public class SmartHire {
     private JRadioButton avatar11RadioBtn;
     private JRadioButton avatar12RadioBtn;
     private JTextPane rulesTxt;
-    private JPanel settingsPanel;
-    private JPanel topPanel;
-    private JPanel profilePanel;
+    //private JPanel settingsPanel;
+    //private JPanel topPanel;
+    //private JPanel profilePanel;
     private ButtonGroup AvatarButtonGroup;
-    // Array to store usernames and passwords
+
+    // Array to store usernames
     private String[] usernames = new String[100];
-    private String[] passwords = new String[100];
     private int usernameCount = 0;
+
+    // Array to store 100 random 4-digit passwords
+    private String[] passwords = new String[100];
 
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
@@ -107,8 +110,10 @@ public class SmartHire {
             @Override
             public void actionPerformed(ActionEvent e) {
                 logIn();
+
             }
         });
+
 
         createAccountBtn.addActionListener(new ActionListener() {
             @Override
@@ -124,6 +129,7 @@ public class SmartHire {
                     cards.next(mainPanel);
                 }
                 goToNextScreen();
+
             }
         });
 
@@ -131,12 +137,13 @@ public class SmartHire {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createUsername();
+
             }
         });
     }
 
     /**
-     * Generates 100 unique random 4-digit passwords and associates them with usernames
+     * Generates 100 unique random 4-digit passwords.
      */
     private void generatePasswords() {
         Set<String> uniquePasswords = new HashSet<>();
@@ -148,11 +155,11 @@ public class SmartHire {
         }
 
         passwords = uniquePasswords.toArray(new String[0]);
-        outputPasswordTxt.setText("Passwords generated successfully!");
+        System.out.println("Passwords generated successfully!");
     }
 
     /**
-     * Generates a username in the format name_surname and displays a generated password
+     * Generates a username in the format name_surname
      */
     private void createUsername() {
         String firstName = firstNameTxt.getText().trim();
@@ -173,30 +180,24 @@ public class SmartHire {
         // Format the username
         String username = firstName + "_" + surname;
 
-        // Randomly assign a password to the username
-        String password = passwords[usernameCount % passwords.length]; // Assign a password
-        passwords[usernameCount] = password;
-
-        // Display the generated username and password
-        JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username + "\nPassword: " + password, "Success", JOptionPane.INFORMATION_MESSAGE);
-
-        // Store the username in the array
-        usernames[usernameCount] = username;
-        usernameCount++;
+        // Display the generated username
+        JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username, "Success", JOptionPane.INFORMATION_MESSAGE);
 
         // Optionally set the username to a text field or store it in a variable
         usernameTxt.setText(username);  // Set the generated username in the text field
-        outputPasswordTxt.setText(password);  // Set the generated password in the password field
 
         // Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
         cards.previous(mainPanel);
     }
 
+
     /**
-     * Method to handle account creation logic.
+     * Method to handle account creation logic
      */
     private void createAccount() {
+        //Disable create button until everything and avatar selected
+        // Assuming firstNameTxt and surnameTxt are JTextField components
         String firstName = firstNameTxt.getText().trim();
         String surname = surnameTxt.getText().trim();
 
@@ -212,46 +213,32 @@ public class SmartHire {
         } else if (!surname.matches("[a-zA-Z ]+")) {
             JOptionPane.showMessageDialog(SmartHireHub, "Invalid surname! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(SmartHireHub, "Account created successfully!\nWelcome, " + firstName + "_" + surname, "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(SmartHireHub,
+                    "Account created successfully!\nWelcome, " + firstName + "_" + surname,
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    /**
-     * Method to log in with firstName_surname and provided password
-     */
-    public void logIn() {
-        String firstName = firstNameTxt.getText().trim();
-        String surname = surnameTxt.getText().trim();
 
-        // Construct the username in the format firstName_surname
-        String Username = firstName + "_" + surname;
+/**
+ * Method to log in with firstName_surname and provided password
+ */
+public void logIn() {
+    // Assuming firstNameTxt and surnameTxt are JTextField components
+    String firstName = firstNameTxt.getText().trim();
+    String surname = surnameTxt.getText().trim();
 
-        // Validate if both firstName and surname are provided (non-empty and non-null)
-        if (firstName.isEmpty() || surname.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid username. Please make sure both first name and surname are provided.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Authentication logic: Check if the username exists and if the password matches
-            boolean found = false;
-            for (int i = 0; i < usernameCount; i++) {
-                if (usernames[i].equals(Username)) {
-                    // If username matches, check the password
-                    String inputPassword = passwordTxt.getText().trim();
-                    String correctPassword = passwords[i];
+    // Construct the username in the format firstName_surname
+    String Username = firstName + "_" + surname;
 
-                    if (inputPassword.equals(correctPassword)) {
-                        JOptionPane.showMessageDialog(SmartHireHub, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        found = true;
-                        break;
-                    } else {
-                        JOptionPane.showMessageDialog(SmartHireHub, "Invalid password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found) {
-                JOptionPane.showMessageDialog(SmartHireHub, "Username not found. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+    // Validate if both firstName and surname are provided (non-empty and non-null)
+    if (firstName.isEmpty() || surname.isEmpty()) {
+        JOptionPane.showMessageDialog(SmartHireHub, "Invalid username. Please make sure both first name and surname are provided.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+    } else {
+        // Proceed with username validation
+        System.out.println("Username is valid: " + Username);
+        // You can add additional logic here to verify the username and password (authentication)
     }
+}
+
 }
