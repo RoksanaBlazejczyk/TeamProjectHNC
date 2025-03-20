@@ -1,3 +1,4 @@
+import projectPack.Authentication;
 /**
  * SmartHire IQ Team Project
  * Team: Roksana Blazejczyk, Marek Cudak, Robert Sneddon, Daniel Virlan
@@ -49,9 +50,9 @@ public class SmartHire {
     private JRadioButton avatar11RadioBtn;
     private JRadioButton avatar12RadioBtn;
     private JTextPane rulesTxt;
-    //private JPanel settingsPanel;
-    //private JPanel topPanel;
-    //private JPanel profilePanel;
+    private JPanel settingsPanel;
+    private JPanel topPanel;
+    private JPanel profilePanel;
     private ButtonGroup AvatarButtonGroup;
 
     // Array to store usernames
@@ -95,13 +96,6 @@ public class SmartHire {
         }
     }
 
-    public void goToNextScreen() {
-        String currentPanel = getCurrentPanel();
-        if (currentPanel.equals("loginScreen")) {
-            createAccount();
-        }
-    }
-
     public SmartHire() {
         // Generate 100 random 4-digit passwords
         generatePasswords();
@@ -128,7 +122,10 @@ public class SmartHire {
                 if (card.getName().equals(loginScreen.getName())) {
                     cards.next(mainPanel);
                 }
-                goToNextScreen();
+                String currentPanel = getCurrentPanel();
+                if (currentPanel.equals("loginScreen")) {
+                    Authentication.createAccount();
+                }
 
             }
         });
@@ -137,7 +134,6 @@ public class SmartHire {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createUsername();
-
             }
         });
     }
@@ -190,35 +186,6 @@ public class SmartHire {
         CardLayout cards = (CardLayout) mainPanel.getLayout();
         cards.previous(mainPanel);
     }
-
-
-    /**
-     * Method to handle account creation logic
-     */
-    private void createAccount() {
-        //Disable create button until everything and avatar selected
-        // Assuming firstNameTxt and surnameTxt are JTextField components
-        String firstName = firstNameTxt.getText().trim();
-        String surname = surnameTxt.getText().trim();
-
-        // Validation Logic
-        if (firstName.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your first name!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (firstName.length() < 2) {
-            JOptionPane.showMessageDialog(SmartHireHub, "First name must be at least 2 characters.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!firstName.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid first name! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (surname.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!surname.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid surname! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(SmartHireHub,
-                    "Account created successfully!\nWelcome, " + firstName + "_" + surname,
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
 
 /**
  * Method to log in with firstName_surname and provided password
