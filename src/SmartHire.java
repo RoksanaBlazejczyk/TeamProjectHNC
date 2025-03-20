@@ -90,6 +90,15 @@ public class SmartHire {
         else if (mainPanel.getComponent(1).isVisible()) {
             return "createAccountScreen";
         }
+        else if (mainPanel.getComponent(2).isVisible()) {
+            return "rulesScreen";
+        }
+        else if (mainPanel.getComponent(3).isVisible()) {
+            return "questionsScreen";
+        }
+        else if (mainPanel.getComponent(4).isVisible()) {
+            return "resultsScreen";
+        }
         // If no panel is visible or another panel is showing, you can return a default value or error
         else {
             return "Unknown Panel";

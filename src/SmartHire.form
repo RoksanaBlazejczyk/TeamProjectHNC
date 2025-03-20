@@ -168,7 +168,7 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar1.png"/>
-                      <selected value="false"/>
+                      <selected value="true"/>
                       <text value="Avatar1"/>
                     </properties>
                   </component>

@@ -7,6 +7,8 @@ public class Authentication {
     private static JPanel SmartHireHub;
     private static JTextField firstNameTxt;
     private static JTextField surnameTxt;
+    private static ButtonGroup AvatarButtonGroup;
+
     /**
      * Method to handle account creation logic
      */
