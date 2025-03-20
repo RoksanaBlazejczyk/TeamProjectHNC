@@ -334,7 +334,7 @@
                 <properties>
                   <editable value="false"/>
                   <preferredSize width="400" height="250"/>
-                  <text value="                     &#9;                                    RULES&#10;&#10;- You will have one shot at each question&#10;- There is a timer but you can take as much time as needed&#10;- In upper right you can change settings for font and light/dark mode &#10;- There is a soothing jingle you can turn on/off"/>
+                  <text value="                     &#9;                                    RULES&#10;&#10;SmartHire IQ Quiz App is a digital assessment tool that will test candidates intelligence and cognitive abilities through a series of carefully designed questions.&#10;&#10;The test will check candidates skills like  problem-solving, logical reasoning, critical-thinking and pattern recognition.&#10;&#10;- The questions have only one correct answer.&#10;- Each question will display the skill being tested and have a certain difficulty level displayed at the beginning of the question.&#10;- The test has a timer that records how long it took the candidate to complete the test.&#10;- In upper right you can change settings for font and light/dark mode &#10;- There is a soothing jingle you can turn on/off"/>
                 </properties>
               </component>
             </children>
