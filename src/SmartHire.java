@@ -194,7 +194,7 @@ public class SmartHire {
     }
 
     /**
-     * Method to handle account creation logic
+     * Method to handle account creation logic.
      */
     private void createAccount() {
         String firstName = firstNameTxt.getText().trim();
