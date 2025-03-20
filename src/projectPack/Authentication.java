@@ -14,12 +14,10 @@ public class Authentication {
      */
     public static void createAccount() {
         //Disable create button until everything and avatar selected
-        // Assuming firstNameTxt and surnameTxt are JTextField components
         String firstName = firstNameTxt.getText().trim();
         String surname = surnameTxt.getText().trim();
 
-        // Validation Logic
-
+        //Validation
         if (firstName.isEmpty()) {
             JOptionPane.showMessageDialog(SmartHireHub, "Please enter your first name!", "Validation Error", JOptionPane.ERROR_MESSAGE);
         } else if (firstName.length() < 2) {

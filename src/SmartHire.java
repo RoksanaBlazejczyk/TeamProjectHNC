@@ -53,6 +53,12 @@ public class SmartHire {
     private JPanel settingsPanel;
     private JPanel topPanel;
     private JPanel profilePanel;
+    private JLabel aLbl;
+    private JLabel bLbl;
+    private JLabel cLbl;
+    private JLabel dLbl;
+    private JLabel photoLbl;
+    private JLabel questionLbl;
     private ButtonGroup AvatarButtonGroup;
 
     // Array to store usernames and passwords
@@ -144,6 +150,13 @@ public class SmartHire {
                 createUsername();
             }
         });
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cards = (CardLayout) mainPanel.getLayout();
+                cards.show(mainPanel, "Card4");
+            }
+        });
     }
 
     /**
@@ -157,7 +170,6 @@ public class SmartHire {
             int randomPassword = 1000 + random.nextInt(9000);  // Generates a 4-digit number
             uniquePasswords.add(String.valueOf(randomPassword));
         }
-
         passwords = uniquePasswords.toArray(new String[0]);
         outputPasswordTxt.setText("Passwords generated successfully!");
     }
