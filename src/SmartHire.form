@@ -54,6 +54,7 @@
                     </constraints>
                     <properties>
                       <preferredSize width="150" height="30"/>
+                      <text value=""/>
                     </properties>
                   </component>
                   <component id="b7d70" class="javax.swing.JTextField" binding="passwordTxt">

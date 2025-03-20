@@ -1,3 +1,4 @@
+import projectPack.Authentication;
 /**
  * SmartHire IQ Team Project
  * Team: Roksana Blazejczyk, Marek Cudak, Robert Sneddon, Daniel Virlan
@@ -105,7 +106,7 @@ public class SmartHire {
     public void goToNextScreen() {
         String currentPanel = getCurrentPanel();
         if (currentPanel.equals("loginScreen")) {
-            createAccount();
+            Authentication.createAccount();
         }
     }
 
@@ -204,64 +205,55 @@ public class SmartHire {
     }
 
     /**
-     * Method to handle account creation logic
-     */
-    private void createAccount() {
-        String firstName = firstNameTxt.getText().trim();
-        String surname = surnameTxt.getText().trim();
-
-        // Validation Logic
-        if (firstName.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your first name!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (firstName.length() < 2) {
-            JOptionPane.showMessageDialog(SmartHireHub, "First name must be at least 2 characters.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!firstName.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid first name! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (surname.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please enter your surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!surname.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid surname! Use letters and spaces only.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(SmartHireHub, "Account created successfully!\nWelcome, " + firstName + "_" + surname, "Success", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    /**
      * Method to log in with firstName_surname and provided password
      */
     public void logIn() {
         String firstName = firstNameTxt.getText().trim();
         String surname = surnameTxt.getText().trim();
-
-        // Construct the username in the format firstName_surname
         String Username = firstName + "_" + surname;
 
-        // Validate if both firstName and surname are provided (non-empty and non-null)
         if (firstName.isEmpty() || surname.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Invalid username. Please make sure both first name and surname are provided.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Authentication logic: Check if the username exists and if the password matches
-            boolean found = false;
-            for (int i = 0; i < usernameCount; i++) {
-                if (usernames[i].equals(Username)) {
-                    // If username matches, check the password
-                    String inputPassword = passwordTxt.getText().trim();
-                    String correctPassword = passwords[i];
+            JOptionPane.showMessageDialog(SmartHireHub,
+                    "Invalid username. Please make sure both first name and surname are provided.",
+                    "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-                    if (inputPassword.equals(correctPassword)) {
-                        JOptionPane.showMessageDialog(SmartHireHub, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        found = true;
-                        break;
-                    } else {
-                        JOptionPane.showMessageDialog(SmartHireHub, "Invalid password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-                        found = true;
-                        break;
-                    }
+        boolean found = false;
+
+        for (int i = 0; i < usernameCount; i++) {
+            if (usernames[i].equals(Username)) {
+                String inputPassword = passwordTxt.getText().trim();
+                String correctPassword = passwords[i];
+
+                if (inputPassword.equals(correctPassword)) {
+                    JOptionPane.showMessageDialog(SmartHireHub,
+                            "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    found = true;
+
+                    // Switch to rulesScreen
+                    CardLayout cards = (CardLayout) mainPanel.getLayout();
+                    cards.show(mainPanel, "Card3");
+
+                    // Force UI refresh
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                    return;
+                } else {
+                    JOptionPane.showMessageDialog(SmartHireHub,
+                            "Invalid password. Please try again.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    found = true;
+                    break;
                 }
             }
-            if (!found) {
-                JOptionPane.showMessageDialog(SmartHireHub, "Username not found. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        }
+
+        if (!found) {
+            JOptionPane.showMessageDialog(SmartHireHub,
+                    "Username not found. Please try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
