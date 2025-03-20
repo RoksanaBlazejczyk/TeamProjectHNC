@@ -59,6 +59,17 @@ public class SmartHire {
     private JLabel dLbl;
     private JLabel photoLbl;
     private JLabel questionLbl;
+    private JLabel profilePic;
+    private JLabel profileName;
+    private JCheckBox readRules;
+    private JPanel leaderboardPanel;
+    private JPanel resultBG;
+    private JLabel figureImg;
+    private JLabel scoreTxt;
+    private JCheckBox optBtn;
+    private JButton leaderboardBtn;
+    private JButton printToFileBtn;
+    private JButton finishBtn;
     private ButtonGroup AvatarButtonGroup;
 
     // Array to store usernames and passwords
@@ -93,14 +104,11 @@ public class SmartHire {
         // Check if another panel (e.g., "createAccountScreen") is visible
         else if (mainPanel.getComponent(1).isVisible()) {
             return "createAccountScreen";
-        }
-        else if (mainPanel.getComponent(2).isVisible()) {
+        } else if (mainPanel.getComponent(2).isVisible()) {
             return "rulesScreen";
-        }
-        else if (mainPanel.getComponent(3).isVisible()) {
+        } else if (mainPanel.getComponent(3).isVisible()) {
             return "questionsScreen";
-        }
-        else if (mainPanel.getComponent(4).isVisible()) {
+        } else if (mainPanel.getComponent(4).isVisible()) {
             return "resultsScreen";
         }
         // If no panel is visible or another panel is showing, you can return a default value or error
@@ -154,7 +162,18 @@ public class SmartHire {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cards = (CardLayout) mainPanel.getLayout();
-                cards.show(mainPanel, "Card4");
+                cards.show(mainPanel, "Card4"); //Show questions panel
+
+            }
+        });
+        readRules.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (readRules.isSelected()) {
+                    nextButton.setEnabled(true);
+                } else {
+                    nextButton.setEnabled(false);
+                }
             }
         });
     }
@@ -247,6 +266,8 @@ public class SmartHire {
                     // Switch to rulesScreen
                     CardLayout cards = (CardLayout) mainPanel.getLayout();
                     cards.show(mainPanel, "Card3");
+                    BGMusicButton.setEnabled(true);
+                    settingsButton.setEnabled(true);
 
                     // Force UI refresh
                     mainPanel.revalidate();
