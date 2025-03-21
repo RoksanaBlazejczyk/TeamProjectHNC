@@ -384,7 +384,7 @@
                   </component>
                   <component id="b1b0f" class="javax.swing.JLabel" binding="aLbl">
                     <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="0" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
@@ -394,7 +394,7 @@
                   </component>
                   <component id="21644" class="javax.swing.JLabel" binding="dLbl">
                     <constraints>
-                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="0" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
@@ -404,7 +404,7 @@
                   </component>
                   <component id="e366f" class="javax.swing.JProgressBar" binding="progressBar">
                     <constraints>
-                      <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
@@ -412,13 +412,13 @@
                       <maximum value="400"/>
                       <maximumSize width="9999" height="30"/>
                       <minimumSize width="800" height="30"/>
-                      <preferredSize width="8" height="15"/>
+                      <preferredSize width="200" height="15"/>
                       <stringPainted value="true"/>
                     </properties>
                   </component>
                   <component id="e107c" class="javax.swing.JLabel" binding="bLbl">
                     <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="0" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
@@ -428,7 +428,7 @@
                   </component>
                   <component id="cc8d7" class="javax.swing.JLabel" binding="cLbl">
                     <constraints>
-                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="0" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>

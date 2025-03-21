@@ -162,6 +162,10 @@ public class SmartHire {
 
 
     public SmartHire() {
+        //Hide components initially until certain screens
+        profilePic.setVisible(false);
+        profileName.setVisible(false);
+        nextButton.setVisible(false);
         // Generate 100 random 4-digit passwords
         generatePasswords();
         BGMusicButton.setEnabled(true);
@@ -210,6 +214,7 @@ public class SmartHire {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (readRules.isSelected()) {
+                    nextButton.setVisible(true);
                     nextButton.setEnabled(true);
                 } else {
                     nextButton.setEnabled(false);
@@ -302,6 +307,7 @@ public class SmartHire {
         // Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
         cards.previous(mainPanel);
+        createAccountBtn.setEnabled(false);
     }
 
     /**
@@ -337,6 +343,10 @@ public class SmartHire {
                     cards.show(mainPanel, "Card3");
                     BGMusicButton.setEnabled(true);
                     settingsButton.setEnabled(true);
+
+                    //Show user and picture in top left
+                    profileName.setVisible(true);
+                    profilePic.setVisible(true);
 
                     // Force UI refresh
                     mainPanel.revalidate();
