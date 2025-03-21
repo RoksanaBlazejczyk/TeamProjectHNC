@@ -8,10 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.JOptionPane;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
 
 public class SmartHire {
 
@@ -70,12 +76,15 @@ public class SmartHire {
     private JButton leaderboardBtn;
     private JButton printToFileBtn;
     private JButton finishBtn;
+    private JProgressBar progressBar;
     private ButtonGroup AvatarButtonGroup;
+    private Clip backgroundMusicClip; // Music player
 
     // Array to store usernames and passwords
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
     private int usernameCount = 0;
+
 
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
@@ -92,6 +101,32 @@ public class SmartHire {
             myApp.setVisible(true);
         });
     }
+    public void music() {
+        try {
+            File musicFile = new File("src/music/music.wav"); // Adjust path if needed
+            if (!musicFile.exists()) {
+                System.out.println("Music file not found: " + musicFile.getAbsolutePath());
+                return;
+            }
+
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+
+            // Loop the music indefinitely
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            // Start playing
+            clip.start();
+            System.out.println("Music is playing in a loop...");
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
 
     public String getCurrentPanel() {
         // Get the CardLayout from the mainPanel
@@ -124,9 +159,14 @@ public class SmartHire {
         }
     }
 
+
+
     public SmartHire() {
         // Generate 100 random 4-digit passwords
         generatePasswords();
+        BGMusicButton.setEnabled(true);
+
+
 
         loginBtn.addActionListener(new ActionListener() {
             @Override
@@ -176,7 +216,36 @@ public class SmartHire {
                 }
             }
         });
+        progressBar.addContainerListener(new ContainerAdapter() {
+            @Override
+            public void componentAdded(ContainerEvent e) {
+                super.componentAdded(e);
+                new Thread(() -> {
+                    for (int i = 0; i <= 100; i++) {
+                        try {
+                            Thread.sleep(50); // Simulate work
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                        progressBar.setValue(i);
+                    }
+                }).start();
+
+
+            }
+        });
+
+        BGMusicButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Button clicked! Playing music...");
+                music();
+
+            }
+
+        });
     }
+
 
     /**
      * Generates 100 unique random 4-digit passwords and associates them with usernames
