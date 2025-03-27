@@ -338,7 +338,7 @@
                   <foreground color="-13947600"/>
                   <preferredSize width="600" height="275"/>
                   <selectedTextColor color="-13947600"/>
-                  <text value="                     &#9;                                                                     RULES&#10;&#10;SmartHire IQ Quiz App is a digital assessment tool that will test candidates intelligence and cognitive abilities through a series of carefully designed questions.&#10;&#10;The test will check candidates skills like  problem-solving, logical reasoning, critical-thinking and pattern recognition.&#10;&#10;- The questions have only one correct answer.&#10;- Each question will display the skill being tested and have a certain difficulty level displayed at the beginning of the question.&#10;- The test has a timer that records how long it took the candidate to complete the test.&#10;- In upper right you can change settings for font and light/dark mode &#10;- There is a soothing jingle you can turn on/off&#10;&#10;- Click the checkbox when you have read the rules,the test will begin when you press Next, Good luck!"/>
+                  <text value="                     &#9;                                                                     RULES&#10;&#10;SmartHire IQ Quiz App is a digital assessment tool that will test candidates intelligence and cognitive abilities through a series of carefully designed questions.&#10;&#10;The test will check candidates skills like  problem-solving, logical reasoning, critical-thinking and pattern recognition.&#10;&#10;- The questions have only one correct answer.&#10;- Each question will display the skill being tested and have a certain difficulty level displayed at the beginning of the question.&#10;- The test has a timer that records how long it took the candidate to complete the test.&#10;&#10;- In the upper right you can change settings for font size and light/dark mode &#10;- There is a soothing jingle you can turn on/off&#10;- We recommend you sort your preferred settings now before you proceed&#10;&#10;- Click the checkbox when you have read the rules,the test will begin when you press Next, Good luck!"/>
                 </properties>
               </component>
               <component id="2c4d7" class="javax.swing.JCheckBox" binding="readRules">
@@ -644,6 +644,7 @@
             <constraints border-constraint="East"/>
             <properties>
               <background color="-1041"/>
+              <preferredSize width="215" height="45"/>
             </properties>
             <border type="none"/>
             <children>
@@ -672,7 +673,7 @@
             <constraints border-constraint="West"/>
             <properties>
               <background color="-1041"/>
-              <preferredSize width="200" height="0"/>
+              <preferredSize width="200" height="45"/>
             </properties>
             <border type="none"/>
             <children>
@@ -682,7 +683,7 @@
                   <gridbag top="0" left="5" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Username"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="6722" class="javax.swing.JLabel" binding="profilePic">
@@ -691,7 +692,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Avatar Picture"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>
@@ -700,7 +701,7 @@
             <constraints border-constraint="Center"/>
             <properties>
               <background color="-3290691"/>
-              <preferredSize width="300" height="0"/>
+              <preferredSize width="300" height="45"/>
             </properties>
             <border type="none"/>
             <children>
@@ -710,6 +711,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
+                  <preferredSize width="101" height="25"/>
                   <text value="Timer Placeholder"/>
                 </properties>
               </component>

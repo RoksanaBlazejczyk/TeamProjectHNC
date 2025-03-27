@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -178,9 +179,11 @@ public class SmartHire {
         profilePic.setVisible(false);
         profileName.setVisible(false);
         nextButton.setVisible(false);
+        BGMusicButton.setVisible(false);
+        settingsButton.setVisible(false);
         // Generate 100 random 4-digit passwords
         generatePasswords();
-        BGMusicButton.setEnabled(true);
+
 
 
 
@@ -313,8 +316,18 @@ public class SmartHire {
         usernameCount++;
 
         // Optionally set the username to a text field or store it in a variable
-        usernameTxt.setText(username);  // Set the generated username in the text field
-        outputPasswordTxt.setText(password);  // Set the generated password in the password field
+        usernameTxt.setText(username);
+        //passwordTxt.setText(password); //Keep this if auto input password else makes users remember it and type it in
+
+        profileName.setText(username);
+
+        for (Enumeration<AbstractButton> buttons = AvatarButtonGroup.getElements(); buttons.hasMoreElements(); ) {
+            JRadioButton avatarButton = (JRadioButton) buttons.nextElement();
+            if (avatarButton.isSelected()) {
+                profilePic.setIcon(avatarButton.getIcon()); // Set the selected avatar to the JLabel
+                break; // Exit loop once we find the selected button
+            }
+        }
 
         // Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
@@ -354,7 +367,9 @@ public class SmartHire {
                     CardLayout cards = (CardLayout) mainPanel.getLayout();
                     cards.show(mainPanel, "Card3");
                     BGMusicButton.setEnabled(true);
+                    BGMusicButton.setVisible(true);
                     settingsButton.setEnabled(true);
+                    settingsButton.setVisible(true);
 
                     //Show user and picture in top left
                     profileName.setVisible(true);
