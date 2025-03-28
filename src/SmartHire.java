@@ -17,20 +17,7 @@ import javax.swing.JOptionPane;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.sql.*;
-import java.util.Random;
-
-import java.util.Optional;
-import static java.sql.DriverManager.getConnection;
 
 public class SmartHire {
 
@@ -72,10 +59,10 @@ public class SmartHire {
     private JPanel settingsPanel;
     private JPanel topPanel;
     private JPanel profilePanel;
-    private JButton aLbl;
-    private JButton bLbl;
-    private JButton cLbl;
-    private JButton dLbl;
+    //private JLabel aLbl;
+    //private JLabel bLbl;
+   // private JLabel cLbl;
+   // private JLabel dLbl;
     private JLabel photoLbl;
     private JLabel questionLbl;
     private JLabel profilePic;
@@ -175,15 +162,9 @@ public class SmartHire {
 
 
     public SmartHire() {
-        //Hide components initially until certain screens
-        profilePic.setVisible(false);
-        profileName.setVisible(false);
-        nextButton.setVisible(false);
-        BGMusicButton.setVisible(false);
-        settingsButton.setVisible(false);
         // Generate 100 random 4-digit passwords
         generatePasswords();
-
+        BGMusicButton.setEnabled(true);
 
 
 
@@ -222,14 +203,13 @@ public class SmartHire {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cards = (CardLayout) mainPanel.getLayout();
                 cards.show(mainPanel, "Card4"); //Show questions panel
-                loadRandomQuestion();
+
             }
         });
         readRules.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (readRules.isSelected()) {
-                    nextButton.setVisible(true);
                     nextButton.setEnabled(true);
                 } else {
                     nextButton.setEnabled(false);
@@ -316,23 +296,12 @@ public class SmartHire {
         usernameCount++;
 
         // Optionally set the username to a text field or store it in a variable
-        usernameTxt.setText(username);
-        //passwordTxt.setText(password); //Keep this if auto input password else makes users remember it and type it in
-
-        profileName.setText(username);
-
-        for (Enumeration<AbstractButton> buttons = AvatarButtonGroup.getElements(); buttons.hasMoreElements(); ) {
-            JRadioButton avatarButton = (JRadioButton) buttons.nextElement();
-            if (avatarButton.isSelected()) {
-                profilePic.setIcon(avatarButton.getIcon()); // Set the selected avatar to the JLabel
-                break; // Exit loop once we find the selected button
-            }
-        }
+        usernameTxt.setText(username);  // Set the generated username in the text field
+        outputPasswordTxt.setText(password);  // Set the generated password in the password field
 
         // Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
         cards.previous(mainPanel);
-        createAccountBtn.setEnabled(false);
     }
 
     /**
@@ -367,13 +336,7 @@ public class SmartHire {
                     CardLayout cards = (CardLayout) mainPanel.getLayout();
                     cards.show(mainPanel, "Card3");
                     BGMusicButton.setEnabled(true);
-                    BGMusicButton.setVisible(true);
                     settingsButton.setEnabled(true);
-                    settingsButton.setVisible(true);
-
-                    //Show user and picture in top left
-                    profileName.setVisible(true);
-                    profilePic.setVisible(true);
 
                     // Force UI refresh
                     mainPanel.revalidate();
@@ -395,207 +358,4 @@ public class SmartHire {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //DATABASE//
-
-    public static class SQLiteConnection {
-        private static final String DB_URL = "jdbc:sqlite:questions.db";
-
-        public static Connection getConnection() throws SQLException {
-            Connection conn = DriverManager.getConnection(DB_URL);
-            initializeDatabase(conn);
-            return conn;
-        }
-
-
-        private static void initializeDatabase(Connection conn) throws SQLException {
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS questions ("
-                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "question_text TEXT NOT NULL,"
-                    + "option_a TEXT NOT NULL,"
-                    + "option_b TEXT NOT NULL,"
-                    + "option_c TEXT NOT NULL,"
-                    + "option_d TEXT NOT NULL,"
-                    + "correct_answer TEXT NOT NULL"
-                    + ")";
-
-            try (Statement stmt = conn.createStatement()) {
-                stmt.execute(createTableSQL);
-            }
-        }
-    }
-
-
-    public static class CheckDBPath {
-        public static void main(String[] args) {
-            File dbFile = new File("C:/Users/pasar/OneDrive - New College Lanarkshire/HNC Computing NextGen/TeamProjectHNC/questions.db");
-
-            if (dbFile.exists()) {
-                System.out.println("✅ Database found at: " + dbFile.getAbsolutePath());
-            } else {
-                System.err.println("❌ Database NOT FOUND at: " + dbFile.getAbsolutePath());
-            }
-        }
-    }
-
-
-    public static class DatabaseTest {
-        public void main(String[] args) {
-            // Test connection and table creation
-            try (Connection conn = SQLiteConnection.getConnection()) {
-                System.out.println("✅ Database connection successful");
-
-                // Verify table exists
-                try (Statement stmt = conn.createStatement();
-                     ResultSet rs = stmt.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='questions'")) {
-                    if (rs.next()) {
-                        System.out.println("✅ Questions table exists");
-                    } else {
-                        System.err.println("❌ Questions table missing");
-                    }
-                }
-
-                // Test data retrieval
-                QuestionDAO dao = new QuestionDAO();
-                Optional<List<Question>> questions = dao.getAllQuestions();
-
-                if (questions.isPresent() && !questions.get().isEmpty()) {
-                    System.out.println("✅ Found " + questions.get().size() + " questions");
-                    questions.get().forEach(q -> System.out.println(q.getQuestionText()));
-                } else {
-                    System.err.println("❌ No questions found in database");
-                }
-
-            } catch (SQLException e) {
-                System.err.println("❌ Database error: " + e.getMessage());
-            }
-        }
-    }
-
-
-    public static class TestConnection {
-        public static void main(String[] args) {
-            try (Connection conn = SQLiteConnection.getConnection()) {
-                System.out.println("✅ Connected to the database successfully!");
-            } catch (SQLException e) {
-                System.err.println("❌ Failed to connect to the database: " + e.getMessage());
-            }
-        }
-    }
-
-
-    public static class Question {
-        private int id;
-        private String questionText;
-        private String optionA;
-        private String optionB;
-        private String optionC;
-        private String optionD;
-        private char correctAnswer;
-
-        // Constructor
-        public Question(int id, String questionText, String optionA, String optionB, String optionC, String optionD, char correctAnswer) {
-            this.id = id;
-            this.questionText = questionText;
-            this.optionA = optionA;
-            this.optionB = optionB;
-            this.optionC = optionC;
-            this.optionD = optionD;
-            this.correctAnswer = correctAnswer;
-        }
-
-        // Getters (and setters if needed)
-        public String getQuestionText() { return questionText; }
-        public String getOptionA() { return optionA; }
-        public String getOptionB() { return optionB; }
-        public String getOptionC() { return optionC; }
-        public String getOptionD() { return optionD; }
-        public char getCorrectAnswer() { return correctAnswer; }
-    }
-
-
-    public static class QuestionDAO {
-        public Optional<List<Question>> getAllQuestions() {
-            List<Question> questions = new ArrayList<>();
-            String query = "SELECT * FROM questions";
-
-            try (Connection connection = SQLiteConnection.getConnection();
-                 PreparedStatement statement = connection.prepareStatement(query);
-                 ResultSet resultSet = statement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    Question question = new Question(
-                            resultSet.getInt("id"),
-                            resultSet.getString("question_text"),
-                            resultSet.getString("option_a"),
-                            resultSet.getString("option_b"),
-                            resultSet.getString("option_c"),
-                            resultSet.getString("option_d"),
-                            resultSet.getString("correct_answer").charAt(0)
-                    );
-                    questions.add(question);
-                }
-            } catch (SQLException e) {
-                System.err.println("Error fetching questions: " + e.getMessage());
-                return Optional.empty();
-            }
-            return Optional.of(questions);
-        }
-    }
-
-
-    private void loadRandomQuestion() {
-        // SQL query to fetch a random question
-        String query = "SELECT * FROM questions ORDER BY RANDOM() LIMIT 1";
-
-        try (Connection conn = SQLiteConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            if (rs.next()) {
-                String question = rs.getString("question_text");
-                String option1 = rs.getString("option_a");
-                String option2 = rs.getString("option_b");
-                String option3 = rs.getString("option_c");
-                String option4 = rs.getString("option_d");
-                String correctAnswer = rs.getString("correct_answer");
-
-                // Display the question and options on your Swing UI
-                questionLbl.setText(question);  // Assume you have a JLabel named questionLbl for displaying the question
-                aLbl.setText(option1);          // Assume aLbl, bLbl, cLbl, dLbl are for options
-                bLbl.setText(option2);
-                cLbl.setText(option3);
-                dLbl.setText(option4);
-
-                // Store the correct answer for later use (for checking user input)
-                // You may want to create a variable for this if needed
-                System.out.println("Correct Answer: " + correctAnswer);
-            } else {
-                JOptionPane.showMessageDialog(SmartHireHub, "No questions found in the database.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Error loading question from database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-
-
 }
