@@ -268,7 +268,6 @@ private void startTimer(){
         public void run() {
             secondsElapsed++;
             timerLbl.setText("Time: " + formatTime(secondsElapsed));
-            System.out.println("Time: " + formatTime(secondsElapsed));
         }
     }, 0, 1000);
 
