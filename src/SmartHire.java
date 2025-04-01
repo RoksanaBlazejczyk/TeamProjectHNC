@@ -5,6 +5,8 @@
 
 
 import projectPack.Authentication;
+import projectPack.Database;
+import projectPack.Questions;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.*;
@@ -22,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 
 
@@ -65,10 +69,10 @@ public class SmartHire {
     private JPanel settingsPanel;
     private JPanel topPanel;
     private JPanel profilePanel;
-    private JButton aLbl;
-    private JButton bLbl;
-    private JButton cLbl;
-    private JButton dLbl;
+    private JRadioButton aLbl;
+    private JRadioButton bLbl;
+    private JRadioButton cLbl;
+    private JRadioButton dLbl;
     private JLabel photoLbl;
     private JLabel questionLbl;
     private JLabel profilePic;
@@ -93,6 +97,10 @@ public class SmartHire {
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
     private int usernameCount = 0;
+    // Store correct answers for both questions
+    private String correctAnswer;
+
+
 
 
     public static void main(String[] args) {
@@ -224,6 +232,31 @@ public class SmartHire {
             }
         });
 
+        // Set up action listeners for answer buttons
+        aLbl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkAnswer(aLbl.getText());
+            }
+        });
+        bLbl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkAnswer(bLbl.getText());
+            }
+        });
+        cLbl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkAnswer(cLbl.getText());
+            }
+        });
+        dLbl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkAnswer(dLbl.getText());
+            }
+        });
         createAccountBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -253,6 +286,10 @@ public class SmartHire {
                 CardLayout cards = (CardLayout) mainPanel.getLayout();
                 cards.show(mainPanel, "Card4"); //Show questions panel
                 startTimer();
+                // Display random questions for each difficulty
+                displayRandomQuestions("easy");
+                displayRandomQuestions("medium");
+                displayRandomQuestions("hard");
 
             }
         });
@@ -296,6 +333,49 @@ public class SmartHire {
         });
     }
 
+    /**
+     * Fetches and displays two random questions based on the given difficulty.
+     * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
+     */
+    private void displayRandomQuestions(String difficulty) {
+        // Get 2 random questions for the given difficulty from the database
+        List<Questions> questionsList = Database.getRandomQuestionsWithOptions(difficulty);
+
+        if (questionsList != null && questionsList.size() == 2) {
+            // Display both questions in sequence
+            Questions question1 = questionsList.get(0);
+
+
+            // Show both questions - rename variable if u wish :)
+            String QuestionMain = question1.getQuestionText() ;
+            questionLbl.setText(QuestionMain);
+
+            // Set options for first question
+            aLbl.setText(question1.getOptionA());
+            bLbl.setText(question1.getOptionB());
+            cLbl.setText(question1.getOptionC());
+            dLbl.setText(question1.getOptionD());
+
+            // Store the correct answer for checking (first question)
+            correctAnswer = question1.getCorrectAnswer();
+
+
+        } else {
+            JOptionPane.showMessageDialog(SmartHireHub, "Not enough questions found!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Checks the answer selected by the user.
+     * @param selectedAnswer The answer selected by the user
+     */
+    private void checkAnswer(String selectedAnswer) {
+        if (selectedAnswer.equals(correctAnswer)) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Correct Answer!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(SmartHireHub, "Incorrect Answer. The correct answer was: " + correctAnswer, "Try Again", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * Generates 100 unique random 4-digit passwords and associates them with usernames
