@@ -1,9 +1,12 @@
-import projectPack.Authentication;
 /**
  * SmartHire IQ Team Project
  * Team: Roksana Blazejczyk, Marek Cudak, Robert Sneddon, Daniel Virlan
  */
 
+
+import projectPack.Authentication;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +20,9 @@ import javax.swing.JOptionPane;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 public class SmartHire {
@@ -61,9 +67,8 @@ public class SmartHire {
     private JPanel profilePanel;
     private JButton aLbl;
     private JButton bLbl;
-   private JButton cLbl;
-   private JButton dLbl;
-   private JLabel timerLbl;
+    private JButton cLbl;
+    private JButton dLbl;
     private JLabel photoLbl;
     private JLabel questionLbl;
     private JLabel profilePic;
@@ -80,7 +85,10 @@ public class SmartHire {
     private JProgressBar progressBar;
     private ButtonGroup AvatarButtonGroup;
     private Clip backgroundMusicClip; // Music player
-
+    private Timer timer;
+    private int secondsElapsed = 0; // Track elapsed seconds
+    private JLabel timerLbl;// Label to display the timer
+    private List<String> sessionTimes = new ArrayList<>();
     // Array to store usernames and passwords
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
@@ -124,8 +132,48 @@ public class SmartHire {
             ex.printStackTrace();
         }
     }
+    /**
+     * Method to start the timer once user logs in.
+     */
+    private void startTimer(){
+        if (timer != null){
+            timer.cancel(); //cancel any existing one
+        }
+        secondsElapsed = 0; //reset timer
 
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                secondsElapsed++;
+                timerLbl.setText("Time: " + formatTime(secondsElapsed));
+            }
+        }, 0, 1000);
 
+    }
+    /**
+     * Formats the time into mm:ss format.
+     */
+    private String formatTime(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%d:%02d", minutes, seconds);
+    }
+
+    /**
+     * Displays all session times for the admin.
+     */
+    public void displayAdminTimes() {
+        if (sessionTimes.isEmpty()) {
+            JOptionPane.showMessageDialog(SmartHireHub, "No session times recorded.", "Admin Info", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            StringBuilder times = new StringBuilder("Recorded Session Times:\n");
+            for (int i = 0; i < sessionTimes.size(); i++) {
+                times.append("Session ").append(i + 1).append(": ").append(sessionTimes.get(i)).append("\n");
+            }
+            JOptionPane.showMessageDialog(SmartHireHub, times.toString(), "Admin Info", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 
 
 
@@ -204,6 +252,7 @@ public class SmartHire {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cards = (CardLayout) mainPanel.getLayout();
                 cards.show(mainPanel, "Card4"); //Show questions panel
+                startTimer();
 
             }
         });
