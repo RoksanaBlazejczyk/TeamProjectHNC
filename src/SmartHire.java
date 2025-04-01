@@ -59,10 +59,11 @@ public class SmartHire {
     private JPanel settingsPanel;
     private JPanel topPanel;
     private JPanel profilePanel;
-    //private JLabel aLbl;
-    //private JLabel bLbl;
-   // private JLabel cLbl;
-   // private JLabel dLbl;
+    private JButton aLbl;
+    private JButton bLbl;
+   private JButton cLbl;
+   private JButton dLbl;
+   private JLabel timerLbl;
     private JLabel photoLbl;
     private JLabel questionLbl;
     private JLabel profilePic;
