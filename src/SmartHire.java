@@ -5,7 +5,7 @@
 
 
 import projectPack.Authentication;
-import projectPack.Database;
+//import projectPack.Database;
 import projectPack.Questions;
 import projectPack.RunMe;
 
@@ -349,7 +349,7 @@ public class SmartHire {
      */
     private void displayRandomQuestions(String difficulty) {
         // Get 2 random questions for the given difficulty from the database
-        List<Questions> questionsList = Database.getRandomQuestionsWithOptions(difficulty);
+        //List<Questions> questionsList = RunMe.getRandomQuestionsWithOptions(difficulty);
 
         if (questionsList != null && questionsList.size() == 2) {
             // Display both questions in sequence

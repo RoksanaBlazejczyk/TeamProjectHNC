@@ -1,5 +1,3 @@
-package projectPack;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -45,8 +43,6 @@ public class RunMe {
             if (connection != null) {
                 System.out.println("Database connection successful!");
                 // Perform database operations here...
-                    //WE ARE WRITING HEREEEEEEEEEE sql//
-
 
             }
         } catch (SQLException e) {
