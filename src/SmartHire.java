@@ -7,6 +7,9 @@
 import projectPack.Authentication;
 import projectPack.Database;
 import projectPack.Questions;
+import projectPack.RunMe;
+
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.*;
@@ -221,6 +224,13 @@ public class SmartHire {
     public SmartHire() {
         // Generate 100 random 4-digit passwords
         generatePasswords();
+        try {
+            RunMe.getConnection();
+        } catch (SQLException e) {
+
+            System.err.println("SQL Server JDBC driver not found.");
+            System.exit(0);
+        }
         BGMusicButton.setEnabled(true);
 
 

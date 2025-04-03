@@ -17,5 +17,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="microsoft.sqlserver.mssql.jdbc" level="project" />
   </component>
 </module>
