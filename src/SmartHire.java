@@ -7,7 +7,7 @@
 import projectPack.Authentication;
 //import projectPack.Database;
 import projectPack.Questions;
-import projectPack.RunMe;
+import projectPack.DatabaseConnection;
 
 import java.sql.SQLException;
 import java.util.Timer;
@@ -91,10 +91,13 @@ public class SmartHire {
     private JButton finishBtn;
     private JProgressBar progressBar;
     private ButtonGroup AvatarButtonGroup;
+    private ButtonGroup AnwserBtnGroupRadio;
     private Clip backgroundMusicClip; // Music player
     private Timer timer;
     private int secondsElapsed = 0; // Track elapsed seconds
     private JLabel timerLbl;// Label to display the timer
+    private JButton startBtn;
+    private ButtonGroup AnwsersBtnGroup;
     private List<String> sessionTimes = new ArrayList<>();
     // Array to store usernames and passwords
     private String[] usernames = new String[100];
@@ -102,6 +105,9 @@ public class SmartHire {
     private int usernameCount = 0;
     // Store correct answers for both questions
     private String correctAnswer;
+  //  private JTextField outputPasswordTxt;
+
+
 
 
 
@@ -221,18 +227,19 @@ public class SmartHire {
 
 
 
+
     public SmartHire() {
         // Generate 100 random 4-digit passwords
         generatePasswords();
         try {
-            RunMe.getConnection();
+            DatabaseConnection.getConnection();
         } catch (SQLException e) {
 
             System.err.println("SQL Server JDBC driver not found.");
             System.exit(0);
         }
         BGMusicButton.setEnabled(true);
-
+        nextButton.setVisible(false);
 
 
         loginBtn.addActionListener(new ActionListener() {
@@ -246,25 +253,25 @@ public class SmartHire {
         aLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                checkAnswer(aLbl.getText());
+                checkIfAnyRadioButtonSelected();
             }
         });
         bLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                checkAnswer(bLbl.getText());
+                checkIfAnyRadioButtonSelected();
             }
         });
         cLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                checkAnswer(cLbl.getText());
+                checkIfAnyRadioButtonSelected();
             }
         });
         dLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                checkAnswer(dLbl.getText());
+                checkIfAnyRadioButtonSelected();
             }
         });
         createAccountBtn.addActionListener(new ActionListener() {
@@ -293,23 +300,20 @@ public class SmartHire {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CardLayout cards = (CardLayout) mainPanel.getLayout();
-                cards.show(mainPanel, "Card4"); //Show questions panel
-                startTimer();
-                // Display random questions for each difficulty
+
+                // Add your logic to move to the next question or screen
                 displayRandomQuestions("easy");
                 displayRandomQuestions("medium");
                 displayRandomQuestions("hard");
-
             }
         });
         readRules.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (readRules.isSelected()) {
-                    nextButton.setEnabled(true);
+                    startBtn.setEnabled(true);
                 } else {
-                    nextButton.setEnabled(false);
+                    startBtn.setEnabled(false);
                 }
             }
         });
@@ -341,39 +345,52 @@ public class SmartHire {
             }
 
         });
+        startBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cards = (CardLayout) mainPanel.getLayout();
+                cards.show(mainPanel, "Card4"); //Show questions panel
+                startTimer();
+                nextButton.setVisible(true);
+                displayRandomQuestions("easy");
+                displayRandomQuestions("medium");
+                displayRandomQuestions("hard");
+            }
+        });
     }
-
+    // Method to check if any radio button is selected
+    private void checkIfAnyRadioButtonSelected() {
+        if (aLbl.isSelected() || bLbl.isSelected() || cLbl.isSelected() || dLbl.isSelected()) {
+            nextButton.setEnabled(true);  // Enable the next button
+        } else {
+            nextButton.setEnabled(false); // Disable the next button if no selection
+        }
+    }
     /**
      * Fetches and displays two random questions based on the given difficulty.
      * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
      */
     private void displayRandomQuestions(String difficulty) {
-        // Get 2 random questions for the given difficulty from the database
-        //List<Questions> questionsList = RunMe.getRandomQuestionsWithOptions(difficulty);
+        List<Questions> questionsList = DatabaseConnection.getRandomQuestionsByDifficulty();
 
-        if (questionsList != null && questionsList.size() == 2) {
-            // Display both questions in sequence
-            Questions question1 = questionsList.get(0);
+        if (questionsList != null && questionsList.size() >= 1) {
+            Questions question = questionsList.get(0);  // Pick the first question for now
 
+            // Set question text and options
+            questionLbl.setText(question.getQuestionText());
+            aLbl.setText("A. " + question.getOptionA());
+            bLbl.setText("B. " + question.getOptionB());
+            cLbl.setText("C. " + question.getOptionC());
+            dLbl.setText("D. " + question.getOptionD());
 
-            // Show both questions - rename variable if u wish :)
-            String QuestionMain = question1.getQuestionText() ;
-            questionLbl.setText(QuestionMain);
-
-            // Set options for first question
-            aLbl.setText(question1.getOptionA());
-            bLbl.setText(question1.getOptionB());
-            cLbl.setText(question1.getOptionC());
-            dLbl.setText(question1.getOptionD());
-
-            // Store the correct answer for checking (first question)
-            correctAnswer = question1.getCorrectAnswer();
-
-
+            // Store the correct answer
+            correctAnswer = question.getCorrectAnswer();
         } else {
             JOptionPane.showMessageDialog(SmartHireHub, "Not enough questions found!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
     /**
      * Checks the answer selected by the user.
@@ -387,6 +404,7 @@ public class SmartHire {
         }
     }
 
+
     /**
      * Generates 100 unique random 4-digit passwords and associates them with usernames
      */
@@ -399,7 +417,7 @@ public class SmartHire {
             uniquePasswords.add(String.valueOf(randomPassword));
         }
         passwords = uniquePasswords.toArray(new String[0]);
-        outputPasswordTxt.setText("Passwords generated successfully!");
+      //  outputPasswordTxt.setText("Passwords generated successfully!");
     }
 
     /**

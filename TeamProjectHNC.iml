@@ -18,5 +18,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="microsoft.sqlserver.mssql.jdbc" level="project" />
+    <orderEntry type="library" exported="" name="sqlite-jdbc-3.36.0" level="project" />
   </component>
 </module>
