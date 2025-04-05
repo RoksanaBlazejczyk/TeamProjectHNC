@@ -91,19 +91,17 @@ public class SmartHire {
     private JButton finishBtn;
     private JProgressBar progressBar;
     private ButtonGroup AvatarButtonGroup;
-    private ButtonGroup AnwserBtnGroupRadio;
+    private ButtonGroup AnswersBtnGroupRadio;
     private Clip backgroundMusicClip; // Music player
     private Timer timer;
     private int secondsElapsed = 0; // Track elapsed seconds
     private JLabel timerLbl;// Label to display the timer
     private JButton startBtn;
-    private ButtonGroup AnwsersBtnGroup;
     private List<String> sessionTimes = new ArrayList<>();
     // Array to store usernames and passwords
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
     private int usernameCount = 0;
-    // Store correct answers for both questions
     private String correctAnswer;
   //  private JTextField outputPasswordTxt;
 
@@ -300,11 +298,18 @@ public class SmartHire {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 // Add your logic to move to the next question or screen
                 displayRandomQuestions("easy");
                 displayRandomQuestions("medium");
                 displayRandomQuestions("hard");
+                //Makes sure buttons deselected
+                AnswersBtnGroupRadio.clearSelection();
+                aLbl.setSelected(false);
+                bLbl.setSelected(false);
+                cLbl.setSelected(false);
+                dLbl.setSelected(false);
+
+                nextButton.setEnabled(false);
             }
         });
         readRules.addActionListener(new ActionListener() {
@@ -372,7 +377,6 @@ public class SmartHire {
      */
     private void displayRandomQuestions(String difficulty) {
         List<Questions> questionsList = DatabaseConnection.getRandomQuestionsByDifficulty();
-
         if (questionsList != null && questionsList.size() >= 1) {
             Questions question = questionsList.get(0);  // Pick the first question for now
 

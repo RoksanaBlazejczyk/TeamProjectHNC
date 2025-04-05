@@ -39,7 +39,7 @@ public class DatabaseConnection {
         String[] difficulties = {"easy", "medium", "hard"};
 
         // Query to retrieve random questions based on difficulty
-        String sql = "SELECT TOP 1 question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, score, image_url " +
+        String sql = "SELECT TOP 2 question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, score, image_url " +
                 "FROM questions WHERE UPPER(difficulty) = UPPER(?) ORDER BY NEWID();";
 
         // Establish database connection
