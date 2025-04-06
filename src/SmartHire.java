@@ -7,6 +7,7 @@
 import projectPack.Authentication;
 import projectPack.Questions;
 import projectPack.DatabaseConnection;
+import projectPack.Settings;
 
 import java.sql.SQLException;
 import java.util.Timer;
@@ -345,6 +346,13 @@ public class SmartHire {
                 displayRandomQuestions("easy");
                 displayRandomQuestions("medium");
                 displayRandomQuestions("hard");
+            }
+        });
+        settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SmartHireHub);
+                Settings.showSettingsDialog(frame);
             }
         });
     }
