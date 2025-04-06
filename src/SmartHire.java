@@ -96,6 +96,7 @@ public class SmartHire {
 
 
 
+
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
@@ -133,6 +134,7 @@ public class SmartHire {
             ex.printStackTrace();
         }
     }
+
     /**
      * Method to start the timer once user logs in.
      */
