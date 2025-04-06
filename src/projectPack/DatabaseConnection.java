@@ -37,7 +37,6 @@ public class DatabaseConnection {
         }
     }
 
-    // Method to get 1 random question for each difficulty level
     public static List<Questions> getRandomQuestionsByDifficulty() {
         List<Questions> questionList = new ArrayList<>();
         String[] difficulties = {"easy", "medium", "hard"};

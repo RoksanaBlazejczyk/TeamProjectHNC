@@ -387,8 +387,6 @@ public class SmartHire {
         }
     }
 
-
-
     /**
      * Checks the answer selected by the user.
      * @param selectedAnswer The answer selected by the user
