@@ -7,7 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Method to connect to the azure database where questions and leaderboard will be stored
+ */
 public class DatabaseConnection {
+
 
     public static Connection getConnection() throws SQLException {
         String connectionUrl = "jdbc:sqlserver://databasequestions.database.windows.net:1433;" +
@@ -38,24 +42,21 @@ public class DatabaseConnection {
         List<Questions> questionList = new ArrayList<>();
         String[] difficulties = {"easy", "medium", "hard"};
 
-        // Query to retrieve random questions based on difficulty
-        String sql = "SELECT TOP 2 question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, score, image_url " +
+        // Query to retrieve 3 random questions based on difficulty
+        String sql = "SELECT TOP 3 question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, score, image_url " +
                 "FROM questions WHERE UPPER(difficulty) = UPPER(?) ORDER BY NEWID();";
 
         // Establish database connection
         try (Connection conn = getConnection()) {
 
             for (String difficulty : difficulties) {
-                System.out.println("Executing SQL for difficulty: " + difficulty);  // Log the difficulty value
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    stmt.setString(1, difficulty);  // Binding the difficulty parameter
+                    stmt.setString(1, difficulty);  // Bind difficulty parameter
                     ResultSet rs = stmt.executeQuery();
 
-                    if (rs.next()) {
-                        // Log question found
-                        System.out.println("Question found for difficulty " + difficulty);
-
-                        // Add difficulty to the Questions object
+                    int count = 0; // Counter for questions added
+                    while (rs.next() && count < 3) {
+                        // Create and add the question object
                         Questions question = new Questions(
                                 rs.getString("question_text"),
                                 rs.getString("option_a"),
@@ -63,35 +64,34 @@ public class DatabaseConnection {
                                 rs.getString("option_c"),
                                 rs.getString("option_d"),
                                 rs.getString("correct_answer"),
-                                rs.getString("difficulty")  // Pass difficulty to constructor
+                                rs.getString("difficulty"),
+                                rs.getInt("score"),
+                                rs.getString("image_url")
                         );
                         questionList.add(question);
-                    } else {
-                        // Log no question found for difficulty
-                        System.out.println("No question found for difficulty: " + difficulty);
+                        count++;
+                    }
+
+                    if (count == 0) {
+                        System.out.println("No questions found for difficulty: " + difficulty);
                     }
                 } catch (SQLException e) {
-                    System.out.println("Error executing query: " + e.getMessage());
+                    System.out.println("Error executing query for difficulty " + difficulty + ": " + e.getMessage());
                     e.printStackTrace();
                 }
             }
 
-            // Check if the list contains all questions
-            if (questionList.size() < difficulties.length) {
-                System.out.println("Warning: Not enough questions found. Missing difficulty levels: ");
-                if (questionList.stream().noneMatch(q -> q.getDifficulty().equals("easy"))) {
-                    System.out.println("- easy");
-                }
-                if (questionList.stream().noneMatch(q -> q.getDifficulty().equals("medium"))) {
-                    System.out.println("- medium");
-                }
-                if (questionList.stream().noneMatch(q -> q.getDifficulty().equals("hard"))) {
-                    System.out.println("- hard");
+            // Check if any difficulty is missing
+            for (String difficulty : difficulties) {
+                long found = questionList.stream().filter(q -> q.getDifficulty().equalsIgnoreCase(difficulty)).count();
+                if (found < 3) {
+                    System.out.println("Warning: Less than 3 questions found for difficulty - " + difficulty);
                 }
             }
 
             return questionList;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
-    }}
+    }
+}

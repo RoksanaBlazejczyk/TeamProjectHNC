@@ -5,7 +5,6 @@
 
 
 import projectPack.Authentication;
-//import projectPack.Database;
 import projectPack.Questions;
 import projectPack.DatabaseConnection;
 
@@ -56,26 +55,13 @@ public class SmartHire {
     private JButton settingsButton;
     private JTextField outputPasswordTxt;
     private JPanel avatarPanel;
-    private JRadioButton avatar1RadioBtn;
-    private JRadioButton avatar2RadioBtn;
-    private JRadioButton avatar3RadioBtn;
-    private JRadioButton avatar4RadioBtn;
-    private JRadioButton avatar5RadioBtn;
-    private JRadioButton avatar6RadioBtn;
-    private JRadioButton avatar7RadioBtn;
-    private JRadioButton avatar8RadioBtn;
-    private JRadioButton avatar9RadioBtn;
-    private JRadioButton avatar10RadioBtn;
-    private JRadioButton avatar11RadioBtn;
-    private JRadioButton avatar12RadioBtn;
+    private JRadioButton avatar1RadioBtn, avatar2RadioBtn, avatar3RadioBtn, avatar4RadioBtn, avatar5RadioBtn, avatar6RadioBtn;
+    private JRadioButton avatar7RadioBtn, avatar8RadioBtn, avatar9RadioBtn, avatar10RadioBtn, avatar11RadioBtn, avatar12RadioBtn;
     private JTextPane rulesTxt;
     private JPanel settingsPanel;
     private JPanel topPanel;
     private JPanel profilePanel;
-    private JRadioButton aLbl;
-    private JRadioButton bLbl;
-    private JRadioButton cLbl;
-    private JRadioButton dLbl;
+    private JRadioButton aLbl, bLbl, cLbl, dLbl;
     private JLabel photoLbl;
     private JLabel questionLbl;
     private JLabel profilePic;
@@ -90,8 +76,7 @@ public class SmartHire {
     private JButton printToFileBtn;
     private JButton finishBtn;
     private JProgressBar progressBar;
-    private ButtonGroup AvatarButtonGroup;
-    private ButtonGroup AnswersBtnGroupRadio;
+    private ButtonGroup AvatarButtonGroup, AnswersBtnGroupRadio;
     private Clip backgroundMusicClip; // Music player
     private Timer timer;
     private int secondsElapsed = 0; // Track elapsed seconds
@@ -230,9 +215,9 @@ public class SmartHire {
         // Generate 100 random 4-digit passwords
         generatePasswords();
         try {
-            DatabaseConnection.getConnection();
+            DatabaseConnection.getConnection(); //Ensure the connection is established
+            DatabaseConnection.getRandomQuestionsByDifficulty(); //Store the questions globally
         } catch (SQLException e) {
-
             System.err.println("SQL Server JDBC driver not found.");
             System.exit(0);
         }
