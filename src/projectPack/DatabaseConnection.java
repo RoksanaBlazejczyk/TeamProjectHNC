@@ -37,60 +37,48 @@ public class DatabaseConnection {
         }
     }
 
-    public static List<Questions> getRandomQuestionsByDifficulty() {
+    public static List<Questions> getRandomQuestionsByDifficulty(String difficulty) {
         List<Questions> questionList = new ArrayList<>();
-        String[] difficulties = {"easy", "medium", "hard"};
 
-        // Query to retrieve 3 random questions based on difficulty
-        String sql = "SELECT TOP 3 question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, score, image_url " +
-                "FROM questions WHERE UPPER(difficulty) = UPPER(?) ORDER BY NEWID();";
+        // Optimized query to get 3 random questions based on the specified difficulty
+        String sql = """
+    SELECT id, question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, score, image_url
+    FROM (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY difficulty ORDER BY NEWID()) AS rn
+        FROM questions
+        WHERE difficulty = ?
+    ) AS subquery
+    WHERE rn <= 3;
+    """;
 
-        // Establish database connection
-        try (Connection conn = getConnection()) {
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            for (String difficulty : difficulties) {
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    stmt.setString(1, difficulty);  // Bind difficulty parameter
-                    ResultSet rs = stmt.executeQuery();
+            // Set the difficulty parameter in the query
+            stmt.setString(1, difficulty);
 
-                    int count = 0; // Counter for questions added
-                    while (rs.next() && count < 3) {
-                        // Create and add the question object
-                        Questions question = new Questions(
-                                rs.getString("question_text"),
-                                rs.getString("option_a"),
-                                rs.getString("option_b"),
-                                rs.getString("option_c"),
-                                rs.getString("option_d"),
-                                rs.getString("correct_answer"),
-                                rs.getString("difficulty"),
-                                rs.getInt("score"),
-                                rs.getString("image_url")
-                        );
-                        questionList.add(question);
-                        count++;
-                    }
-
-                    if (count == 0) {
-                        System.out.println("No questions found for difficulty: " + difficulty);
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error executing query for difficulty " + difficulty + ": " + e.getMessage());
-                    e.printStackTrace();
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Questions question = new Questions(
+                            rs.getInt("id"),
+                            rs.getString("question_text"),
+                            rs.getString("option_a"),
+                            rs.getString("option_b"),
+                            rs.getString("option_c"),
+                            rs.getString("option_d"),
+                            rs.getString("correct_answer"),
+                            rs.getString("difficulty"),
+                            rs.getInt("score"),
+                            rs.getString("image_url")
+                    );
+                    questionList.add(question);
                 }
             }
-
-            // Check if any difficulty is missing
-            for (String difficulty : difficulties) {
-                long found = questionList.stream().filter(q -> q.getDifficulty().equalsIgnoreCase(difficulty)).count();
-                if (found < 3) {
-                    System.out.println("Warning: Less than 3 questions found for difficulty - " + difficulty);
-                }
-            }
-
-            return questionList;
         } catch (SQLException e) {
-            throw new RuntimeException("Database error: " + e.getMessage(), e);
+            System.out.println("Database error: " + e.getMessage());
+            e.printStackTrace();
         }
+
+        return questionList;
     }
 }
