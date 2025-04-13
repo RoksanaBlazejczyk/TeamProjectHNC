@@ -37,24 +37,21 @@ public class DatabaseConnection {
         }
     }
 
-    public static List<Questions> getRandomQuestionsByDifficulty(String difficulty) {
+    public static List<Questions> getRandomQuestionsByDifficulty(String difficulty, int count) {
         List<Questions> questionList = new ArrayList<>();
 
-        // Optimized query to get 3 random questions based on the specified difficulty
-        String sql = """
-    SELECT id, question_text, option_a, option_b, option_c, option_d, correct_answer, difficulty, score, image_url
-    FROM (
-        SELECT *, ROW_NUMBER() OVER (PARTITION BY difficulty ORDER BY NEWID()) AS rn
+        // Inject the count value directly into the SQL string
+        String sql = String.format("""
+        SELECT TOP %d id, question_text, option_a, option_b, option_c, option_d, 
+                      correct_answer, difficulty, score, image_url
         FROM questions
         WHERE difficulty = ?
-    ) AS subquery
-    WHERE rn <= 3;
-    """;
+        ORDER BY NEWID();
+    """, count);
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Set the difficulty parameter in the query
             stmt.setString(1, difficulty);
 
             try (ResultSet rs = stmt.executeQuery()) {

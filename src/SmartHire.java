@@ -8,6 +8,8 @@ import projectPack.Questions;
 import projectPack.DatabaseConnection;
 import projectPack.Settings;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
@@ -85,6 +87,7 @@ public class SmartHire {
     private List<Questions> allQuestions = new ArrayList<>();
     private List<Questions> currentQuestionList = new ArrayList<>();
     private int currentQuestionIndex = 0;
+    private int totalScore = 0;
 
 
     public static void main(String[] args) {
@@ -98,7 +101,7 @@ public class SmartHire {
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             myApp.pack();
-            myApp.setSize(800, 480);
+            myApp.setSize(1000, 480);
             myApp.setVisible(true);
         });
     }
@@ -209,17 +212,17 @@ public class SmartHire {
         try {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
-            // Load random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy");
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium");
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard");
+            // Load specific number of random questions for each difficulty
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
 
-            // Combine the lists into one master list and shuffle
+            // Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
             allQuestions.addAll(mediumQuestions);
             allQuestions.addAll(hardQuestions);
-            currentQuestionList.addAll(allQuestions); // Assign the shuffled list
-            Collections.shuffle(currentQuestionList); // Shuffle the entire list once when the quiz starts
+            currentQuestionList.addAll(allQuestions);
+            Collections.shuffle(currentQuestionList);
 
         } catch (SQLException e) {
             System.err.println("SQL Server JDBC driver not found.");
@@ -312,9 +315,15 @@ public class SmartHire {
 
                 // Check if an answer is selected
                 if (selectedAnswer != null) {
-                    checkAnswer(selectedAnswer); // Check if the selected answer is correct
-                    currentQuestionIndex++; // Move to the next question
-                    displayNextQuestion(); // Display the next question
+                    // Get the current question based on the current question index
+                    Questions currentQuestion = currentQuestionList.get(currentQuestionIndex);
+
+
+                    // Call checkAnswer with selectedAnswer and currentQuestion
+                    checkAnswer(selectedAnswer, currentQuestion);  // Checks if the answer is correct
+
+                    currentQuestionIndex++; // Move on to the next question
+                    displayNextQuestion();  // Update the UI with the next question
 
                     // Clear the selection on the radio buttons for the next question
                     AnswersBtnGroupRadio.clearSelection();
@@ -406,12 +415,28 @@ public class SmartHire {
             cLbl.setText("C. " + question.getOptionC());
             dLbl.setText("D. " + question.getOptionD());
 
-            // Store the correct answer
+            // Set the image URL to the photoLbl
+            String imageUrl = question.getImageUrl();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                // Load and display the image in the photoLbl
+                try {
+                    ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
+                    Image image = imageIcon.getImage(); // Transform it
+                    Image scaledImage = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH); // Optional: Scale the image to fit
+                    photoLbl.setIcon(new ImageIcon(scaledImage));
+                } catch (MalformedURLException e) {
+                    System.out.println("Invalid image URL: " + imageUrl);
+                    photoLbl.setText("Image not available"); // Display error message if image fails to load
+                }
+            } else {
+                photoLbl.setText("");
+            }
+
+            // Store the correct answer for later checking
             correctAnswer = question.getCorrectAnswer();
         } else {
             // End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
-            // Navigate to the next screen (or end the quiz)
             navigateToNextCard();
         }
     }
@@ -450,6 +475,7 @@ private void displayRandomQuestions(String difficulty) {
         Questions question = filteredQuestions.get(0);
 
         // Display question and options
+        photoLbl.setText(question.getImageUrl());
         questionLbl.setText(question.getQuestionText());
         aLbl.setText("A. " + question.getOptionA());
         bLbl.setText("B. " + question.getOptionB());
@@ -468,11 +494,10 @@ private void displayRandomQuestions(String difficulty) {
  *
  * @param selectedAnswer The answer selected by the user
  */
-private void checkAnswer(String selectedAnswer) {
-    if (selectedAnswer.equals(correctAnswer)) {
-        JOptionPane.showMessageDialog(SmartHireHub, "Correct Answer!", "Success", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(SmartHireHub, "Incorrect Answer. The correct answer was: " + correctAnswer, "Try Again", JOptionPane.ERROR_MESSAGE);
+private void checkAnswer(String selectedAnswer, Questions question) {
+    // Check if the selected answer is correct
+    if (selectedAnswer.equals(question.getCorrectAnswer())) {
+        totalScore += question.getScore(); // Add the score from the database to the total score
     }
 }
 

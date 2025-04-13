@@ -391,8 +391,8 @@
                       <gridbag top="10" left="0" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <preferredSize width="400" height="300"/>
-                      <text value="Label"/>
+                      <preferredSize width="400" height="350"/>
+                      <text value=""/>
                     </properties>
                   </component>
                   <component id="7436b" class="javax.swing.JLabel" binding="questionLbl">
@@ -402,7 +402,7 @@
                     </constraints>
                     <properties>
                       <preferredSize width="400" height="200"/>
-                      <text value="Label"/>
+                      <text value=""/>
                     </properties>
                   </component>
                   <component id="e366f" class="javax.swing.JProgressBar" binding="progressBar">
