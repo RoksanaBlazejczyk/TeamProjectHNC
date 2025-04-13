@@ -430,6 +430,7 @@ public class SmartHire {
                 }
             } else {
                 photoLbl.setText("");
+                photoLbl.setIcon(null);
             }
 
             // Store the correct answer for later checking
