@@ -78,6 +78,7 @@ public class SmartHire {
     private int secondsElapsed = 0; // Track elapsed seconds
     private JLabel timerLbl;// Label to display the timer
     private JButton startBtn;
+    private JLabel iqTxt;
     private List<String> sessionTimes = new ArrayList<>();
     // Array to store usernames and passwords
     private String[] usernames = new String[100];
@@ -88,6 +89,7 @@ public class SmartHire {
     private List<Questions> currentQuestionList = new ArrayList<>();
     private int currentQuestionIndex = 0;
     private int totalScore = 0;
+    private int correctAnswersCount = 0;
 
 
     public static void main(String[] args) {
@@ -432,32 +434,32 @@ public class SmartHire {
                 photoLbl.setText("");
                 photoLbl.setIcon(null);
             }
-
-            // Store the correct answer for later checking
+            //Check to see if it's correct
             correctAnswer = question.getCorrectAnswer();
         } else {
-            // End of the quiz
-            JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
         }
     }
 
 
-private void displayNextQuestion() {
-    if (currentQuestionIndex < currentQuestionList.size()) {
-        displayQuestionAtIndex(currentQuestionIndex); // Show the next question
-    } else {
-        // If no more questions, end the quiz
-        JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
-        navigateToNextCard();
+    private void displayNextQuestion() {
+        if (currentQuestionIndex < currentQuestionList.size()) {
+            displayQuestionAtIndex(currentQuestionIndex); //Next question in index
+        } else {
+            if (timer != null) {
+                timer.cancel(); //Stop the time if it's running
+            }
+            JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
+            navigateToNextCard();
+            scoreTxt.setText(String.valueOf(correctAnswersCount));
+            iqTxt.setText(String.valueOf(totalScore));
+        }
     }
-}
 
-// Method to navigate to the next screen (e.g., after completing the quiz)
 private void navigateToNextCard() {
-    // Your logic to navigate to the next screen, for example:
     CardLayout cards = (CardLayout) mainPanel.getLayout();
-    cards.next(mainPanel); // Or any specific panel transition logic you require
+    cards.next(mainPanel);
 }
 
 /**
@@ -498,7 +500,8 @@ private void displayRandomQuestions(String difficulty) {
 private void checkAnswer(String selectedAnswer, Questions question) {
     // Check if the selected answer is correct
     if (selectedAnswer.equals(question.getCorrectAnswer())) {
-        totalScore += question.getScore(); // Add the score from the database to the total score
+        totalScore += question.getScore();
+        correctAnswersCount++;
     }
 }
 
