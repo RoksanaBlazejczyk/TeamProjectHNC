@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="SmartHire">
   <grid id="27dc6" binding="SmartHireHub" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="919" height="567"/>
+      <xy x="20" y="20" width="919" height="617"/>
     </constraints>
     <properties>
       <preferredSize width="800" height="480"/>
@@ -699,8 +699,10 @@
                 <constraints/>
                 <properties>
                   <background color="-7751195"/>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
+                  <hideActionText value="false"/>
                   <horizontalAlignment value="0"/>
+                  <icon value="icons/music2 icon 30x30.png"/>
                   <preferredSize width="100" height="34"/>
                   <text value="BG music"/>
                 </properties>
@@ -709,7 +711,8 @@
                 <constraints/>
                 <properties>
                   <background color="-7751195"/>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
+                  <icon value="icons/settings icon 30x30.png"/>
                   <preferredSize width="100" height="34"/>
                   <text value="Settings"/>
                 </properties>
