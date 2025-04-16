@@ -7,7 +7,6 @@ import projectPack.Authentication;
 import projectPack.Questions;
 import projectPack.DatabaseConnection;
 import projectPack.Settings;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -89,7 +88,10 @@ public class SmartHire {
     private int currentQuestionIndex = 0;
     private int totalScore = 0;
 
-
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
@@ -106,6 +108,9 @@ public class SmartHire {
         });
     }
 
+    /**
+     * Method for background music
+     */
     public void music() {
         try {
             File musicFile = new File("src/music/music.wav"); // Adjust path if needed
@@ -118,10 +123,10 @@ public class SmartHire {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
 
-            // Loop the music indefinitely
+            //Loop the music indefinitely
             clip.loop(Clip.LOOP_CONTINUOUSLY);
 
-            // Start playing
+            //Start playing
             clip.start();
             System.out.println("Music is playing in a loop...");
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
@@ -173,16 +178,19 @@ public class SmartHire {
         }
     }
 
-
+    /**
+     *
+     * @return
+     */
     public String getCurrentPanel() {
-        // Get the CardLayout from the mainPanel
+        //Get the CardLayout from the mainPanel
         CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
 
-        // Check if the first component (loginScreen) is visible
+        //Check if the first component (loginScreen) is visible
         if (mainPanel.getComponent(0).isVisible()) {
             return "loginScreen";
         }
-        // Check if another panel (e.g., "createAccountScreen") is visible
+        //Check if another panel (e.g., "createAccountScreen") is visible
         else if (mainPanel.getComponent(1).isVisible()) {
             return "createAccountScreen";
         } else if (mainPanel.getComponent(2).isVisible()) {
@@ -192,12 +200,15 @@ public class SmartHire {
         } else if (mainPanel.getComponent(4).isVisible()) {
             return "resultsScreen";
         }
-        // If no panel is visible or another panel is showing, you can return a default value or error
+        //If no panel is visible or another panel is showing, you can return a default value or error
         else {
             return "Unknown Panel";
         }
     }
 
+    /**
+     * Next screen method
+     */
     public void goToNextScreen() {
         String currentPanel = getCurrentPanel();
         if (currentPanel.equals("loginScreen")) {
@@ -205,19 +216,22 @@ public class SmartHire {
         }
     }
 
+    /**
+     * Genetare random passwords, pulling the questions randomly
+     */
     public SmartHire() {
-        // Generate 100 random 4-digit passwords
+        //Generate 100 random 4-digit passwords
         generatePasswords();
 
         try {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
-            // Load specific number of random questions for each difficulty
+            //Load specific number of random questions for each difficulty
             List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
             List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
             List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
 
-            // Combine all questions into one list and shuffle
+            //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
             allQuestions.addAll(mediumQuestions);
             allQuestions.addAll(hardQuestions);
@@ -232,16 +246,16 @@ public class SmartHire {
         BGMusicButton.setEnabled(true);
         nextButton.setVisible(false);
 
-        // Action listeners for buttons
+        //Action listeners for buttons
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Show the question panel (Card4)
+                //Show the question panel (Card4)
                 CardLayout cards = (CardLayout) mainPanel.getLayout();
                 cards.show(mainPanel, "Card4");
-                startTimer(); // Start the timer (if required)
-                nextButton.setVisible(true); // Make the Next button visible
-                displayQuestionAtIndex(currentQuestionIndex); // Display the first question
+                startTimer(); //Start the timer (if required)
+                nextButton.setVisible(true); //Make the Next button visible
+                displayQuestionAtIndex(currentQuestionIndex); //Display the first question
             }
         });
 
@@ -252,7 +266,7 @@ public class SmartHire {
             }
         });
 
-        // Set up action listeners for answer buttons
+        //Set up action listeners for answer buttons
         aLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -303,32 +317,32 @@ public class SmartHire {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Disable next button until answer is checked
+                //Disable next button until answer is checked
                 nextButton.setEnabled(false);
 
-                // Get the selected answer from radio buttons
+                //Get the selected answer from radio buttons
                 String selectedAnswer = null;
                 if (aLbl.isSelected()) selectedAnswer = "A";
                 if (bLbl.isSelected()) selectedAnswer = "B";
                 if (cLbl.isSelected()) selectedAnswer = "C";
                 if (dLbl.isSelected()) selectedAnswer = "D";
 
-                // Check if an answer is selected
+                //Check if an answer is selected
                 if (selectedAnswer != null) {
-                    // Get the current question based on the current question index
+                    //Get the current question based on the current question index
                     Questions currentQuestion = currentQuestionList.get(currentQuestionIndex);
 
 
-                    // Call checkAnswer with selectedAnswer and currentQuestion
-                    checkAnswer(selectedAnswer, currentQuestion);  // Checks if the answer is correct
+                    //Call checkAnswer with selectedAnswer and currentQuestion
+                    checkAnswer(selectedAnswer, currentQuestion);  //Checks if the answer is correct
 
-                    currentQuestionIndex++; // Move on to the next question
-                    displayNextQuestion();  // Update the UI with the next question
+                    currentQuestionIndex++; //Move on to the next question
+                    displayNextQuestion();  //Update the UI with the next question
 
-                    // Clear the selection on the radio buttons for the next question
+                    //Clear the selection on the radio buttons for the next question
                     AnswersBtnGroupRadio.clearSelection();
 
-                    // Re-enable the next button for the next question
+                    //Re-enable the next button for the next question
                     nextButton.setEnabled(true);
                 } else {
                     JOptionPane.showMessageDialog(SmartHireHub, "Please select an answer!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -394,7 +408,9 @@ public class SmartHire {
         });
     }
 
-    // Method to check if any radio button is selected
+    /**
+     * Method to check if any radio button is selected
+     */
     private void checkIfAnyRadioButtonSelected() {
         if (aLbl.isSelected() || bLbl.isSelected() || cLbl.isSelected() || dLbl.isSelected()) {
             nextButton.setEnabled(true);  // Enable the next button
@@ -403,22 +419,25 @@ public class SmartHire {
         }
     }
 
-    // Method to display the question at the current index
+    /**
+     * Method to display the question at the current index
+     * @param index
+     */
     private void displayQuestionAtIndex(int index) {
         if (index < currentQuestionList.size()) {
             Questions question = currentQuestionList.get(index);
 
-            // Display the question and options
+            //Display the question and options
             questionLbl.setText(question.getQuestionText());
             aLbl.setText("A. " + question.getOptionA());
             bLbl.setText("B. " + question.getOptionB());
             cLbl.setText("C. " + question.getOptionC());
             dLbl.setText("D. " + question.getOptionD());
 
-            // Set the image URL to the photoLbl
+            //Set the image URL to the photoLbl
             String imageUrl = question.getImageUrl();
             if (imageUrl != null && !imageUrl.isEmpty()) {
-                // Load and display the image in the photoLbl
+                //Load and display the image in the photoLbl
                 try {
                     ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
                     Image image = imageIcon.getImage(); // Transform it
@@ -433,31 +452,33 @@ public class SmartHire {
                 photoLbl.setIcon(null);
             }
 
-            // Store the correct answer for later checking
+            //Store the correct answer for later checking
             correctAnswer = question.getCorrectAnswer();
         } else {
-            // End of the quiz
+            //End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
         }
     }
 
 
-private void displayNextQuestion() {
+    private void displayNextQuestion() {
     if (currentQuestionIndex < currentQuestionList.size()) {
-        displayQuestionAtIndex(currentQuestionIndex); // Show the next question
+        displayQuestionAtIndex(currentQuestionIndex); //Show the next question
     } else {
-        // If no more questions, end the quiz
+        //If no more questions, end the quiz
         JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
         navigateToNextCard();
     }
 }
 
-// Method to navigate to the next screen (e.g., after completing the quiz)
+    /**
+     * Method to navigate to the next screen (e.g., after completing the quiz)
+     */
+
 private void navigateToNextCard() {
-    // Your logic to navigate to the next screen, for example:
     CardLayout cards = (CardLayout) mainPanel.getLayout();
-    cards.next(mainPanel); // Or any specific panel transition logic you require
+    cards.next(mainPanel);
 }
 
 /**
@@ -466,16 +487,16 @@ private void navigateToNextCard() {
  * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
  */
 private void displayRandomQuestions(String difficulty) {
-    // Use the pre-fetched allQuestions list, and filter by difficulty
+    //Use the pre-fetched allQuestions list, and filter by difficulty
     List<Questions> filteredQuestions = allQuestions.stream()
             .filter(q -> q.getDifficulty().equals(difficulty))
             .collect(Collectors.toList());
 
     if (filteredQuestions != null && filteredQuestions.size() > 0) {
-        // Get the first question for this session (you can modify this logic for shuffling)
+        //Get the first question for this session
         Questions question = filteredQuestions.get(0);
 
-        // Display question and options
+        //Display question and options
         photoLbl.setText(question.getImageUrl());
         questionLbl.setText(question.getQuestionText());
         aLbl.setText("A. " + question.getOptionA());
@@ -483,7 +504,7 @@ private void displayRandomQuestions(String difficulty) {
         cLbl.setText("C. " + question.getOptionC());
         dLbl.setText("D. " + question.getOptionD());
 
-        // Store the correct answer
+        //Store the correct answer
         correctAnswer = question.getCorrectAnswer();
     } else {
         JOptionPane.showMessageDialog(SmartHireHub, "Not enough questions found!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -496,9 +517,9 @@ private void displayRandomQuestions(String difficulty) {
  * @param selectedAnswer The answer selected by the user
  */
 private void checkAnswer(String selectedAnswer, Questions question) {
-    // Check if the selected answer is correct
+    //Check if the selected answer is correct
     if (selectedAnswer.equals(question.getCorrectAnswer())) {
-        totalScore += question.getScore(); // Add the score from the database to the total score
+        totalScore += question.getScore(); //Add the score from the database to the total score
     }
 }
 
@@ -510,11 +531,11 @@ private void generatePasswords() {
     Random random = new Random();
 
     while (uniquePasswords.size() < 100) {
-        int randomPassword = 1000 + random.nextInt(9000);  // Generates a 4-digit number
+        int randomPassword = 1000 + random.nextInt(9000);  //Generates a 4-digit number
         uniquePasswords.add(String.valueOf(randomPassword));
     }
     passwords = uniquePasswords.toArray(new String[0]);
-    //  outputPasswordTxt.setText("Passwords generated successfully!");
+    //outputPasswordTxt.setText("Passwords generated successfully!");
 }
 
 /**
@@ -524,37 +545,37 @@ private void createUsername() {
     String firstName = firstNameTxt.getText().trim();
     String surname = surnameTxt.getText().trim();
 
-    // Validation for first name and surname
+    //Validation for first name and surname
     if (firstName.isEmpty() || surname.isEmpty()) {
         JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        return; // Exit the method if validation fails
+        return; //Exit the method if validation fails
     }
 
-    // Validation for avatar selection
+    //Validation for avatar selection
     if (AvatarButtonGroup.getSelection() == null) {
         JOptionPane.showMessageDialog(SmartHireHub, "Please select an avatar!", "No avatar selected!", JOptionPane.ERROR_MESSAGE);
-        return; // Exit the method if no avatar is selected
+        return; //Exit the method if no avatar is selected
     }
 
-    // Format the username
+    //Format the username
     String username = firstName + "_" + surname;
 
-    // Randomly assign a password to the username
-    String password = passwords[usernameCount % passwords.length]; // Assign a password
+    //Randomly assign a password to the username
+    String password = passwords[usernameCount % passwords.length]; //Assign a password
     passwords[usernameCount] = password;
 
-    // Display the generated username and password
+    //Display the generated username and password
     JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username + "\nPassword: " + password, "Success", JOptionPane.INFORMATION_MESSAGE);
 
-    // Store the username in the array
+    //Store the username in the array
     usernames[usernameCount] = username;
     usernameCount++;
 
-    // Optionally set the username to a text field or store it in a variable
+    //Optionally set the username to a text field or store it in a variable
     usernameTxt.setText(username);  // Set the generated username in the text field
     outputPasswordTxt.setText(password);  // Set the generated password in the password field
 
-    // Navigate to the previous screen using CardLayout
+    //Navigate to the previous screen using CardLayout
     CardLayout cards = (CardLayout) mainPanel.getLayout();
     cards.previous(mainPanel);
 }
@@ -587,13 +608,13 @@ public void logIn() {
 
                 found = true;
 
-                // Switch to rulesScreen
+                //Switch to rulesScreen
                 CardLayout cards = (CardLayout) mainPanel.getLayout();
                 cards.show(mainPanel, "Card3");
                 BGMusicButton.setEnabled(true);
                 settingsButton.setEnabled(true);
 
-                // Force UI refresh
+                //Force UI refresh
                 mainPanel.revalidate();
                 mainPanel.repaint();
                 return;

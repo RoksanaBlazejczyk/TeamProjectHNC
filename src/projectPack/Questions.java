@@ -5,10 +5,24 @@ public class Questions {
     String questionText, optionA, optionB, optionC, optionD, correctAnswer, difficulty, imageUrl;
     int score;
 
-    // Corrected constructor, now includes 'id' as a parameter
+    /**
+     *
+     * @param id
+     * @param questionText
+     * @param optionA
+     * @param optionB
+     * @param optionC
+     * @param optionD
+     * @param correctAnswer
+     * @param difficulty
+     * @param score
+     * @param imageUrl
+     * Corrected constructor, now includes 'id' as a parameter
+     */
+
     public Questions(int id, String questionText, String optionA, String optionB, String optionC, String optionD,
                      String correctAnswer, String difficulty, int score, String imageUrl) {
-        this.id = id;  // Now correctly assigned
+        this.id = id;
         this.questionText = questionText;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -20,8 +34,8 @@ public class Questions {
         this.imageUrl = imageUrl;
     }
 
-    // Getters
-    public int getId() { return id; }  // Added getter for id
+    //Getters
+    public int getId() { return id; }  //Added getter for id
     public String getQuestionText() { return questionText; }
     public String getOptionA() { return optionA; }
     public String getOptionB() { return optionB; }

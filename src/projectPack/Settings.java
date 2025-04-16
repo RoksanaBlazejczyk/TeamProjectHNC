@@ -5,18 +5,22 @@ import java.awt.*;
 
 public class Settings {
 
-    // Current settings
+    //Current settings
     private static boolean isDarkMode = false;
     private static int fontSize = 14;
     private static Color fontColor = Color.BLACK;
 
+    /**
+     *
+     * @param parent
+     */
     public static void showSettingsDialog(JFrame parent) {
-        // Options
+        //options
         String[] modeOptions = {"Light Mode", "Dark Mode"};
         String[] fontOptions = {"Small", "Medium"};
         String[] colorOptions = {"Black", "Blue", "Red"};
 
-        // UI Elements
+        //User interface elements
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
         JComboBox<String> modeBox = new JComboBox<>(modeOptions);
         JComboBox<String> fontBox = new JComboBox<>(fontOptions);
@@ -38,13 +42,13 @@ public class Settings {
         );
 
         if (result == JOptionPane.OK_OPTION) {
-            // Theme
+            //Theme
             isDarkMode = modeBox.getSelectedIndex() == 1;
 
-            // Font Size
+            //Font Size
             fontSize = fontBox.getSelectedIndex() == 0 ? 12 : 16;
 
-            // Font Color (only for light mode)
+            //Font Color (only for light mode)
             switch (colorBox.getSelectedIndex()) {
                 case 1: fontColor = Color.BLUE; break;
                 case 2: fontColor = Color.RED; break;
@@ -54,12 +58,16 @@ public class Settings {
             applyTheme(parent);
             applyFontSettings(parent);
 
-            // Refresh UI
+            //Refresh user interface
             parent.revalidate();
             parent.repaint();
         }
     }
 
+    /**
+     *
+     * @param component
+     */
     private static void applyTheme(Component component) {
         Color bg = isDarkMode ? Color.DARK_GRAY : Color.WHITE;
         Color fg = isDarkMode ? Color.WHITE : fontColor;
@@ -78,6 +86,10 @@ public class Settings {
         }
     }
 
+    /**
+     *
+     * @param component
+     */
     private static void applyFontSettings(Component component) {
         if (component instanceof JComponent) {
             Font newFont = new Font("Arial", Font.PLAIN, fontSize);

@@ -12,19 +12,23 @@ import java.util.List;
  */
 public class DatabaseConnection {
 
-
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public static Connection getConnection() throws SQLException {
         String connectionUrl = "jdbc:sqlserver://databasequestions.database.windows.net:1433;" +
                 "database=QuestionsIQTest;" +
                 "user=SHAdmin@databasequestions;" +
-                "password=Pa$$w0rd;" + // Replace with your actual password
+                "password=Pa$$w0rd;" +
                 "encrypt=true;" +
                 "trustServerCertificate=false;" +
                 "hostNameInCertificate=*.database.windows.net;" +
                 "loginTimeout=30;";
 
         try {
-            // Load SQL Server JDBC driver
+            //Load SQL Server JDBC driver
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             return DriverManager.getConnection(connectionUrl);
 
@@ -33,14 +37,20 @@ public class DatabaseConnection {
             throw new SQLException("SQL Server JDBC driver not found.", e);
         } catch (SQLException e) {
             System.err.println("Database connection failed: " + e.getMessage());
-            throw e; // Rethrow the SQLException to propagate it
+            throw e; //Rethrow the SQLException to propagate it
         }
     }
 
+    /**
+     *
+     * @param difficulty
+     * @param count
+     * @return
+     */
     public static List<Questions> getRandomQuestionsByDifficulty(String difficulty, int count) {
         List<Questions> questionList = new ArrayList<>();
 
-        // Inject the count value directly into the SQL string
+        //Inject the count value directly into the SQL string
         String sql = String.format("""
         SELECT TOP %d id, question_text, option_a, option_b, option_c, option_d, 
                       correct_answer, difficulty, score, image_url
