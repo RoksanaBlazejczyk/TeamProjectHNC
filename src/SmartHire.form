@@ -544,7 +544,7 @@
                         <properties>
                           <foreground color="-13947600"/>
                           <preferredSize width="50" height="25"/>
-                          <text value="del txt"/>
+                          <text value=""/>
                         </properties>
                       </component>
                       <component id="dc461" class="javax.swing.JLabel">
@@ -582,7 +582,7 @@
                           <text value="Your IQ is: "/>
                         </properties>
                       </component>
-                      <component id="bf8f7" class="javax.swing.JLabel">
+                      <component id="bf8f7" class="javax.swing.JLabel" binding="iqTxt">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="0.0" weighty="0.0"/>
@@ -590,7 +590,7 @@
                         <properties>
                           <foreground color="-13947600"/>
                           <preferredSize width="100" height="20"/>
-                          <text value="del txt"/>
+                          <text value=""/>
                         </properties>
                       </component>
                     </children>
