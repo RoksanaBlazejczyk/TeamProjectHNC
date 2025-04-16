@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="SmartHire">
   <grid id="27dc6" binding="SmartHireHub" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="919" height="561"/>
+      <xy x="20" y="20" width="919" height="567"/>
     </constraints>
     <properties>
       <preferredSize width="800" height="480"/>
@@ -380,6 +380,8 @@
               <grid id="3f247" layout-manager="GridBagLayout">
                 <constraints border-constraint="Center"/>
                 <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
                   <background color="-3290691"/>
                   <preferredSize width="800" height="480"/>
                 </properties>
@@ -387,28 +389,28 @@
                 <children>
                   <component id="7a38b" class="javax.swing.JLabel" binding="photoLbl">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="10" left="0" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <preferredSize width="400" height="350"/>
+                      <preferredSize width="250" height="250"/>
                       <text value=""/>
                     </properties>
                   </component>
                   <component id="7436b" class="javax.swing.JLabel" binding="questionLbl">
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="0" bottom="5" right="0" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <preferredSize width="400" height="200"/>
+                      <preferredSize width="500" height="35"/>
                       <text value=""/>
                     </properties>
                   </component>
                   <component id="e366f" class="javax.swing.JProgressBar" binding="progressBar">
                     <constraints>
-                      <grid row="6" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag top="5" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
                       <indeterminate value="true"/>
@@ -419,42 +421,73 @@
                       <stringPainted value="true"/>
                     </properties>
                   </component>
-                  <component id="22bf6" class="javax.swing.JRadioButton" binding="bLbl">
+                  <grid id="11c1d" layout-manager="GridBagLayout">
                     <constraints>
-                      <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
-                    <properties>
-                      <text value="RadioButton"/>
-                    </properties>
-                  </component>
-                  <component id="73481" class="javax.swing.JRadioButton" binding="cLbl">
-                    <constraints>
-                      <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="RadioButton"/>
-                    </properties>
-                  </component>
-                  <component id="6434f" class="javax.swing.JRadioButton" binding="dLbl">
-                    <constraints>
-                      <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="RadioButton"/>
-                    </properties>
-                  </component>
-                  <component id="1ba30" class="javax.swing.JRadioButton" binding="aLbl">
-                    <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="RadioButton"/>
-                    </properties>
-                  </component>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="1ba30" class="javax.swing.JRadioButton" binding="aLbl">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <font size="14"/>
+                          <horizontalAlignment value="10"/>
+                          <horizontalTextPosition value="11"/>
+                          <inheritsPopupMenu value="false"/>
+                          <margin top="5" left="5" bottom="5" right="5"/>
+                          <preferredSize width="200" height="30"/>
+                          <text value="Testing text for answer a"/>
+                        </properties>
+                      </component>
+                      <hspacer id="463c1">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                      </hspacer>
+                      <component id="22bf6" class="javax.swing.JRadioButton" binding="bLbl">
+                        <constraints>
+                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <font size="14"/>
+                          <margin top="5" left="5" bottom="5" right="5"/>
+                          <preferredSize width="200" height="30"/>
+                          <text value="Testing text for answer b"/>
+                        </properties>
+                      </component>
+                      <component id="73481" class="javax.swing.JRadioButton" binding="cLbl">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <font size="14"/>
+                          <margin top="5" left="5" bottom="5" right="5"/>
+                          <preferredSize width="200" height="30"/>
+                          <text value="Testing text for answer c"/>
+                        </properties>
+                      </component>
+                      <component id="6434f" class="javax.swing.JRadioButton" binding="dLbl">
+                        <constraints>
+                          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties>
+                          <font size="14"/>
+                          <margin top="5" left="5" bottom="5" right="5"/>
+                          <preferredSize width="200" height="30"/>
+                          <text value="Testing text for answer d"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
                 </children>
               </grid>
             </children>
@@ -748,6 +781,7 @@
             <properties>
               <background color="-7751195"/>
               <enabled value="false"/>
+              <preferredSize width="150" height="35"/>
               <text value="Next"/>
             </properties>
           </component>

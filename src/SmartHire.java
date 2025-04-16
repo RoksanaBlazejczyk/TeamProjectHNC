@@ -105,7 +105,7 @@ public class SmartHire {
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             myApp.pack();
-            myApp.setSize(1000, 480);
+            myApp.setSize(800, 480);
             myApp.setVisible(true);
         });
     }
@@ -255,7 +255,7 @@ public class SmartHire {
                 //Show the question panel (Card4)
                 CardLayout cards = (CardLayout) mainPanel.getLayout();
                 cards.show(mainPanel, "Card4");
-                startTimer(); //Start the timer (if required)
+                startTimer(); //Start the timer
                 nextButton.setVisible(true); //Make the Next button visible
                 displayQuestionAtIndex(currentQuestionIndex); //Display the first question
             }
@@ -443,11 +443,11 @@ public class SmartHire {
                 try {
                     ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
                     Image image = imageIcon.getImage(); // Transform it
-                    Image scaledImage = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH); // Optional: Scale the image to fit
+                    Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); //Scale the image
                     photoLbl.setIcon(new ImageIcon(scaledImage));
                 } catch (MalformedURLException e) {
                     System.out.println("Invalid image URL: " + imageUrl);
-                    photoLbl.setText("Image not available"); // Display error message if image fails to load
+                    photoLbl.setText("Image not available"); //Display error message if image fails to load
                 }
             } else {
                 photoLbl.setText("");
