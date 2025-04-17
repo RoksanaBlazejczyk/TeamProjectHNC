@@ -399,10 +399,11 @@
                   </component>
                   <component id="7436b" class="javax.swing.JLabel" binding="questionLbl">
                     <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="0" bottom="5" right="0" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
+                      <font size="14"/>
                       <preferredSize width="500" height="35"/>
                       <text value=""/>
                     </properties>
@@ -506,7 +507,7 @@
               <grid id="3924c" layout-manager="BorderLayout" hgap="0" vgap="0">
                 <constraints border-constraint="North"/>
                 <properties>
-                  <background color="-3290691"/>
+                  <background color="-1041"/>
                   <preferredSize width="585" height="44"/>
                 </properties>
                 <border type="none"/>
@@ -514,7 +515,7 @@
                   <grid id="8cbcb" binding="leaderboardPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
                     <constraints border-constraint="East"/>
                     <properties>
-                      <background color="-3290691"/>
+                      <background color="-1041"/>
                     </properties>
                     <border type="none"/>
                     <children>
@@ -522,7 +523,7 @@
                         <constraints/>
                         <properties>
                           <background color="-7751195"/>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
                           <preferredSize width="100" height="34"/>
                           <text value="Leaderboard"/>
                         </properties>
@@ -531,7 +532,7 @@
                         <constraints/>
                         <properties>
                           <background color="-7751195"/>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
                           <preferredSize width="100" height="34"/>
                           <text value="Print Results"/>
                         </properties>
@@ -669,7 +670,7 @@
                     </constraints>
                     <properties>
                       <background color="-7751195"/>
-                      <enabled value="false"/>
+                      <enabled value="true"/>
                       <preferredSize width="100" height="34"/>
                       <text value="Finish"/>
                     </properties>

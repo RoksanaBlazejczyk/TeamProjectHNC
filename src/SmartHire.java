@@ -3,10 +3,8 @@
  * Team: Roksana Blazejczyk, Marek Cudak, Robert Sneddon, Daniel Virlan
  */
 
-import projectPack.Authentication;
-import projectPack.Questions;
-import projectPack.DatabaseConnection;
-import projectPack.Settings;
+import projectPack.*;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -83,15 +81,16 @@ public class SmartHire {
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
     private int usernameCount = 0;
+    private String Username;
     private String correctAnswer;
     private List<Questions> allQuestions = new ArrayList<>();
     private List<Questions> currentQuestionList = new ArrayList<>();
     private int currentQuestionIndex = 0;
     private int totalScore = 0;
     private int correctAnswersCount = 0;
+    private String finalTimeTaken;
 
     /**
-     *
      * @param args
      */
     public static void main(String[] args) {
@@ -105,7 +104,7 @@ public class SmartHire {
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             myApp.pack();
-            myApp.setSize(800, 480);
+            myApp.setSize(800, 600);
             myApp.setVisible(true);
         });
     }
@@ -181,7 +180,6 @@ public class SmartHire {
     }
 
     /**
-     *
      * @return
      */
     public String getCurrentPanel() {
@@ -408,6 +406,36 @@ public class SmartHire {
                 Settings.showSettingsDialog(frame);
             }
         });
+        leaderboardBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the top 10 leaderboard entries, sorted by IQ_Score in ascending order
+                List<LeaderboardEntry> topEntries = DatabaseLeaderboard.getTopLeaderboard(10);
+
+                // Create a StringBuilder to hold the leaderboard display
+                StringBuilder leaderboardDisplay = new StringBuilder();
+                leaderboardDisplay.append("Top 10 Leaderboard (Sorted by IQ Score Ascending):\n\n");
+
+                // Loop through the top 10 entries and append them to the display
+                for (LeaderboardEntry entry : topEntries) {
+                    leaderboardDisplay.append(entry).append("\n");
+                }
+
+                // Show the leaderboard in a dialog box
+                JOptionPane.showMessageDialog(SmartHireHub, leaderboardDisplay.toString(), "Leaderboard", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        finishBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = Username;
+                int score = totalScore;
+                String timeTaken = finalTimeTaken;
+
+                DatabaseLeaderboard.uploadResults(username, score, timeTaken);
+            }
+        });
     }
 
     /**
@@ -423,6 +451,7 @@ public class SmartHire {
 
     /**
      * Method to display the question at the current index
+     *
      * @param index
      */
     private void displayQuestionAtIndex(int index) {
@@ -465,10 +494,11 @@ public class SmartHire {
 
     private void displayNextQuestion() {
         if (currentQuestionIndex < currentQuestionList.size()) {
-            displayQuestionAtIndex(currentQuestionIndex); //Next question in index
+            displayQuestionAtIndex(currentQuestionIndex);
         } else {
             if (timer != null) {
-                timer.cancel(); //Stop the time if it's running
+                timer.cancel(); //Stop the timer
+                finalTimeTaken = formatTime(secondsElapsed); //Capture the time when the quiz ends
             }
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
@@ -481,163 +511,173 @@ public class SmartHire {
      * Method to navigate to the next screen (e.g., after completing the quiz)
      */
 
-private void navigateToNextCard() {
-    // Your logic to navigate to the next screen, for example:
-    CardLayout cards = (CardLayout) mainPanel.getLayout();
-    cards.next(mainPanel);
-}
-
-/**
- * Fetches and displays two random questions based on the given difficulty.
- *
- * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
- */
-private void displayRandomQuestions(String difficulty) {
-    //Use the pre-fetched allQuestions list, and filter by difficulty
-    List<Questions> filteredQuestions = allQuestions.stream()
-            .filter(q -> q.getDifficulty().equals(difficulty))
-            .collect(Collectors.toList());
-
-    if (filteredQuestions != null && filteredQuestions.size() > 0) {
-        //Get the first question for this session
-        Questions question = filteredQuestions.get(0);
-
-        //Display question and options
-        photoLbl.setText(question.getImageUrl());
-        questionLbl.setText(question.getQuestionText());
-        aLbl.setText("A. " + question.getOptionA());
-        bLbl.setText("B. " + question.getOptionB());
-        cLbl.setText("C. " + question.getOptionC());
-        dLbl.setText("D. " + question.getOptionD());
-
-        //Store the correct answer
-        correctAnswer = question.getCorrectAnswer();
-    } else {
-        JOptionPane.showMessageDialog(SmartHireHub, "Not enough questions found!", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
-
-/**
- * Checks the answer selected by the user.
- *
- * @param selectedAnswer The answer selected by the user
- */
-private void checkAnswer(String selectedAnswer, Questions question) {
-    //Check if the selected answer is correct
-    if (selectedAnswer.equals(question.getCorrectAnswer())) {
-        totalScore += question.getScore(); // Add the score from the database to the total score
-    }
-}
-
-/**
- * Generates 100 unique random 4-digit passwords and associates them with usernames
- */
-private void generatePasswords() {
-    Set<String> uniquePasswords = new HashSet<>();
-    Random random = new Random();
-
-    while (uniquePasswords.size() < 100) {
-        int randomPassword = 1000 + random.nextInt(9000);  // Generates a 4-digit number
-        uniquePasswords.add(String.valueOf(randomPassword));
-    }
-    passwords = uniquePasswords.toArray(new String[0]);
-    //outputPasswordTxt.setText("Passwords generated successfully!");
-}
-
-/**
- * Generates a username in the format name_surname and displays a generated password
- */
-private void createUsername() {
-    String firstName = firstNameTxt.getText().trim();
-    String surname = surnameTxt.getText().trim();
-
-    //Validation for first name and surname
-    if (firstName.isEmpty() || surname.isEmpty()) {
-        JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        return; //Exit the method if validation fails
+    private void navigateToNextCard() {
+        // Your logic to navigate to the next screen, for example:
+        CardLayout cards = (CardLayout) mainPanel.getLayout();
+        cards.next(mainPanel);
     }
 
-    //Validation for avatar selection
-    if (AvatarButtonGroup.getSelection() == null) {
-        JOptionPane.showMessageDialog(SmartHireHub, "Please select an avatar!", "No avatar selected!", JOptionPane.ERROR_MESSAGE);
-        return; //Exit the method if no avatar is selected
-    }
+    /**
+     * Fetches and displays two random questions based on the given difficulty.
+     *
+     * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
+     */
+    private void displayRandomQuestions(String difficulty) {
+        //Use the pre-fetched allQuestions list, and filter by difficulty
+        List<Questions> filteredQuestions = allQuestions.stream()
+                .filter(q -> q.getDifficulty().equals(difficulty))
+                .collect(Collectors.toList());
 
-    //Format the username
-    String username = firstName + "_" + surname;
+        if (filteredQuestions != null && filteredQuestions.size() > 0) {
+            //Get the first question for this session
+            Questions question = filteredQuestions.get(0);
 
-    //Randomly assign a password to the username
-    String password = passwords[usernameCount % passwords.length]; //Assign a password
-    passwords[usernameCount] = password;
+            //Display question and options
+            photoLbl.setText(question.getImageUrl());
+            questionLbl.setText(question.getQuestionText());
+            aLbl.setText("A. " + question.getOptionA());
+            bLbl.setText("B. " + question.getOptionB());
+            cLbl.setText("C. " + question.getOptionC());
+            dLbl.setText("D. " + question.getOptionD());
 
-    //Display the generated username and password
-    JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username + "\nPassword: " + password, "Success", JOptionPane.INFORMATION_MESSAGE);
-
-    //Store the username in the array
-    usernames[usernameCount] = username;
-    usernameCount++;
-
-    //Optionally set the username to a text field or store it in a variable
-    usernameTxt.setText(username);  // Set the generated username in the text field
-    outputPasswordTxt.setText(password);  // Set the generated password in the password field
-
-    //Navigate to the previous screen using CardLayout
-    CardLayout cards = (CardLayout) mainPanel.getLayout();
-    cards.previous(mainPanel);
-}
-
-/**
- * Method to log in with firstName_surname and provided password
- */
-public void logIn() {
-    String firstName = firstNameTxt.getText().trim();
-    String surname = surnameTxt.getText().trim();
-    String Username = firstName + "_" + surname;
-
-    if (firstName.isEmpty() || surname.isEmpty()) {
-        JOptionPane.showMessageDialog(SmartHireHub,
-                "Invalid username. Please make sure both first name and surname are provided.",
-                "Validation Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    boolean found = false;
-
-    for (int i = 0; i < usernameCount; i++) {
-        if (usernames[i].equals(Username)) {
-            String inputPassword = passwordTxt.getText().trim();
-            String correctPassword = passwords[i];
-
-            if (inputPassword.equals(correctPassword)) {
-                JOptionPane.showMessageDialog(SmartHireHub,
-                        "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                found = true;
-
-                //Switch to rulesScreen
-                CardLayout cards = (CardLayout) mainPanel.getLayout();
-                cards.show(mainPanel, "Card3");
-                BGMusicButton.setEnabled(true);
-                settingsButton.setEnabled(true);
-
-                //Force UI refresh
-                mainPanel.revalidate();
-                mainPanel.repaint();
-                return;
-            } else {
-                JOptionPane.showMessageDialog(SmartHireHub,
-                        "Invalid password. Please try again.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                found = true;
-                break;
-            }
+            //Store the correct answer
+            correctAnswer = question.getCorrectAnswer();
+        } else {
+            JOptionPane.showMessageDialog(SmartHireHub, "Not enough questions found!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    if (!found) {
-        JOptionPane.showMessageDialog(SmartHireHub,
-                "Username not found. Please try again.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+    /**
+     * Checks the answer selected by the user.
+     *
+     * @param selectedAnswer The answer selected by the user
+     */
+    private void checkAnswer(String selectedAnswer, Questions question) {
+        //Check if the selected answer is correct
+        if (selectedAnswer.equals(question.getCorrectAnswer())) {
+            totalScore += question.getScore(); // Add the score from the database to the total score
+        }
     }
-}
+
+    /**
+     * Generates 100 unique random 4-digit passwords and associates them with usernames
+     */
+    private void generatePasswords() {
+        Set<String> uniquePasswords = new HashSet<>();
+        Random random = new Random();
+
+        while (uniquePasswords.size() < 100) {
+            int randomPassword = 1000 + random.nextInt(9000);  // Generates a 4-digit number
+            uniquePasswords.add(String.valueOf(randomPassword));
+        }
+        passwords = uniquePasswords.toArray(new String[0]);
+        //outputPasswordTxt.setText("Passwords generated successfully!");
+    }
+
+    /**
+     * Generates a username in the format name_surname and displays a generated password
+     */
+    private void createUsername() {
+        String firstName = firstNameTxt.getText().trim();
+        String surname = surnameTxt.getText().trim();
+
+        //Validation for first name and surname
+        if (firstName.isEmpty() || surname.isEmpty()) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return; //Exit the method if validation fails
+        }
+
+        //Validation for avatar selection
+        if (AvatarButtonGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please select an avatar!", "No avatar selected!", JOptionPane.ERROR_MESSAGE);
+            return; //Exit the method if no avatar is selected
+        }
+
+        //Format the username
+        String username = firstName + "_" + surname;
+
+        //Randomly assign a password to the username
+        String password = passwords[usernameCount % passwords.length]; //Assign a password
+        passwords[usernameCount] = password;
+
+        //Display the generated username and password
+        JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username + "\nPassword: " + password, "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        //Store the username in the array
+        usernames[usernameCount] = username;
+        usernameCount++;
+
+        //Optionally set the username to a text field or store it in a variable
+        usernameTxt.setText(username);  // Set the generated username in the text field
+        outputPasswordTxt.setText(password);  // Set the generated password in the password field
+
+        //Navigate to the previous screen using CardLayout
+        CardLayout cards = (CardLayout) mainPanel.getLayout();
+        cards.previous(mainPanel);
+    }
+
+    /**
+     * Method to log in with firstName_surname and provided password
+     */
+    public void logIn() {
+        String firstName = firstNameTxt.getText().trim();
+        String surname = surnameTxt.getText().trim();
+        this.Username = firstName + "_" + surname;  // Use this.Username to refer to the instance variable
+
+        if (firstName.isEmpty() || surname.isEmpty()) {
+            JOptionPane.showMessageDialog(SmartHireHub,
+                    "Invalid username. Please make sure both first name and surname are provided.",
+                    "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean found = false;
+
+        for (int i = 0; i < usernameCount; i++) {
+            if (usernames[i].equals(this.Username)) {  // Use this.Username to refer to the instance variable
+                String inputPassword = passwordTxt.getText().trim();
+                String correctPassword = passwords[i];
+
+                if (inputPassword.equals(correctPassword)) {
+                    JOptionPane.showMessageDialog(SmartHireHub,
+                            "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    found = true;
+
+                    profileName.setText(this.Username.replace("_", " "));  // Use this.Username
+
+                    // Set the selected avatar's icon to profilePic label
+                    ButtonModel selectedModel = AvatarButtonGroup.getSelection();
+                    if (selectedModel != null) {
+                        for (Enumeration<AbstractButton> buttons = AvatarButtonGroup.getElements(); buttons.hasMoreElements(); ) {
+                            AbstractButton button = buttons.nextElement();
+                            if (button.getModel() == selectedModel) {
+                                profilePic.setIcon(button.getIcon());
+                                break;
+                            }
+                        }
+                    }
+                    CardLayout cards = (CardLayout) mainPanel.getLayout();
+                    cards.show(mainPanel, "Card3");
+                    BGMusicButton.setEnabled(true);
+                    settingsButton.setEnabled(true);
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                    return;
+                } else {
+                    JOptionPane.showMessageDialog(SmartHireHub,
+                            "Invalid password. Please try again.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        if (!found) {
+            JOptionPane.showMessageDialog(SmartHireHub,
+                    "Username not found. Please try again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
