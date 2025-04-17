@@ -105,7 +105,7 @@ public class SmartHire {
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             myApp.pack();
-            myApp.setSize(800, 480);
+            myApp.setSize(800, 600);
             myApp.setVisible(true);
         });
     }

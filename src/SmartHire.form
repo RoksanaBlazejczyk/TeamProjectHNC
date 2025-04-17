@@ -2,14 +2,14 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="SmartHire">
   <grid id="27dc6" binding="SmartHireHub" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="919" height="617"/>
+      <xy x="20" y="20" width="1073" height="1038"/>
     </constraints>
     <properties>
       <preferredSize width="800" height="480"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="2bdde" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
+      <grid id="2bdde" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0" show="41503">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
@@ -522,18 +522,25 @@
                         <constraints/>
                         <properties>
                           <background color="-7751195"/>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="icons/Leader cup 34x50.png"/>
                           <preferredSize width="100" height="34"/>
-                          <text value="Leaderboard"/>
+                          <text value=""/>
+                          <toolTipText value="Leaderboard"/>
+                          <verifyInputWhenFocusTarget value="false"/>
                         </properties>
                       </component>
                       <component id="586ea" class="javax.swing.JButton" binding="printToFileBtn">
                         <constraints/>
                         <properties>
                           <background color="-7751195"/>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="icons/printer1 34x36.png"/>
                           <preferredSize width="100" height="34"/>
-                          <text value="Print Results"/>
+                          <text value=""/>
+                          <toolTipText value="Print Results"/>
                         </properties>
                       </component>
                     </children>
@@ -544,6 +551,7 @@
                 <constraints border-constraint="Center"/>
                 <properties>
                   <background color="-3290691"/>
+                  <enabled value="false"/>
                 </properties>
                 <border type="none"/>
                 <children>
@@ -699,11 +707,16 @@
                 <constraints/>
                 <properties>
                   <background color="-7751195"/>
+                  <disabledIcon value="icons/novolume 30x30.png"/>
+                  <disabledSelectedIcon value="icons/novolume 30x30.png"/>
+                  <doubleBuffered value="true"/>
                   <enabled value="true"/>
                   <hideActionText value="false"/>
                   <horizontalAlignment value="0"/>
                   <icon value="icons/music2 icon 30x30.png"/>
                   <preferredSize width="100" height="34"/>
+                  <pressedIcon value="icons/no music2 icon 32x30.png"/>
+                  <selected value="false"/>
                   <text value=""/>
                   <toolTipText value="Background Music"/>
                 </properties>
