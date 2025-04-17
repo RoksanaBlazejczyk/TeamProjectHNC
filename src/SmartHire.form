@@ -704,7 +704,8 @@
                   <horizontalAlignment value="0"/>
                   <icon value="icons/music2 icon 30x30.png"/>
                   <preferredSize width="100" height="34"/>
-                  <text value="BG music"/>
+                  <text value=""/>
+                  <toolTipText value="Background Music"/>
                 </properties>
               </component>
               <component id="6d4ec" class="javax.swing.JButton" binding="settingsButton" default-binding="true">
@@ -714,7 +715,8 @@
                   <enabled value="true"/>
                   <icon value="icons/settings icon 30x30.png"/>
                   <preferredSize width="100" height="34"/>
-                  <text value="Settings"/>
+                  <text value=""/>
+                  <toolTipText value="Settings"/>
                 </properties>
               </component>
             </children>
