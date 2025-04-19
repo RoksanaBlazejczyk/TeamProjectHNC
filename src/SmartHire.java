@@ -90,9 +90,6 @@ public class SmartHire {
     private int correctAnswersCount = 0;
     private String finalTimeTaken;
 
-    /**
-     * @param args
-     */
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
@@ -227,9 +224,9 @@ public class SmartHire {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 1);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 1);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 1);
 
             //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
@@ -409,31 +406,38 @@ public class SmartHire {
         leaderboardBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get the top 10 leaderboard entries, sorted by IQ_Score in ascending order
-                List<LeaderboardEntry> topEntries = DatabaseLeaderboard.getTopLeaderboard(10);
+                List<LeaderboardEntry> topEntries = DatabaseLeaderboard.getTopLeaderboard(15); // Top 15
 
-                // Create a StringBuilder to hold the leaderboard display
-                StringBuilder leaderboardDisplay = new StringBuilder();
-                leaderboardDisplay.append("Top 10 Leaderboard (Sorted by IQ Score Ascending):\n\n");
+                // Define column headers
+                String[] columnNames = {"Rank", "Name", "IQ Score", "Time Taken"};
 
-                // Loop through the top 10 entries and append them to the display
-                for (LeaderboardEntry entry : topEntries) {
-                    leaderboardDisplay.append(entry).append("\n");
+                // Populate the table data
+                Object[][] data = new Object[topEntries.size()][4];
+                for (int i = 0; i < topEntries.size(); i++) {
+                    LeaderboardEntry entry = topEntries.get(i);
+                    data[i][0] = entry.getRank() > 0 ? entry.getRank() : i + 1;
+                    data[i][1] = entry.getName();
+                    data[i][2] = entry.getIqScore();
+                    data[i][3] = entry.getTimeTaken();
                 }
 
-                // Show the leaderboard in a dialog box
-                JOptionPane.showMessageDialog(SmartHireHub, leaderboardDisplay.toString(), "Leaderboard", JOptionPane.INFORMATION_MESSAGE);
+                // Create JTable and JScrollPane
+                JTable table = new JTable(data, columnNames);
+                table.setEnabled(false);  // Read-only
+                table.setFillsViewportHeight(true);
+
+                // Optional: Set column width or center alignment
+                table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+                JScrollPane scrollPane = new JScrollPane(table);
+
+                // Display in JOptionPane
+                JOptionPane.showMessageDialog(SmartHireHub, scrollPane, "Top 15 Leaderboard", JOptionPane.INFORMATION_MESSAGE);
             }
         });
-
         finishBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = Username;
-                int score = totalScore;
-                String timeTaken = finalTimeTaken;
-
-                DatabaseLeaderboard.uploadResults(username, score, timeTaken);
             }
         });
     }
@@ -450,8 +454,8 @@ public class SmartHire {
     }
 
     /**
-     * Method to display the question at the current index
-     *
+     * Will be called to set next question into Labels
+     *Can be moved to Questions class
      * @param index
      */
     private void displayQuestionAtIndex(int index) {
@@ -491,7 +495,9 @@ public class SmartHire {
         }
     }
 
-
+    /**
+     * This checks if checks in array and if so called displayQuestionAtIndex Method
+     */
     private void displayNextQuestion() {
         if (currentQuestionIndex < currentQuestionList.size()) {
             displayQuestionAtIndex(currentQuestionIndex);

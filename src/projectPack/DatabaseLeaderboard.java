@@ -82,10 +82,10 @@ public class DatabaseLeaderboard {
     }
     public static List<LeaderboardEntry> getTopLeaderboard(int limit) {
         List<LeaderboardEntry> leaderboard = new ArrayList<>();
-        String sql = "SELECT Id, Name, IQ_Score, TimeTaken " +
+        String sql = "SELECT Id, Name, IQ_Score, TimeTaken, OptOut " +
                 "FROM Leaderboard " +
                 "ORDER BY IQ_Score DESC, TimeTaken ASC " +
-                "LIMIT ?";  // Use the LIMIT clause to restrict the number of results
+                "OFFSET 0 ROWS FETCH NEXT ? ROWS ONLY";  // Azure SQL Server syntax
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -94,9 +94,12 @@ public class DatabaseLeaderboard {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                    boolean optedOut = rs.getBoolean("OptOut");
+                    String name = optedOut ? "Anonymous" : rs.getString("Name");
+
                     LeaderboardEntry entry = new LeaderboardEntry(
                             rs.getInt("Id"),
-                            rs.getString("Name"),
+                            name,
                             rs.getInt("IQ_Score"),
                             rs.getString("TimeTaken")
                     );
@@ -106,7 +109,6 @@ public class DatabaseLeaderboard {
         } catch (SQLException e) {
             System.err.println("Error fetching leaderboard: " + e.getMessage());
         }
-
         return leaderboard;
     }
 }
