@@ -65,6 +65,7 @@ public class SmartHire {
     private JLabel figureImg;
     private JLabel scoreTxt;
     private JCheckBox optBtn;
+    private boolean optOut = false;
     private JButton leaderboardBtn;
     private JButton printToFileBtn;
     private JButton finishBtn;
@@ -86,9 +87,10 @@ public class SmartHire {
     private List<Questions> allQuestions = new ArrayList<>();
     private List<Questions> currentQuestionList = new ArrayList<>();
     private int currentQuestionIndex = 0;
-    private int totalScore = 0;
+    private int totalScore = 85;
     private int correctAnswersCount = 0;
     private String finalTimeTaken;
+
 
     /**
      * @param args
@@ -227,9 +229,9 @@ public class SmartHire {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 1);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 1);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 1);
 
             //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
@@ -429,13 +431,35 @@ public class SmartHire {
         finishBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = Username;
-                int score = totalScore;
-                String timeTaken = finalTimeTaken;
 
-                DatabaseLeaderboard.uploadResults(username, score, timeTaken);
             }
         });
+        optBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // If the checkbox is selected, show the confirmation dialog
+                if (optBtn.isSelected()) {
+                    int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
+                            "Are you sure you want to opt out of the leaderboard?\nYour score will be submitted anonymously.",
+                            "Confirm Opt-Out",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE);
+
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        optOut = true;  // Confirm opt-out
+                        System.out.println("Opt-out status: " + optOut); // Debugging log
+                    } else {
+                        optOut = false; // Cancel opt-out if user pressed "No"
+                        optBtn.setSelected(false);  // Uncheck the checkbox
+                        System.out.println("Opt-out status: " + optOut); // Debugging log
+                    }
+                } else {
+                    optOut = false; // If the checkbox is unchecked
+                    System.out.println("Opt-out status: " + optOut); // Debugging log
+                }
+            }
+        });
+
     }
 
     /**
@@ -487,23 +511,49 @@ public class SmartHire {
         } else {
             //End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
+
             navigateToNextCard();
         }
     }
-
 
     private void displayNextQuestion() {
         if (currentQuestionIndex < currentQuestionList.size()) {
             displayQuestionAtIndex(currentQuestionIndex);
         } else {
             if (timer != null) {
-                timer.cancel(); //Stop the timer
-                finalTimeTaken = formatTime(secondsElapsed); //Capture the time when the quiz ends
+                timer.cancel(); // Stop the timer
+                finalTimeTaken = formatTime(secondsElapsed); // Capture the time when the quiz ends
             }
-            JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
+
+            // Ask opt-out confirmation at the end (optional - or move to button handler if you prefer)
+            if (optOut) {
+                int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
+                        "Are you sure you want to opt out of the leaderboard?\nYour results will still be submitted, but marked as opted out.",
+                        "Confirm Opt-Out",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+
+                if (confirm != JOptionPane.YES_OPTION) {
+                    optOut = false;  // Reset optOut flag if user cancels
+                }
+            }
+
+            String username = Username; // Always use the real username
+            int score = totalScore;
+            String timeTaken = finalTimeTaken;
+
+            System.out.println("Uploading results: " + username + ", Score: " + score + ", Time: " + timeTaken + ", Opt-out: " + optOut);
+            DatabaseLeaderboard.uploadResults(username, score, timeTaken, optOut);
+
+            // Show the results screen
             navigateToNextCard();
             scoreTxt.setText(String.valueOf(correctAnswersCount));
             iqTxt.setText(String.valueOf(totalScore));
+
+            // Optional message
+            if (optOut) {
+                JOptionPane.showMessageDialog(SmartHireHub, "Your opt-out has been recorded.", "Opted Out", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 
