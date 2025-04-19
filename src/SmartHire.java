@@ -17,6 +17,8 @@ import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import javax.swing.JOptionPane;
 import javax.sound.sampled.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -87,8 +89,7 @@ public class SmartHire {
     private List<Questions> allQuestions = new ArrayList<>();
     private List<Questions> currentQuestionList = new ArrayList<>();
     private int currentQuestionIndex = 0;
-    private int totalScore = 0;
-    private int correctAnswersCount = 0;
+    private int totalScore = 85;
     private String finalTimeTaken;
 
     /**
@@ -411,11 +412,8 @@ public class SmartHire {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<LeaderboardEntry> topEntries = DatabaseLeaderboard.getTopLeaderboard(15); // Top 15
-
-                // Define column headers
                 String[] columnNames = {"Rank", "Name", "IQ Score", "Time Taken"};
-
-                // Populate the table data
+                //Fill out table
                 Object[][] data = new Object[topEntries.size()][4];
                 for (int i = 0; i < topEntries.size(); i++) {
                     LeaderboardEntry entry = topEntries.get(i);
@@ -424,18 +422,25 @@ public class SmartHire {
                     data[i][2] = entry.getIqScore();
                     data[i][3] = entry.getTimeTaken();
                 }
-
-                // Create JTable and JScrollPane
+                //Create table for leaderboard
                 JTable table = new JTable(data, columnNames);
-                table.setEnabled(false);  // Read-only
+                table.setEnabled(false);
                 table.setFillsViewportHeight(true);
-
-                // Optional: Set column width or center alignment
-                table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-
-                JScrollPane scrollPane = new JScrollPane(table);
-
-                // Display in JOptionPane
+                //Set widths of columns
+                TableColumnModel columnModel = table.getColumnModel();
+                columnModel.getColumn(0).setPreferredWidth(20);  //Rank
+                columnModel.getColumn(1).setPreferredWidth(200); //Name
+                columnModel.getColumn(2).setPreferredWidth(40);  //IQ Score
+                columnModel.getColumn(3).setPreferredWidth(60);  //Time Taken
+                //Center align all data
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+                for (int i = 0; i < columnModel.getColumnCount(); i++) {
+                    columnModel.getColumn(i).setCellRenderer(centerRenderer);
+                }
+                table.setRowHeight(25); //Set row height if you wish
+                JScrollPane scrollPane = new JScrollPane(table); //Add table to scroll pane
+                scrollPane.setPreferredSize(new Dimension(600, 400));
                 JOptionPane.showMessageDialog(SmartHireHub, scrollPane, "Top 15 Leaderboard", JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -558,7 +563,6 @@ public class SmartHire {
 
             // Show the results screen
             navigateToNextCard();
-            scoreTxt.setText(String.valueOf(correctAnswersCount));
             iqTxt.setText(String.valueOf(totalScore));
 
             // Optional message
@@ -668,9 +672,8 @@ public class SmartHire {
         usernames[usernameCount] = username;
         usernameCount++;
 
-        //Optionally set the username to a text field or store it in a variable
+
         usernameTxt.setText(username);  // Set the generated username in the text field
-        outputPasswordTxt.setText(password);  // Set the generated password in the password field
 
         //Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
