@@ -562,34 +562,37 @@ public class SmartHire {
         if (index < currentQuestionList.size()) {
             Questions question = currentQuestionList.get(index);
 
-            //Display the question and options
+            // Display the question and options
             questionLbl.setText(question.getQuestionText());
             aLbl.setText("A. " + question.getOptionA());
             bLbl.setText("B. " + question.getOptionB());
             cLbl.setText("C. " + question.getOptionC());
             dLbl.setText("D. " + question.getOptionD());
 
-            //Set the image URL to the photoLbl
+            // Set the image URL to the photoLbl
             String imageUrl = question.getImageUrl();
-            if (imageUrl != null && !imageUrl.isEmpty()) {
-                //Load and display the image in the photoLbl
-                try {
-                    ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
-                    Image image = imageIcon.getImage(); // Transform it
-                    Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); //Scale the image
-                    photoLbl.setIcon(new ImageIcon(scaledImage));
-                } catch (MalformedURLException e) {
-                    System.out.println("Invalid image URL: " + imageUrl);
-                    photoLbl.setText("Image not available"); //Display error message if image fails to load
-                }
-            } else {
-                photoLbl.setText("");
+
+            // If image is missing, use default logo
+            if (imageUrl == null || imageUrl.trim().isEmpty()) {
+                imageUrl = "https://quizblobstorage.blob.core.windows.net/quizblobcontainer/SmartHireLogo.png";
+            }
+
+            try {
+                ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
+                Image image = imageIcon.getImage(); // Transform it
+                Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); // Scale the image
+                photoLbl.setIcon(new ImageIcon(scaledImage));
+                photoLbl.setText(""); // Clear any previous error message
+            } catch (MalformedURLException e) {
+                System.out.println("Invalid image URL: " + imageUrl);
+                photoLbl.setText("Image not available");
                 photoLbl.setIcon(null);
             }
-            //Check to see if it's correct
+
+            // Store the correct answer for validation
             correctAnswer = question.getCorrectAnswer();
         } else {
-            //End of the quiz
+            // End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
         }
@@ -673,7 +676,7 @@ public class SmartHire {
                 try {
                     ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
                     Image image = imageIcon.getImage(); // Transform it
-                    Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+                    Image scaledImage = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
                     photoLbl.setIcon(new ImageIcon(scaledImage));
                     photoLbl.setText(""); // Clear any previous text
                 } catch (MalformedURLException e) {

@@ -430,7 +430,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <preferredSize width="500" height="60"/>
+                      <preferredSize width="500" height="50"/>
                     </properties>
                     <border type="none"/>
                     <children>
@@ -445,7 +445,7 @@
                           <horizontalTextPosition value="11"/>
                           <inheritsPopupMenu value="false"/>
                           <margin top="5" left="5" bottom="5" right="5"/>
-                          <preferredSize width="250" height="30"/>
+                          <preferredSize width="250" height="25"/>
                           <text value="Testing text for answer a"/>
                         </properties>
                       </component>
@@ -457,7 +457,7 @@
                         <properties>
                           <font size="14"/>
                           <margin top="5" left="5" bottom="5" right="5"/>
-                          <preferredSize width="250" height="30"/>
+                          <preferredSize width="250" height="25"/>
                           <text value="Testing text for answer b"/>
                         </properties>
                       </component>
@@ -469,7 +469,7 @@
                         <properties>
                           <font size="14"/>
                           <margin top="5" left="5" bottom="5" right="5"/>
-                          <preferredSize width="250" height="30"/>
+                          <preferredSize width="250" height="25"/>
                           <text value="Testing text for answer c"/>
                         </properties>
                       </component>
@@ -481,7 +481,7 @@
                         <properties>
                           <font size="14"/>
                           <margin top="5" left="5" bottom="5" right="5"/>
-                          <preferredSize width="250" height="30"/>
+                          <preferredSize width="250" height="25"/>
                           <text value="Testing text for answer d"/>
                         </properties>
                       </component>
@@ -500,7 +500,7 @@
                       <editable value="false"/>
                       <font size="16" style="1"/>
                       <lineWrap value="true"/>
-                      <preferredSize width="400" height="60"/>
+                      <preferredSize width="400" height="50"/>
                       <rows value="0"/>
                       <text value=""/>
                       <wrapStyleWord value="true"/>
