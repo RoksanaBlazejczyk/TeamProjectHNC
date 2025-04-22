@@ -5,16 +5,13 @@
 
 import projectPack.*;
 
+import java.awt.event.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
 import javax.swing.JOptionPane;
 import javax.sound.sampled.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -89,6 +86,7 @@ public class SmartHire {
     private int currentQuestionIndex = 0;
     private int totalScore = 85;
     private String finalTimeTaken;
+    private int currentQuestion = 1;
 
     /**
      * @param args
@@ -181,6 +179,13 @@ public class SmartHire {
     /**
      * @return
      */
+    public void showQuestion(int questionNumber) {
+        if (questionNumber >= 1 && questionNumber <= currentQuestionList.size()) {
+            Questions q = currentQuestionList.get(questionNumber - 1); // index starts at 0
+
+        }
+    }
+
     public String getCurrentPanel() {
         //Get the CardLayout from the mainPanel
         CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
@@ -234,6 +239,10 @@ public class SmartHire {
             allQuestions.addAll(hardQuestions);
             currentQuestionList.addAll(allQuestions);
             Collections.shuffle(currentQuestionList);
+            currentQuestion = 1; // Add this field if not declared already
+            showQuestion(currentQuestion);
+            updateProgress(currentQuestion);
+
 
         } catch (SQLException e) {
             System.err.println("SQL Server JDBC driver not found.");
@@ -255,6 +264,7 @@ public class SmartHire {
                 displayQuestionAtIndex(currentQuestionIndex); //Display the first question
             }
         });
+
 
         loginBtn.addActionListener(new ActionListener() {
             @Override
@@ -304,8 +314,14 @@ public class SmartHire {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (currentQuestion < 25) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion); // your method to load next question
+                    updateProgress(currentQuestion); // ✅ this updates the progress bar
+                }
                 //Disable next button until answer is checked
                 nextButton.setEnabled(false);
+
 
                 //Get the selected answer from radio buttons
                 String selectedAnswer = null;
@@ -346,32 +362,21 @@ public class SmartHire {
                 }
             }
         });
-        progressBar.addContainerListener(new ContainerAdapter() {
-            @Override
-            public void componentAdded(ContainerEvent e) {
-                super.componentAdded(e);
-                // Setup progress bar here
-                progressBar.setMinimum(0);
+        progressBar.addHierarchyListener(e -> {
+            if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0 && progressBar.isShowing()) {
+                progressBar.setMinimum(1); // start from 1
                 progressBar.setMaximum(25);
+                progressBar.setValue(1); // default value
                 progressBar.setStringPainted(true);
-                new Thread(() -> {
-                    for (int i = 1; i <= 25; i++) {
-                        try {
-                            Thread.sleep(500); // Simulate work
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-                        int questionNumber = i;
-                        SwingUtilities.invokeLater(() -> {
-                            progressBar.setValue(questionNumber);
-                            progressBar.setString("Question " + questionNumber + " of 25");
-                        });
-                    }
-                }).start();
-
+                progressBar.setString("Question 1 of 25");
 
             }
         });
+
+
+
+
+
 
         BGMusicButton.addActionListener(new ActionListener() {
             @Override
@@ -470,6 +475,14 @@ public class SmartHire {
             }
         });
     }
+    // This goes OUTSIDE the constructor or any other method — just inside your class
+    public void updateProgress(int questionNumber) {
+        SwingUtilities.invokeLater(() -> {
+            progressBar.setValue(questionNumber);
+            progressBar.setString("Question " + questionNumber + " of 25");
+        });
+    }
+
 
     /**
      * Method to check if any radio button is selected
