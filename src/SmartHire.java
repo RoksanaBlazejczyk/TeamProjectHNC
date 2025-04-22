@@ -78,7 +78,6 @@ public class SmartHire {
     private JButton startBtn;
     private JLabel iqTxt;
     private JPanel iconPanel;
-    private JTextArea testingQuestionTextForTextArea;
     private List<String> sessionTimes = new ArrayList<>();
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
@@ -643,7 +642,6 @@ public class SmartHire {
             uniquePasswords.add(String.valueOf(randomPassword));
         }
         passwords = uniquePasswords.toArray(new String[0]);
-        //outputPasswordTxt.setText("Passwords generated successfully!");
     }
 
     /**
@@ -656,20 +654,26 @@ public class SmartHire {
         //Validation for first name and surname
         if (firstName.isEmpty() || surname.isEmpty()) {
             JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return; //Exit the method if validation fails
+            return;
+        }
+
+        // Only allow letters (both upper and lower case)
+        if (!firstName.matches("[a-zA-Z]+") || !surname.matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(SmartHireHub, "First name and surname must only contain letters (no numbers or symbols)!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         //Validation for avatar selection
         if (AvatarButtonGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(SmartHireHub, "Please select an avatar!", "No avatar selected!", JOptionPane.ERROR_MESSAGE);
-            return; //Exit the method if no avatar is selected
+            return;
         }
 
         //Format the username
         String username = firstName + "_" + surname;
 
         //Randomly assign a password to the username
-        String password = passwords[usernameCount % passwords.length]; //Assign a password
+        String password = passwords[usernameCount % passwords.length];
         passwords[usernameCount] = password;
 
         //Display the generated username and password
@@ -679,14 +683,12 @@ public class SmartHire {
         usernames[usernameCount] = username;
         usernameCount++;
 
-
         usernameTxt.setText(username);  // Set the generated username in the text field
 
         //Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
         cards.previous(mainPanel);
     }
-
     /**
      * Method to log in with firstName_surname and provided password
      */
