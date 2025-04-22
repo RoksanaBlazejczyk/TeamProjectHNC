@@ -80,7 +80,6 @@ public class SmartHire {
     private JPanel iconPanel;
     private JTextArea testingQuestionTextForTextArea;
     private List<String> sessionTimes = new ArrayList<>();
-    // Array to store usernames and passwords
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
     private int usernameCount = 0;
@@ -102,7 +101,6 @@ public class SmartHire {
 
             // Create an instance of SmartHire and set it to the frame
             SmartHire app = new SmartHire();
-
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             myApp.pack();
