@@ -365,14 +365,22 @@ public class SmartHire {
             @Override
             public void componentAdded(ContainerEvent e) {
                 super.componentAdded(e);
+                // Setup progress bar here
+                progressBar.setMinimum(0);
+                progressBar.setMaximum(25);
+                progressBar.setStringPainted(true);
                 new Thread(() -> {
-                    for (int i = 0; i <= 100; i++) {
+                    for (int i = 1; i <= 25; i++) {
                         try {
-                            Thread.sleep(50); // Simulate work
+                            Thread.sleep(500); // Simulate work
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }
-                        progressBar.setValue(i);
+                        int questionNumber = i;
+                        SwingUtilities.invokeLater(() -> {
+                            progressBar.setValue(questionNumber);
+                            progressBar.setString("Question " + questionNumber + " of 25");
+                        });
                     }
                 }).start();
 
