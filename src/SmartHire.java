@@ -53,16 +53,14 @@ public class SmartHire {
     private JRadioButton avatar1RadioBtn, avatar2RadioBtn, avatar3RadioBtn, avatar4RadioBtn, avatar5RadioBtn, avatar6RadioBtn;
     private JRadioButton avatar7RadioBtn, avatar8RadioBtn, avatar9RadioBtn, avatar10RadioBtn, avatar11RadioBtn, avatar12RadioBtn;
     private JTextPane rulesTxt;
-    private JPanel settingsPanel;
-    private JPanel topPanel;
+    private JPanel timerPanel;
     private JPanel profilePanel;
     private JRadioButton aLbl, bLbl, cLbl, dLbl;
     private JLabel photoLbl;
-    private JLabel questionLbl;
+    private JTextArea questionLbl;
     private JLabel profilePic;
     private JLabel profileName;
     private JCheckBox readRules;
-    private JPanel leaderboardPanel;
     private JPanel resultBG;
     private JLabel figureImg;
     private JLabel scoreTxt;
@@ -79,6 +77,8 @@ public class SmartHire {
     private JLabel timerLbl;// Label to display the timer
     private JButton startBtn;
     private JLabel iqTxt;
+    private JPanel iconPanel;
+    private JTextArea testingQuestionTextForTextArea;
     private List<String> sessionTimes = new ArrayList<>();
     // Array to store usernames and passwords
     private String[] usernames = new String[100];
@@ -563,6 +563,7 @@ public class SmartHire {
 
             // Show the results screen
             navigateToNextCard();
+            printToFileBtn.setVisible(true);
             iqTxt.setText(String.valueOf(totalScore));
 
             // Optional message
@@ -723,8 +724,8 @@ public class SmartHire {
                     }
                     CardLayout cards = (CardLayout) mainPanel.getLayout();
                     cards.show(mainPanel, "Card3");
-                    BGMusicButton.setEnabled(true);
-                    settingsButton.setEnabled(true);
+                    BGMusicButton.setVisible(true);
+                    settingsButton.setVisible(true);
                     mainPanel.revalidate();
                     mainPanel.repaint();
                     return;
