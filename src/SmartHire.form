@@ -131,21 +131,25 @@
               </component>
               <component id="2f286" class="javax.swing.JTextField" binding="surnameTxt">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                   <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
               </component>
               <component id="bedc4" class="javax.swing.JTextField" binding="firstNameTxt">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                   <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <preferredSize width="75" height="34"/>
+                </properties>
               </component>
               <component id="6508d" class="javax.swing.JLabel">
                 <constraints>
@@ -171,8 +175,9 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar1.png"/>
+                      <preferredSize width="80" height="60"/>
                       <selected value="false"/>
-                      <text value="Avatar1"/>
+                      <text value="01"/>
                     </properties>
                   </component>
                   <component id="3bc29" class="javax.swing.JRadioButton" binding="avatar2RadioBtn">
@@ -182,7 +187,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar2.png"/>
-                      <text value="Avatar2"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="02"/>
                     </properties>
                   </component>
                   <component id="ebae8" class="javax.swing.JRadioButton" binding="avatar3RadioBtn">
@@ -192,7 +198,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar3.png"/>
-                      <text value="Avatar3"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="03"/>
                     </properties>
                   </component>
                   <component id="ec3b4" class="javax.swing.JRadioButton" binding="avatar4RadioBtn">
@@ -202,7 +209,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar4.png"/>
-                      <text value="Avatar4"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="04"/>
                     </properties>
                   </component>
                   <component id="e0946" class="javax.swing.JRadioButton" binding="avatar5RadioBtn">
@@ -212,7 +220,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar5.png"/>
-                      <text value="Avatar5"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="05"/>
                     </properties>
                   </component>
                   <component id="2a046" class="javax.swing.JRadioButton" binding="avatar6RadioBtn">
@@ -222,7 +231,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar6.png"/>
-                      <text value="Avatar6"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="06"/>
                     </properties>
                   </component>
                   <component id="460b" class="javax.swing.JRadioButton" binding="avatar7RadioBtn">
@@ -232,7 +242,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar7.png"/>
-                      <text value="Avatar7"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="07"/>
                     </properties>
                   </component>
                   <component id="8cb19" class="javax.swing.JRadioButton" binding="avatar8RadioBtn">
@@ -242,7 +253,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar8.png"/>
-                      <text value="Avatar8"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="08"/>
                     </properties>
                   </component>
                   <component id="27eb6" class="javax.swing.JRadioButton" binding="avatar9RadioBtn">
@@ -252,7 +264,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar9.png"/>
-                      <text value="Avatar9"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="09"/>
                     </properties>
                   </component>
                   <component id="aaf4" class="javax.swing.JRadioButton" binding="avatar10RadioBtn">
@@ -262,7 +275,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar10.png"/>
-                      <text value="Avatar10"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="10"/>
                     </properties>
                   </component>
                   <component id="c4fcd" class="javax.swing.JRadioButton" binding="avatar11RadioBtn">
@@ -272,7 +286,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar11.png"/>
-                      <text value="Avatar11"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="11"/>
                     </properties>
                   </component>
                   <component id="4847" class="javax.swing.JRadioButton" binding="avatar12RadioBtn">
@@ -282,7 +297,8 @@
                     </constraints>
                     <properties>
                       <icon value="avatars/avatar12.png"/>
-                      <text value="Avatar12"/>
+                      <preferredSize width="80" height="60"/>
+                      <text value="12"/>
                     </properties>
                   </component>
                 </children>
@@ -389,7 +405,8 @@
                       <gridbag top="10" left="0" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <preferredSize width="300" height="275"/>
+                      <preferredSize width="300" height="300"/>
+                      <requestFocusEnabled value="false"/>
                       <text value=""/>
                     </properties>
                   </component>
@@ -622,7 +639,7 @@
             <constraints border-constraint="East"/>
             <properties>
               <background color="-1041"/>
-              <preferredSize width="215" height="45"/>
+              <preferredSize width="215" height="60"/>
             </properties>
             <border type="none"/>
             <children>
@@ -689,21 +706,23 @@
             <constraints border-constraint="West"/>
             <properties>
               <background color="-1041"/>
-              <preferredSize width="215" height="45"/>
+              <preferredSize width="215" height="60"/>
             </properties>
             <border type="none"/>
             <children>
               <component id="6722" class="javax.swing.JLabel" binding="profilePic">
                 <constraints/>
                 <properties>
-                  <preferredSize width="35" height="45"/>
+                  <horizontalAlignment value="10"/>
+                  <horizontalTextPosition value="11"/>
+                  <preferredSize width="45" height="52"/>
                   <text value=""/>
                 </properties>
               </component>
               <component id="7792" class="javax.swing.JLabel" binding="profileName">
                 <constraints/>
                 <properties>
-                  <preferredSize width="165" height="35"/>
+                  <preferredSize width="155" height="45"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -713,7 +732,7 @@
             <constraints border-constraint="Center"/>
             <properties>
               <background color="-1041"/>
-              <preferredSize width="370" height="45"/>
+              <preferredSize width="370" height="60"/>
             </properties>
             <border type="none"/>
             <children>

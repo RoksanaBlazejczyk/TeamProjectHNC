@@ -441,7 +441,18 @@ public class SmartHire {
         finishBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                int option = JOptionPane.showConfirmDialog(
+                        null,
+                        "Thank you for taking the SmartHire IQ Test! Send donations to xxxxxxxx xx-xx-xx to help fund our empire!\nHave you finished with the leaderboard and saving your results to a file?",
+                        "Finish Confirmation",
+                        JOptionPane.YES_NO_OPTION
+                );
+                if (option == JOptionPane.YES_OPTION) {
+                    System.exit(0); // Exit the program
+                } else {
+                    // Stay on the current screen (do nothing)
+                    JOptionPane.showMessageDialog(null, "You can continue with the leaderboard or save your results at the top right.");
+                }
             }
         });
         optBtn.addActionListener(new ActionListener() {
@@ -614,39 +625,55 @@ public class SmartHire {
     }
 
     /**
-     * Method to navigate to the next screen (e.g., after completing the quiz)
+     * Method to navigate to the next screen
      */
-
     private void navigateToNextCard() {
-        // Your logic to navigate to the next screen, for example:
         CardLayout cards = (CardLayout) mainPanel.getLayout();
         cards.next(mainPanel);
     }
 
     /**
-     * Fetches and displays two random questions based on the given difficulty.
+     * Fetches and displays randomised questions and set choices into relevant fields
      *
      * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
      */
     private void displayRandomQuestions(String difficulty) {
-        //Use the pre-fetched allQuestions list, and filter by difficulty
+        // Use the pre-fetched allQuestions list, and filter by difficulty
         List<Questions> filteredQuestions = allQuestions.stream()
                 .filter(q -> q.getDifficulty().equals(difficulty))
                 .collect(Collectors.toList());
 
-        if (filteredQuestions != null && filteredQuestions.size() > 0) {
-            //Get the first question for this session
+        if (filteredQuestions != null && !filteredQuestions.isEmpty()) {
+            // Get the first question for this session
             Questions question = filteredQuestions.get(0);
 
-            //Display question and options
-            photoLbl.setText(question.getImageUrl());
+            // Display the question and options
             questionLbl.setText(question.getQuestionText());
             aLbl.setText("A. " + question.getOptionA());
             bLbl.setText("B. " + question.getOptionB());
             cLbl.setText("C. " + question.getOptionC());
             dLbl.setText("D. " + question.getOptionD());
 
-            //Store the correct answer
+            String imageUrl = question.getImageUrl();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                //Display images from database so photoLbl
+                try {
+                    ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
+                    Image image = imageIcon.getImage(); // Transform it
+                    Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+                    photoLbl.setIcon(new ImageIcon(scaledImage));
+                    photoLbl.setText(""); // Clear any previous text
+                } catch (MalformedURLException e) {
+                    System.out.println("Invalid image URL: " + imageUrl);
+                    photoLbl.setIcon(null);
+                    photoLbl.setText("Image not available");
+                }
+            } else {
+                photoLbl.setText("");
+                photoLbl.setIcon(null);
+            }
+
+            // Store the correct answer
             correctAnswer = question.getCorrectAnswer();
         } else {
             JOptionPane.showMessageDialog(SmartHireHub, "Not enough questions found!", "Error", JOptionPane.ERROR_MESSAGE);
