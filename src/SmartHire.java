@@ -206,13 +206,11 @@ public class SmartHire {
     }
 
     /**
-     * Next screen method
+     * Navigate to creation screen
      */
-    public void goToNextScreen() {
-        String currentPanel = getCurrentPanel();
-        if (currentPanel.equals("loginScreen")) {
-            Authentication.createAccount();
-        }
+    public void goToCreateScreen() {
+        CardLayout cards = (CardLayout) mainPanel.getLayout();
+        cards.show(mainPanel, "Card2");
     }
 
     /**
@@ -293,17 +291,7 @@ public class SmartHire {
         createAccountBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel card = null;
-                for (Component comp : mainPanel.getComponents()) {
-                    if (comp.isVisible() == true) {
-                        card = (JPanel) comp;
-                    }
-                }
-                CardLayout cards = (CardLayout) mainPanel.getLayout();
-                if (card.getName().equals(loginScreen.getName())) {
-                    cards.next(mainPanel);
-                }
-                goToNextScreen();
+                goToCreateScreen();
             }
         });
 
@@ -495,6 +483,53 @@ public class SmartHire {
     }
 
     /**
+     * Generates a username in the format name_surname and displays a generated password
+     * V2 has validation to make sure only letters for names
+     */
+    private void createUsername() {
+        String firstName = firstNameTxt.getText().trim();
+        String surname = surnameTxt.getText().trim();
+
+        //Validation for first name and surname
+        if (firstName.isEmpty() || surname.isEmpty()) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Only allow letters (both upper and lower case)
+        if (!firstName.matches("[a-zA-Z]+") || !surname.matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(SmartHireHub, "First name and surname must only contain letters (no numbers or symbols)!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //Validation for avatar selection
+        if (AvatarButtonGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(SmartHireHub, "Please select an avatar!", "No avatar selected!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //Format the username
+        String username = firstName + "_" + surname;
+
+        //Randomly assign a password to the username
+        String password = passwords[usernameCount % passwords.length];
+        passwords[usernameCount] = password;
+
+        //Display the generated username and password
+        JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username + "\nPassword: " + password, "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        //Store the username in the array
+        usernames[usernameCount] = username;
+        usernameCount++;
+
+        usernameTxt.setText(username);  // Set the generated username in the text field
+
+        //Navigate to the previous screen using CardLayout
+        CardLayout cards = (CardLayout) mainPanel.getLayout();
+        cards.previous(mainPanel);
+    }
+
+    /**
      * Will be called to set next question into Labels
      *Can be moved to Questions class
      * @param index
@@ -644,51 +679,6 @@ public class SmartHire {
         passwords = uniquePasswords.toArray(new String[0]);
     }
 
-    /**
-     * Generates a username in the format name_surname and displays a generated password
-     */
-    private void createUsername() {
-        String firstName = firstNameTxt.getText().trim();
-        String surname = surnameTxt.getText().trim();
-
-        //Validation for first name and surname
-        if (firstName.isEmpty() || surname.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please enter both first name and surname!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Only allow letters (both upper and lower case)
-        if (!firstName.matches("[a-zA-Z]+") || !surname.matches("[a-zA-Z]+")) {
-            JOptionPane.showMessageDialog(SmartHireHub, "First name and surname must only contain letters (no numbers or symbols)!", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        //Validation for avatar selection
-        if (AvatarButtonGroup.getSelection() == null) {
-            JOptionPane.showMessageDialog(SmartHireHub, "Please select an avatar!", "No avatar selected!", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        //Format the username
-        String username = firstName + "_" + surname;
-
-        //Randomly assign a password to the username
-        String password = passwords[usernameCount % passwords.length];
-        passwords[usernameCount] = password;
-
-        //Display the generated username and password
-        JOptionPane.showMessageDialog(SmartHireHub, "Username Created: " + username + "\nPassword: " + password, "Success", JOptionPane.INFORMATION_MESSAGE);
-
-        //Store the username in the array
-        usernames[usernameCount] = username;
-        usernameCount++;
-
-        usernameTxt.setText(username);  // Set the generated username in the text field
-
-        //Navigate to the previous screen using CardLayout
-        CardLayout cards = (CardLayout) mainPanel.getLayout();
-        cards.previous(mainPanel);
-    }
     /**
      * Method to log in with firstName_surname and provided password
      */
