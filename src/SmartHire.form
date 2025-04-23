@@ -573,14 +573,14 @@
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="6c3f7" class="javax.swing.JLabel">
+                      <component id="6c3f7" class="javax.swing.JLabel" binding="personalityNameLbll">
                         <constraints border-constraint="North"/>
                         <properties>
                           <font size="14"/>
                           <foreground color="-13947600"/>
                           <horizontalAlignment value="0"/>
                           <preferredSize width="112" height="35"/>
-                          <text value="Your IQ is similar to:"/>
+                          <text value=""/>
                         </properties>
                       </component>
                       <component id="b9eac" class="javax.swing.JLabel" binding="figureImg">

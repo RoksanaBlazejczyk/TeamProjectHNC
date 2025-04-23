@@ -75,6 +75,7 @@ public class SmartHire {
     private JButton startBtn;
     private JLabel iqTxt;
     private JPanel iconPanel;
+    private JLabel personalityNameLbll;
     private List<String> sessionTimes = new ArrayList<>();
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
@@ -229,9 +230,9 @@ public class SmartHire {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 1);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 1);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 1);
 
             //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
@@ -374,10 +375,6 @@ public class SmartHire {
         });
 
 
-
-
-
-
         BGMusicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -475,6 +472,7 @@ public class SmartHire {
             }
         });
     }
+
     // This goes OUTSIDE the constructor or any other method — just inside your class
     public void updateProgress(int questionNumber) {
         SwingUtilities.invokeLater(() -> {
@@ -544,7 +542,8 @@ public class SmartHire {
 
     /**
      * Will be called to set next question into Labels
-     *Can be moved to Questions class
+     * Can be moved to Questions class
+     *
      * @param index
      */
     private void displayQuestionAtIndex(int index) {
@@ -568,7 +567,7 @@ public class SmartHire {
                     Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); //Scale the image
                     photoLbl.setIcon(new ImageIcon(scaledImage));
                 } catch (MalformedURLException e) {
-                    System.out.println("Invalid image URL: " + imageUrl);
+                    //System.out.println("Invalid image URL: " + imageUrl);
                     photoLbl.setText("Image not available"); //Display error message if image fails to load
                 }
             } else {
@@ -618,6 +617,18 @@ public class SmartHire {
             navigateToNextCard();
             printToFileBtn.setVisible(true);
             iqTxt.setText(String.valueOf(totalScore));
+            // Get personality
+            String personalityName = PersonalityMatcher.getPersonalityName(totalScore);
+            String personalityImagePath = PersonalityMatcher.getPersonalityImagePath(totalScore);
+
+
+            personalityNameLbll.setText("Your IQ is similar to: " + personalityName);//name
+
+//load and scale the picture
+            ImageIcon icon = new ImageIcon(personalityImagePath);
+            Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            figureImg.setIcon(new ImageIcon(scaledImage));
+
 
             // Optional message
             if (optOut) {
