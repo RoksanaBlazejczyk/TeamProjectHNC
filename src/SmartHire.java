@@ -90,6 +90,10 @@ public class SmartHire {
     private int totalScore = 85;
     private String finalTimeTaken;
     private int currentQuestion = 1;
+    private Clip clip;
+    private boolean isPlaying = false;
+    private ImageIcon playIcon = new ImageIcon("images/icons/no music2 icon 32x30.png");
+    private ImageIcon pauseIcon = new ImageIcon("images/icons/music2 icon 30x30.png");
 
     /**
      * @param args
@@ -114,26 +118,36 @@ public class SmartHire {
      */
     public void music() {
         try {
-            File musicFile = new File("src/music/music.wav"); // Adjust path if needed
-            if (!musicFile.exists()) {
-                System.out.println("Music file not found: " + musicFile.getAbsolutePath());
-                return;
+            if (clip == null) {
+                File musicFile = new File("src/music/music.wav");
+                if (!musicFile.exists()) {
+                    System.out.println("Music file not found: " + musicFile.getAbsolutePath());
+                    return;
+                }
+
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioStream);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
 
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            if (isPlaying) {
+                clip.stop();
+                BGMusicButton.setIcon(playIcon); // ← ustaw ikonę "play"
+                System.out.println("Music paused.");
+            } else {
+                clip.start();
+                BGMusicButton.setIcon(pauseIcon); // ← ustaw ikonę "pause"
+                System.out.println("Music is playing in a loop...");
+            }
 
-            //Loop the music indefinitely
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            isPlaying = !isPlaying;
 
-            //Start playing
-            clip.start();
-            System.out.println("Music is playing in a loop...");
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
     }
+
 
     /**
      * Method to start the timer once user logs in.
