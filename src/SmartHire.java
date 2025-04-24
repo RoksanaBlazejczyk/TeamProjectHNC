@@ -9,6 +9,7 @@ import projectPack.*;
 
 import java.awt.event.*;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -78,6 +79,8 @@ public class SmartHire {
     private JLabel iqTxt;
     private JPanel iconPanel;
     private JLabel personalityNameLbll;
+    private JButton button1;
+    private JButton adminBtn;
     private List<String> sessionTimes = new ArrayList<>();
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
@@ -95,11 +98,11 @@ public class SmartHire {
      * @param args
      */
     public static void main(String[] args) {
-        // Ensure GUI runs on the Event Dispatch Thread (EDT)
+        //Ensure GUI runs on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
             JFrame myApp = new JFrame("SmartHire App");
 
-            // Create an instance of SmartHire and set it to the frame
+            //Create an instance of SmartHire and set it to the frame
             SmartHire app = new SmartHire();
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,7 +117,7 @@ public class SmartHire {
      */
     public void music() {
         try {
-            File musicFile = new File("src/music/music.wav"); // Adjust path if needed
+            File musicFile = new File("src/music/music.wav"); //Adjust path if needed
             if (!musicFile.exists()) {
                 System.out.println("Music file not found: " + musicFile.getAbsolutePath());
                 return;
@@ -319,8 +322,8 @@ public class SmartHire {
             public void actionPerformed(ActionEvent e) {
                 if (currentQuestion < 25) {
                     currentQuestion++;
-                    showQuestion(currentQuestion); // your method to load next question
-                    updateProgress(currentQuestion); // ✅ this updates the progress bar
+                    showQuestion(currentQuestion); //your method to load next question
+                    updateProgress(currentQuestion); //this updates the progress bar
                 }
                 //Disable next button until answer is checked
                 nextButton.setEnabled(false);
@@ -442,16 +445,10 @@ public class SmartHire {
             }
         });
 
-        finishBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         optBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // If the checkbox is selected, show the confirmation dialog
+                //If the checkbox is selected, show the confirmation dialog
                 if (optBtn.isSelected()) {
                     int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
                             "Are you sure you want to opt out of the leaderboard?\nYour score will be submitted anonymously.",
@@ -483,8 +480,8 @@ public class SmartHire {
                         JOptionPane.YES_NO_OPTION
                 );
 
-                if (option == JOptionPane.YES_OPTION)
-                {JOptionPane.showMessageDialog(null, "Thank you for using SmartHire IQ Quiz, Donations to be sent to Roksana Blazejczyk 11091568 80-45-78 Thank you for funding our empire!");
+                if (option == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Thank you for using SmartHire IQ Quiz, Donations to be sent to Roksana Blazejczyk 11091568 80-45-78 Thank you for funding our empire!");
                     System.exit(0); // Exit the program
                 } else {
                     // Stay on the current screen (do nothing)
@@ -494,9 +491,38 @@ public class SmartHire {
 
 
         });
+
+
+       adminBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Load and scale the image
+                ImageIcon originalIcon = new
+                        ImageIcon("icons/admin.jpg");
+                Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+                JButton adminBtn = new JButton(scaledIcon);
+                adminBtn.setPreferredSize(new Dimension(50, 50));
+                adminBtn.setBorderPainted(false);
+                adminBtn.setContentAreaFilled(false);
+                adminBtn.setFocusPainted(false);
+
+                try {
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop desktop = Desktop.getDesktop();
+                        if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                            URI uri = new URI("https://portal.azure.com/#@NewCollegeLanarkshire.onmicrosoft.com/resource/subscriptions/3d85d2e5-e7bc-40fd-aab6-86395f628c25/resourceGroups/TeamProjectHNC/providers/Microsoft.Sql/servers/databasequestions/databases/QuestionsIQTest/queryEditor");
+                            desktop.browse(uri);
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
-    // This goes OUTSIDE the constructor or any other method — just inside your class
     public void updateProgress(int questionNumber) {
         SwingUtilities.invokeLater(() -> {
             progressBar.setValue(questionNumber);
@@ -556,7 +582,7 @@ public class SmartHire {
         usernames[usernameCount] = username;
         usernameCount++;
 
-        usernameTxt.setText(username);  // Set the generated username in the text field
+        usernameTxt.setText(username);  //Set the generated username in the text field
 
         //Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
@@ -580,10 +606,10 @@ public class SmartHire {
             cLbl.setText("C. " + question.getOptionC());
             dLbl.setText("D. " + question.getOptionD());
 
-            // Set the image URL to the photoLbl
+            //Set the image URL to the photoLbl
             String imageUrl = question.getImageUrl();
 
-            // If image is missing, use default logo
+            //If image is missing, use default logo
             if (imageUrl == null || imageUrl.trim().isEmpty()) {
                 imageUrl = "https://quizblobstorage.blob.core.windows.net/quizblobcontainer/SmartHireLogo.png";
             }
@@ -591,7 +617,7 @@ public class SmartHire {
             try {
                 ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
                 Image image = imageIcon.getImage(); // Transform it
-                Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); // Scale the image
+                Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); //Scale the image
                 photoLbl.setIcon(new ImageIcon(scaledImage));
                 photoLbl.setText(""); // Clear any previous error message
             } catch (MalformedURLException e) {
@@ -600,10 +626,10 @@ public class SmartHire {
                 photoLbl.setIcon(null);
             }
 
-            // Store the correct answer for validation
+            //Store the correct answer for validation
             correctAnswer = question.getCorrectAnswer();
         } else {
-            // End of the quiz
+            //End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
         }
@@ -619,7 +645,7 @@ public class SmartHire {
                 finalTimeTaken = formatTime(secondsElapsed); // Capture the time when the quiz ends
             }
 
-            // Ask opt-out confirmation at the end (optional - or move to button handler if you prefer)
+            //Ask opt-out confirmation at the end (optional - or move to button handler if you prefer)
             if (optOut) {
                 int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
                         "Are you sure you want to opt out of the leaderboard?\nYour results will still be submitted, but marked as opted out.",
@@ -628,18 +654,18 @@ public class SmartHire {
                         JOptionPane.WARNING_MESSAGE);
 
                 if (confirm != JOptionPane.YES_OPTION) {
-                    optOut = false;  // Reset optOut flag if user cancels
+                    optOut = false;  //Reset optOut flag if user cancels
                 }
             }
 
-            String username = Username; // Always use the real username
+            String username = Username; //Always use the real username
             int score = totalScore;
             String timeTaken = finalTimeTaken;
 
             System.out.println("Uploading results: " + username + ", Score: " + score + ", Time: " + timeTaken + ", Opt-out: " + optOut);
             DatabaseLeaderboard.uploadResults(username, score, timeTaken, optOut);
 
-            // Show the results screen
+            //Show the results screen
             navigateToNextCard();
             printToFileBtn.setVisible(true);
             iqTxt.setText(String.valueOf(totalScore));
@@ -656,7 +682,7 @@ public class SmartHire {
             figureImg.setIcon(new ImageIcon(scaledImage));
 
 
-            // Optional message
+
             if (optOut) {
                 JOptionPane.showMessageDialog(SmartHireHub, "Your opt-out has been recorded.", "Opted Out", JOptionPane.INFORMATION_MESSAGE);
             }
