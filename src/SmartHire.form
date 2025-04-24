@@ -666,7 +666,6 @@
                   <horizontalAlignment value="0"/>
                   <icon value="icons/music2 icon 30x30.png"/>
                   <preferredSize width="45" height="34"/>
-                  <pressedIcon value="icons/no music2 icon 32x30.png"/>
                   <selected value="false"/>
                   <text value=""/>
                   <toolTipText value="Background Music"/>

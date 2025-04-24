@@ -93,16 +93,20 @@ public class SmartHire {
     private int totalScore = 85;
     private String finalTimeTaken;
     private int currentQuestion = 1;
+    private Clip clip;
+    private boolean isPlaying = false;
+    private ImageIcon playIcon = new ImageIcon("images/icons/no music2 icon 32x30.png");
+    private ImageIcon pauseIcon = new ImageIcon("images/icons/music2 icon 30x30.png");
 
     /**
      * @param args
      */
     public static void main(String[] args) {
-        //Ensure GUI runs on the Event Dispatch Thread (EDT)
+        // Ensure GUI runs on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
             JFrame myApp = new JFrame("SmartHire App");
 
-            //Create an instance of SmartHire and set it to the frame
+            // Create an instance of SmartHire and set it to the frame
             SmartHire app = new SmartHire();
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,7 +121,7 @@ public class SmartHire {
      */
     public void music() {
         try {
-            File musicFile = new File("src/music/music.wav"); //Adjust path if needed
+            File musicFile = new File("src/music/music.wav"); // Adjust path if needed
             if (!musicFile.exists()) {
                 System.out.println("Music file not found: " + musicFile.getAbsolutePath());
                 return;
@@ -322,8 +326,8 @@ public class SmartHire {
             public void actionPerformed(ActionEvent e) {
                 if (currentQuestion < 25) {
                     currentQuestion++;
-                    showQuestion(currentQuestion); //your method to load next question
-                    updateProgress(currentQuestion); //this updates the progress bar
+                    showQuestion(currentQuestion); // your method to load next question
+                    updateProgress(currentQuestion); // ✅ this updates the progress bar
                 }
                 //Disable next button until answer is checked
                 nextButton.setEnabled(false);
@@ -445,10 +449,16 @@ public class SmartHire {
             }
         });
 
+        finishBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         optBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //If the checkbox is selected, show the confirmation dialog
+                // If the checkbox is selected, show the confirmation dialog
                 if (optBtn.isSelected()) {
                     int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
                             "Are you sure you want to opt out of the leaderboard?\nYour score will be submitted anonymously.",
@@ -480,8 +490,8 @@ public class SmartHire {
                         JOptionPane.YES_NO_OPTION
                 );
 
-                if (option == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(null, "Thank you for using SmartHire IQ Quiz, Donations to be sent to Roksana Blazejczyk 11091568 80-45-78 Thank you for funding our empire!");
+                if (option == JOptionPane.YES_OPTION)
+                {JOptionPane.showMessageDialog(null, "Thank you for using SmartHire IQ Quiz, Donations to be sent to Roksana Blazejczyk 11091568 80-45-78 Thank you for funding our empire!");
                     System.exit(0); // Exit the program
                 } else {
                     // Stay on the current screen (do nothing)
@@ -523,6 +533,7 @@ public class SmartHire {
         });
     }
 
+    // This goes OUTSIDE the constructor or any other method — just inside your class
     public void updateProgress(int questionNumber) {
         SwingUtilities.invokeLater(() -> {
             progressBar.setValue(questionNumber);
@@ -582,7 +593,7 @@ public class SmartHire {
         usernames[usernameCount] = username;
         usernameCount++;
 
-        usernameTxt.setText(username);  //Set the generated username in the text field
+        usernameTxt.setText(username);  // Set the generated username in the text field
 
         //Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
