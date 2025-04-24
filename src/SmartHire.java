@@ -11,6 +11,7 @@ import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import java.time.LocalDate;
 import java.awt.event.*;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -81,6 +82,8 @@ public class SmartHire {
     private JLabel iqTxt;
     private JPanel iconPanel;
     private JLabel personalityNameLbll;
+    private JButton button1;
+    private JButton adminBtn;
     private List<String> sessionTimes = new ArrayList<>();
     private String[] usernames = new String[100];
     private String[] passwords = new String[100];
@@ -181,36 +184,26 @@ public class SmartHire {
      */
     public void music() {
         try {
-            if (clip == null) {
-                File musicFile = new File("src/music/music.wav");
-                if (!musicFile.exists()) {
-                    System.out.println("Music file not found: " + musicFile.getAbsolutePath());
-                    return;
-                }
-
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
-                clip = AudioSystem.getClip();
-                clip.open(audioStream);
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            File musicFile = new File("src/music/music.wav"); // Adjust path if needed
+            if (!musicFile.exists()) {
+                System.out.println("Music file not found: " + musicFile.getAbsolutePath());
+                return;
             }
 
-            if (isPlaying) {
-                clip.stop();
-                BGMusicButton.setIcon(playIcon); // ← ustaw ikonę "play"
-                System.out.println("Music paused.");
-            } else {
-                clip.start();
-                BGMusicButton.setIcon(pauseIcon); // ← ustaw ikonę "pause"
-                System.out.println("Music is playing in a loop...");
-            }
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
 
-            isPlaying = !isPlaying;
+            //Loop the music indefinitely
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
 
+            //Start playing
+            clip.start();
+            System.out.println("Music is playing in a loop...");
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
     }
-
 
     /**
      * Method to start the timer once user logs in.
@@ -309,9 +302,9 @@ public class SmartHire {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 2);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 2);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 2);
 
             //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
@@ -519,6 +512,12 @@ public class SmartHire {
             }
         });
 
+        finishBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         optBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -564,6 +563,36 @@ public class SmartHire {
             }
 
 
+        });
+
+
+       adminBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Load and scale the image
+                ImageIcon originalIcon = new
+                        ImageIcon("icons/admin.jpg");
+                Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+                ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+                JButton adminBtn = new JButton(scaledIcon);
+                adminBtn.setPreferredSize(new Dimension(50, 50));
+                adminBtn.setBorderPainted(false);
+                adminBtn.setContentAreaFilled(false);
+                adminBtn.setFocusPainted(false);
+
+                try {
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop desktop = Desktop.getDesktop();
+                        if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                            URI uri = new URI("https://portal.azure.com/#@NewCollegeLanarkshire.onmicrosoft.com/resource/subscriptions/3d85d2e5-e7bc-40fd-aab6-86395f628c25/resourceGroups/TeamProjectHNC/providers/Microsoft.Sql/servers/databasequestions/databases/QuestionsIQTest/queryEditor");
+                            desktop.browse(uri);
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
     }
 
@@ -651,10 +680,10 @@ public class SmartHire {
             cLbl.setText("C. " + question.getOptionC());
             dLbl.setText("D. " + question.getOptionD());
 
-            // Set the image URL to the photoLbl
+            //Set the image URL to the photoLbl
             String imageUrl = question.getImageUrl();
 
-            // If image is missing, use default logo
+            //If image is missing, use default logo
             if (imageUrl == null || imageUrl.trim().isEmpty()) {
                 imageUrl = "https://quizblobstorage.blob.core.windows.net/quizblobcontainer/SmartHireLogo.png";
             }
@@ -662,7 +691,7 @@ public class SmartHire {
             try {
                 ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
                 Image image = imageIcon.getImage(); // Transform it
-                Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); // Scale the image
+                Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); //Scale the image
                 photoLbl.setIcon(new ImageIcon(scaledImage));
                 photoLbl.setText(""); // Clear any previous error message
             } catch (MalformedURLException e) {
@@ -671,10 +700,10 @@ public class SmartHire {
                 photoLbl.setIcon(null);
             }
 
-            // Store the correct answer for validation
+            //Store the correct answer for validation
             correctAnswer = question.getCorrectAnswer();
         } else {
-            // End of the quiz
+            //End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
         }
@@ -690,7 +719,7 @@ public class SmartHire {
                 finalTimeTaken = formatTime(secondsElapsed); // Capture the time when the quiz ends
             }
 
-            // Ask opt-out confirmation at the end (optional - or move to button handler if you prefer)
+            //Ask opt-out confirmation at the end (optional - or move to button handler if you prefer)
             if (optOut) {
                 int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
                         "Are you sure you want to opt out of the leaderboard?\nYour results will still be submitted, but marked as opted out.",
@@ -699,18 +728,18 @@ public class SmartHire {
                         JOptionPane.WARNING_MESSAGE);
 
                 if (confirm != JOptionPane.YES_OPTION) {
-                    optOut = false;  // Reset optOut flag if user cancels
+                    optOut = false;  //Reset optOut flag if user cancels
                 }
             }
 
-            String username = Username; // Always use the real username
+            String username = Username; //Always use the real username
             int score = totalScore;
             String timeTaken = finalTimeTaken;
 
             System.out.println("Uploading results: " + username + ", Score: " + score + ", Time: " + timeTaken + ", Opt-out: " + optOut);
             DatabaseLeaderboard.uploadResults(username, score, timeTaken, optOut);
 
-            // Show the results screen
+            //Show the results screen
             navigateToNextCard();
             printToFileBtn.setVisible(true);
             iqTxt.setText(String.valueOf(totalScore));
@@ -727,7 +756,7 @@ public class SmartHire {
             figureImg.setIcon(new ImageIcon(scaledImage));
 
 
-            // Optional message
+
             if (optOut) {
                 JOptionPane.showMessageDialog(SmartHireHub, "Your opt-out has been recorded.", "Opted Out", JOptionPane.INFORMATION_MESSAGE);
             }

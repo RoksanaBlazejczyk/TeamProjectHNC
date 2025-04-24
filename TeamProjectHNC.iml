@@ -52,7 +52,24 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="pdfbox-app-3.0.4" level="project" />
-    <orderEntry type="library" name="mssql-jdbc-12.10.0.jre11" level="project" />
+    <orderEntry type="library" exported="" name="mssql-jdbc-12.10.0.jre11" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../TeamProjectHNC/lib/sqlite-jdbc-3.36.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mssql-jdbc-12.10.0.jre11.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
