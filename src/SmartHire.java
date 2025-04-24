@@ -239,9 +239,9 @@ public class SmartHire {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 2);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 2);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 2);
 
             //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
