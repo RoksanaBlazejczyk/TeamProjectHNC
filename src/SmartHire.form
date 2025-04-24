@@ -500,7 +500,7 @@
                       <editable value="false"/>
                       <font size="16" style="1"/>
                       <lineWrap value="true"/>
-                      <preferredSize width="400" height="50"/>
+                      <preferredSize width="400" height="65"/>
                       <rows value="0"/>
                       <text value=""/>
                       <wrapStyleWord value="true"/>
@@ -596,7 +596,7 @@
                           <font size="14"/>
                           <foreground color="-13947600"/>
                           <horizontalAlignment value="0"/>
-                          <preferredSize width="112" height="35"/>
+                          <preferredSize width="200" height="35"/>
                           <text value=""/>
                         </properties>
                       </component>
