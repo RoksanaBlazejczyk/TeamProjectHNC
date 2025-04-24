@@ -4,9 +4,11 @@
  */
 
 import projectPack.*;
-
-
-
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import java.time.LocalDate;
 import java.awt.event.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
 import java.util.stream.Collectors;
+
 
 
 public class SmartHire {
@@ -95,6 +98,7 @@ public class SmartHire {
     private ImageIcon playIcon = new ImageIcon("images/icons/no music2 icon 32x30.png");
     private ImageIcon pauseIcon = new ImageIcon("images/icons/music2 icon 30x30.png");
 
+
     /**
      * @param args
      */
@@ -102,6 +106,9 @@ public class SmartHire {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
             JFrame myApp = new JFrame("SmartHire App");
+            CertificateGenerator certGen = new CertificateGenerator();
+            certGen.generateCertificate("John Smith", 132);
+
 
             // Create an instance of SmartHire and set it to the frame
             SmartHire app = new SmartHire();
@@ -111,6 +118,62 @@ public class SmartHire {
             myApp.setSize(800, 600);
             myApp.setVisible(true);
         });
+    }
+    public static class CertificateGenerator {
+
+        public void generateCertificate(String userName, int iqScore) {
+            try (PDDocument document = new PDDocument()) {
+                PDPage page = new PDPage();
+                document.addPage(page);
+
+                // Load custom TrueType font
+                File fontFile = new File("lib/fonts/times.ttf");
+                PDType0Font font = PDType0Font.load(document, fontFile);
+
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+                // Title
+                contentStream.beginText();
+                contentStream.setFont(font, 24);
+                contentStream.newLineAtOffset(100, 700);
+                contentStream.showText("Certificate of IQ Test Completion");
+                contentStream.endText();
+
+                // User Name
+                contentStream.beginText();
+                contentStream.setFont(font, 16);
+                contentStream.newLineAtOffset(100, 650);
+                contentStream.showText("Name: " + userName);
+                contentStream.endText();
+
+                // IQ Score
+                contentStream.beginText();
+                contentStream.setFont(font, 16);
+                contentStream.newLineAtOffset(100, 620);
+                contentStream.showText("IQ Score: " + iqScore);
+                contentStream.endText();
+
+                // Date
+                contentStream.beginText();
+                contentStream.setFont(font, 12);
+                contentStream.newLineAtOffset(100, 590);
+                contentStream.showText("Date: " + LocalDate.now());
+                contentStream.endText();
+
+                contentStream.close();
+
+                // Save PDF and print confirmation
+                System.out.println("Saving certificate for " + userName);
+                document.save("certificate_" + userName + ".pdf");
+
+                // Print confirmation message
+                System.out.println("Certificate saved successfully!");
+
+            } catch (IOException e) {
+                System.out.println("Error while generating certificate:");
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -456,12 +519,6 @@ public class SmartHire {
             }
         });
 
-        finishBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         optBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
