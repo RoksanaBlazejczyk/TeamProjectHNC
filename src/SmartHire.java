@@ -28,7 +28,6 @@ import java.util.Timer;
 import java.util.stream.Collectors;
 
 
-
 public class SmartHire {
 
     private JPanel SmartHireHub;
@@ -337,7 +336,28 @@ public class SmartHire {
                 displayQuestionAtIndex(currentQuestionIndex); //Display the first question
             }
         });
+        for (Enumeration<AbstractButton> buttons = AvatarButtonGroup.getElements(); buttons.hasMoreElements(); ) {
+            AbstractButton button = buttons.nextElement();
+            button.setContentAreaFilled(false);
+            button.setOpaque(true); // Ensures background is visible
+            button.setBorderPainted(false);
 
+            button.addChangeListener(e -> {
+                // Loop again to update all buttons
+                for (Enumeration<AbstractButton> btns = AvatarButtonGroup.getElements(); btns.hasMoreElements(); ) {
+                    AbstractButton b = btns.nextElement();
+                    if (b.isSelected()) {
+                        b.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+                        b.setBackground(Color.decode("#35526D"));
+                        b.setForeground(Color.WHITE);
+                    } else {
+                        b.setBorder(null);
+                        b.setBackground(null);
+                        b.setForeground(Color.BLACK);
+                    }
+                }
+            });
+        }
 
         loginBtn.addActionListener(new ActionListener() {
             @Override
@@ -596,7 +616,6 @@ public class SmartHire {
         });
     }
 
-    // This goes OUTSIDE the constructor or any other method — just inside your class
     public void updateProgress(int questionNumber) {
         SwingUtilities.invokeLater(() -> {
             progressBar.setValue(questionNumber);
@@ -706,6 +725,7 @@ public class SmartHire {
             //End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
+            nextButton.setVisible(false);
         }
     }
 
@@ -754,7 +774,6 @@ public class SmartHire {
             ImageIcon icon = new ImageIcon(personalityImagePath);
             Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             figureImg.setIcon(new ImageIcon(scaledImage));
-
 
 
             if (optOut) {

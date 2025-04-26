@@ -43,7 +43,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../sqljdbc_12.10/enu/jars/mssql-jdbc-12.10.0.jre11.jar!/" />
@@ -53,10 +53,10 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="mssql-jdbc-12.10.0.jre11" level="project" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../TeamProjectHNC/lib/sqlite-jdbc-3.36.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/sqlite-jdbc-3.36.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -71,5 +71,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="pdfbox-app-3.0.4" level="project" />
   </component>
 </module>
