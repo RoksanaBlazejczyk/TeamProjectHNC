@@ -106,11 +106,11 @@ public class SmartHire {
      */
     public static void main(String[] args) {
         // Ensure GUI runs on the Event Dispatch Thread (EDT)
-        SwingUtilities.invokeLater(() -> {
+      SwingUtilities.invokeLater(() -> {
             JFrame myApp = new JFrame("SmartHire App");
-            CertificateGenerator certGen = new CertificateGenerator();
+          /**    CertificateGenerator certGen = new CertificateGenerator();
             certGen.generateCertificate("John Smith", 132);
-
+*/
 
             // Create an instance of SmartHire and set it to the frame
             SmartHire app = new SmartHire();
@@ -121,62 +121,7 @@ public class SmartHire {
             myApp.setVisible(true);
         });
     }
-    public static class CertificateGenerator {
 
-        public void generateCertificate(String userName, int iqScore) {
-            try (PDDocument document = new PDDocument()) {
-                PDPage page = new PDPage();
-                document.addPage(page);
-
-                // Load custom TrueType font
-                File fontFile = new File("lib/fonts/times.ttf");
-                PDType0Font font = PDType0Font.load(document, fontFile);
-
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-                // Title
-                contentStream.beginText();
-                contentStream.setFont(font, 24);
-                contentStream.newLineAtOffset(100, 700);
-                contentStream.showText("Certificate of IQ Test Completion");
-                contentStream.endText();
-
-                // User Name
-                contentStream.beginText();
-                contentStream.setFont(font, 16);
-                contentStream.newLineAtOffset(100, 650);
-                contentStream.showText("Name: " + userName);
-                contentStream.endText();
-
-                // IQ Score
-                contentStream.beginText();
-                contentStream.setFont(font, 16);
-                contentStream.newLineAtOffset(100, 620);
-                contentStream.showText("IQ Score: " + iqScore);
-                contentStream.endText();
-
-                // Date
-                contentStream.beginText();
-                contentStream.setFont(font, 12);
-                contentStream.newLineAtOffset(100, 590);
-                contentStream.showText("Date: " + LocalDate.now());
-                contentStream.endText();
-
-                contentStream.close();
-
-                // Save PDF and print confirmation
-                System.out.println("Saving certificate for " + userName);
-                document.save("certificate_" + userName + ".pdf");
-
-                // Print confirmation message
-                System.out.println("Certificate saved successfully!");
-
-            } catch (IOException e) {
-                System.out.println("Error while generating certificate:");
-                e.printStackTrace();
-            }
-        }
-    }
 
     /**
      * Method for background music
@@ -203,6 +148,7 @@ public class SmartHire {
             ex.printStackTrace();
         }
     }
+
 
     /**
      * Method to start the timer once user logs in.
@@ -366,6 +312,29 @@ public class SmartHire {
             }
         });
 
+        printToFileBtn.addActionListener(e -> {
+            String username = Username;
+            int score = totalScore;
+            String timeTaken = formatTime(secondsElapsed);
+            String famousPerson = PersonalityMatcher.getPersonalityName(score); // Or CertificateGenerator if you moved it
+
+            // 👉 Open file chooser to pick save location
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Save Certificate As...");
+            fileChooser.setSelectedFile(new File("certificate_" + username + ".pdf")); // default name
+
+            int userSelection = fileChooser.showSaveDialog(SmartHireHub); // your parent component
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+
+                //Generate the certificate and save to chosen path
+                CertificateGenerator certGen = new CertificateGenerator();
+                certGen.generateCertificate(username, score, timeTaken, famousPerson, fileToSave.getAbsolutePath());
+
+            }
+        });
+
         //Set up action listeners for answer buttons
         aLbl.addActionListener(new ActionListener() {
             @Override
@@ -409,8 +378,8 @@ public class SmartHire {
             public void actionPerformed(ActionEvent e) {
                 if (currentQuestion < 25) {
                     currentQuestion++;
-                    showQuestion(currentQuestion); // your method to load next question
-                    updateProgress(currentQuestion); // ✅ this updates the progress bar
+                    showQuestion(currentQuestion); //your method to load next question
+                    updateProgress(currentQuestion); //this updates the progress bar
                 }
                 //Disable next button until answer is checked
                 nextButton.setEnabled(false);
