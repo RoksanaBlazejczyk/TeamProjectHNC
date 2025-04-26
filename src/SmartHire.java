@@ -247,9 +247,9 @@ public class SmartHire {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 2);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 2);
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 2);
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
 
             //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);
@@ -268,7 +268,6 @@ public class SmartHire {
         }
 
         BGMusicButton.setEnabled(true);
-        nextButton.setVisible(false);
 
         //Action listeners for buttons
         startBtn.addActionListener(new ActionListener() {
@@ -501,12 +500,6 @@ public class SmartHire {
             }
         });
 
-        finishBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         optBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -694,7 +687,6 @@ public class SmartHire {
             //End of the quiz
             JOptionPane.showMessageDialog(SmartHireHub, "You have completed the quiz!", "Quiz Completed", JOptionPane.INFORMATION_MESSAGE);
             navigateToNextCard();
-            nextButton.setVisible(false);
         }
     }
 
@@ -706,19 +698,7 @@ public class SmartHire {
             if (timer != null) {
                 timer.cancel(); // Stop the timer
                 finalTimeTaken = formatTime(secondsElapsed); // Capture the time when the quiz ends
-            }
-
-            //Ask opt-out confirmation at the end (optional - or move to button handler if you prefer)
-            if (optOut) {
-                int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
-                        "Are you sure you want to opt out of the leaderboard?\nYour results will still be submitted, but marked as opted out.",
-                        "Confirm Opt-Out",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE);
-
-                if (confirm != JOptionPane.YES_OPTION) {
-                    optOut = false;  //Reset optOut flag if user cancels
-                }
+                nextButton.setVisible(false);
             }
 
             String username = Username; //Always use the real username

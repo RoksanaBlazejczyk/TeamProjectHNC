@@ -9,7 +9,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="2bdde" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
+      <grid id="2bdde" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0" show="3b0e3">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
@@ -384,7 +384,7 @@
             <children>
               <component id="2c4d7" class="javax.swing.JCheckBox" binding="readRules">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="0" bottom="5" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -397,8 +397,8 @@
               </component>
               <component id="bf015" class="javax.swing.JButton" binding="startBtn">
                 <constraints>
-                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag top="10" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="10" left="0" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
                   <background color="-13282707"/>
@@ -410,7 +410,7 @@
               </component>
               <component id="bc233" class="javax.swing.JCheckBox" binding="optBtn">
                 <constraints>
-                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="0" left="0" bottom="5" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
@@ -422,7 +422,7 @@
               </component>
               <component id="499b9" class="javax.swing.JTextPane" binding="rulesTxt">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
                   </grid>
                   <gridbag weightx="0.0" weighty="0.0"/>
@@ -434,9 +434,19 @@
                   <font size="14"/>
                   <foreground color="-1041"/>
                   <name value="RULES"/>
-                  <preferredSize width="600" height="300"/>
+                  <preferredSize width="600" height="280"/>
                   <selectedTextColor color="-13947600"/>
                   <text value="SmartHire IQ Quiz App is a digital assessment tool that will test candidates intelligence and cognitive abilities through a series of carefully designed questions.&#10;&#10;The test will check candidates skills like  problem-solving, logical reasoning, critical-thinking and pattern recognition.&#10;&#10;- The questions have only one correct answer.&#10;- Questions have a difficulty rating and everyone gets the same amount of each.&#10;- The test has a timer that records how long it took the candidate to complete the test.&#10;&#10;- Icons in upper right if you want to change settings&#10;- There is a soothing jingle you can turn on/off&#10;- You can Opt-Out the leaderboard to be anonymous&#10;&#10;- When ready click the checkbox, Good luck!"/>
+                </properties>
+              </component>
+              <component id="f1f30" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <foreground color="-1537"/>
+                  <text value="RULES"/>
                 </properties>
               </component>
             </children>
@@ -476,7 +486,7 @@
                   <component id="e366f" class="javax.swing.JProgressBar" binding="progressBar">
                     <constraints>
                       <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                      <gridbag top="0" left="40" bottom="0" right="40" weightx="0.0" weighty="0.0"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
                       <background color="-14466981"/>
@@ -490,8 +500,8 @@
                   </component>
                   <grid id="11c1d" layout-manager="GridBagLayout">
                     <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                      <gridbag top="0" left="40" bottom="0" right="40" weightx="0.0" weighty="0.0"/>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag top="0" left="20" bottom="0" right="20" weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
                       <background color="-14466981"/>
@@ -659,7 +669,7 @@
                     </constraints>
                     <properties>
                       <background color="-3290161"/>
-                      <preferredSize width="250" height="250"/>
+                      <preferredSize width="300" height="300"/>
                     </properties>
                     <border type="none"/>
                     <children>
@@ -669,7 +679,7 @@
                           <font size="14"/>
                           <foreground color="-13947600"/>
                           <horizontalAlignment value="0"/>
-                          <preferredSize width="200" height="35"/>
+                          <preferredSize width="300" height="35"/>
                           <text value=""/>
                         </properties>
                       </component>
@@ -678,7 +688,9 @@
                         <properties>
                           <background color="-14466981"/>
                           <foreground color="-13947600"/>
-                          <preferredSize width="200" height="200"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <preferredSize width="250" height="250"/>
                           <text value=""/>
                         </properties>
                       </component>
@@ -721,7 +733,7 @@
               <component id="586ea" class="javax.swing.JButton" binding="printToFileBtn">
                 <constraints/>
                 <properties>
-                  <background color="-7751195"/>
+                  <background color="-1041"/>
                   <borderPainted value="false"/>
                   <enabled value="true"/>
                   <foreground color="-1041"/>
@@ -736,7 +748,7 @@
               <component id="cfcb" class="javax.swing.JButton" binding="BGMusicButton" default-binding="true">
                 <constraints/>
                 <properties>
-                  <background color="-7751195"/>
+                  <background color="-1041"/>
                   <borderPainted value="false"/>
                   <doubleBuffered value="true"/>
                   <enabled value="true"/>
@@ -757,6 +769,7 @@
                   <background color="-1041"/>
                   <borderPainted value="false"/>
                   <enabled value="true"/>
+                  <foreground color="-1041"/>
                   <icon value="icons/settingB.png"/>
                   <preferredSize width="55" height="55"/>
                   <text value=""/>
@@ -770,6 +783,7 @@
                   <background color="-1041"/>
                   <borderPainted value="false"/>
                   <enabled value="true"/>
+                  <foreground color="-1041"/>
                   <horizontalTextPosition value="0"/>
                   <icon value="icons/cupL.png"/>
                   <iconTextGap value="4"/>
@@ -841,7 +855,7 @@
         <constraints border-constraint="South"/>
         <properties>
           <background color="-1041"/>
-          <preferredSize width="800" height="60"/>
+          <preferredSize width="800" height="50"/>
         </properties>
         <border type="none"/>
         <children>
