@@ -9,7 +9,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="2bdde" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0" show="3b0e3">
+      <grid id="2bdde" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
@@ -179,6 +179,7 @@
                   <gridbag top="2" left="0" bottom="2" right="0" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
+                  <editable value="true"/>
                   <preferredSize width="75" height="34"/>
                 </properties>
               </component>
@@ -755,12 +756,14 @@
                   <foreground color="-1041"/>
                   <hideActionText value="false"/>
                   <horizontalAlignment value="0"/>
-                  <icon value="icons/music2 icon 30x30.png"/>
+                  <icon value="icons/volumeON 50x50.png"/>
                   <preferredSize width="55" height="55"/>
+                  <pressedIcon value="icons/volumeOFF 50x50.png"/>
+                  <requestFocusEnabled value="false"/>
                   <selected value="false"/>
                   <text value=""/>
                   <toolTipText value="Background Music"/>
-                  <visible value="false"/>
+                  <visible value="true"/>
                 </properties>
               </component>
               <component id="6d4ec" class="javax.swing.JButton" binding="settingsButton" default-binding="true">
