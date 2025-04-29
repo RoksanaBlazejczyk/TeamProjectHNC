@@ -8,17 +8,15 @@ public class LeaderboardEntry {
     private boolean optOut;  // Field for opt-out status
     private int rank;  // Add rank field
 
-    // Getter for optOut status
-    public boolean isOptOut() {
-        return optOut;
-    }
+    /**
+     * Constructor without rank
+     * @param id
+     * @param name
+     * @param iqScore
+     * @param timeTaken
+     * @param optOut
+     */
 
-    // Setter for optOut status
-    public void setOptOut(boolean optOut) {
-        this.optOut = optOut;
-    }
-
-    // Constructor without rank
     public LeaderboardEntry(int id, String name, int iqScore, String timeTaken, boolean optOut) {
         this.id = id;
         this.name = name;
@@ -28,7 +26,16 @@ public class LeaderboardEntry {
         this.rank = -1; // Default value if rank isn't set
     }
 
-    // Constructor with rank
+    /**
+     * Constructor with rank
+     * @param id
+     * @param name
+     * @param iqScore
+     * @param timeTaken
+     * @param rank
+     * @param optOut
+     */
+
     public LeaderboardEntry(int id, String name, int iqScore, String timeTaken, int rank, boolean optOut) {
         this.id = id;
         this.name = name;
@@ -38,34 +45,51 @@ public class LeaderboardEntry {
         this.rank = rank;
     }
 
-    // Getters
-    public int getId() {
-        return id;
-    }
 
+    /**
+     * If the user opted out, display 'Anonymous'
+     * @return
+     */
     public String getName() {
-        // If the user opted out, display 'Anonymous'
+
         return optOut ? "Anonymous" : name;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getIqScore() {
         return iqScore;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTimeTaken() {
         return timeTaken;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getRank() {
         return rank;
     }
 
-    // Setter for rank
+    /**
+     *
+     * @param rank
+     */
+    //Setter for rank
     public void setRank(int rank) {
         this.rank = rank;
     }
 
-    // Override toString for better formatting
+
+    //Override toString for better formatting
     @Override
     public String toString() {
         return (rank > 0 ? "#" + rank + ": " : "") + getName() + " - IQ: " + iqScore + " - Time: " + timeTaken;

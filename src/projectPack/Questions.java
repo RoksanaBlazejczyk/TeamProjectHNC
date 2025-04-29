@@ -34,6 +34,10 @@ public class Questions {
         this.imageUrl = imageUrl;
     }
 
+    /**
+     *
+     * @return
+     */
     //Getters
     public int getId() { return id; }  //Added getter for id
     public String getQuestionText() { return questionText; }

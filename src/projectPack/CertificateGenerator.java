@@ -104,6 +104,15 @@ import java.time.LocalDate;
             }
         }
 
+        /**
+         *
+         * @param text
+         * @param font
+         * @param fontSize
+         * @param pageWidth
+         * @return
+         * @throws IOException
+         */
         private static float centerText(String text, PDType0Font font, int fontSize, float pageWidth) throws IOException {
             float textWidth = font.getStringWidth(text) / 1000 * fontSize;
             return (pageWidth - textWidth) / 2;

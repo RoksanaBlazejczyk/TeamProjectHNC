@@ -65,7 +65,6 @@ public class SmartHire {
     private JCheckBox readRules;
     private JPanel resultBG;
     private JLabel figureImg;
-    private JLabel scoreTxt;
     private JCheckBox optBtn;
     private boolean optOut = false;
     private JButton leaderboardBtn;
@@ -97,22 +96,18 @@ public class SmartHire {
     private int currentQuestion = 1;
     private Clip clip;
     private boolean isPlaying = false;
-    private ImageIcon playIcon = new ImageIcon("images/icons/no music2 icon 32x30.png");
-    private ImageIcon pauseIcon = new ImageIcon("images/icons/music2 icon 30x30.png");
+    private ImageIcon playIcon = new ImageIcon("images/icons/volumeOFF 50x50.png");
+    private ImageIcon pauseIcon = new ImageIcon("images/icons/volumeON 50x50.png");
 
 
     /**
      * @param args
      */
     public static void main(String[] args) {
-        // Ensure GUI runs on the Event Dispatch Thread (EDT)
+        //Ensure GUI runs on the Event Dispatch Thread (EDT)
       SwingUtilities.invokeLater(() -> {
             JFrame myApp = new JFrame("SmartHire App");
-          /**    CertificateGenerator certGen = new CertificateGenerator();
-            certGen.generateCertificate("John Smith", 132);
-*/
 
-            // Create an instance of SmartHire and set it to the frame
             SmartHire app = new SmartHire();
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,33 +117,37 @@ public class SmartHire {
         });
     }
 
-
     /**
      * Method for background music
      */
     public void music() {
         try {
-            File musicFile = new File("src/music/music.wav"); // Adjust path if needed
-            if (!musicFile.exists()) {
-                System.out.println("Music file not found: " + musicFile.getAbsolutePath());
-                return;
+            if (clip == null) {
+                File musicFile = new File("src/music/music.wav");
+                if (!musicFile.exists()) {
+                    System.out.println("Music file not found: " + musicFile.getAbsolutePath());
+                    return;
+                }
+
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioStream);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
 
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            if (isPlaying) {
+                clip.stop();
+                BGMusicButton.setIcon(playIcon); //set the icon play
+            } else {
+                clip.start();
+                BGMusicButton.setIcon(pauseIcon); //set the icon stop
+            }
+            isPlaying = !isPlaying;
 
-            //Loop the music indefinitely
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-
-            //Start playing
-            clip.start();
-            System.out.println("Music is playing in a loop...");
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
     }
-
 
     /**
      * Method to start the timer once user logs in.
@@ -166,9 +165,7 @@ public class SmartHire {
                 secondsElapsed++;
                 timerLbl.setText("Time: " + formatTime(secondsElapsed));
             }
-        }, 0, 1000);
-
-    }
+        }, 0, 1000);}
 
     /**
      * Formats the time into mm:ss format.
@@ -176,57 +173,15 @@ public class SmartHire {
     private String formatTime(int totalSeconds) {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
-        return String.format("%d:%02d", minutes, seconds);
-    }
-
-    /**
-     * Displays all session times for the admin.
-     */
-    public void displayAdminTimes() {
-        if (sessionTimes.isEmpty()) {
-            JOptionPane.showMessageDialog(SmartHireHub, "No session times recorded.", "Admin Info", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            StringBuilder times = new StringBuilder("Recorded Session Times:\n");
-            for (int i = 0; i < sessionTimes.size(); i++) {
-                times.append("Session ").append(i + 1).append(": ").append(sessionTimes.get(i)).append("\n");
-            }
-            JOptionPane.showMessageDialog(SmartHireHub, times.toString(), "Admin Info", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
+        return String.format("%d:%02d", minutes, seconds);}
 
     /**
      * @return
      */
     public void showQuestion(int questionNumber) {
         if (questionNumber >= 1 && questionNumber <= currentQuestionList.size()) {
-            Questions q = currentQuestionList.get(questionNumber - 1); // index starts at 0
-
-        }
-    }
-
-    public String getCurrentPanel() {
-        //Get the CardLayout from the mainPanel
-        CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-
-        //Check if the first component (loginScreen) is visible
-        if (mainPanel.getComponent(0).isVisible()) {
-            return "loginScreen";
-        }
-        //Check if another panel (e.g., "createAccountScreen") is visible
-        else if (mainPanel.getComponent(1).isVisible()) {
-            return "createAccountScreen";
-        } else if (mainPanel.getComponent(2).isVisible()) {
-            return "rulesScreen";
-        } else if (mainPanel.getComponent(3).isVisible()) {
-            return "questionsScreen";
-        } else if (mainPanel.getComponent(4).isVisible()) {
-            return "resultsScreen";
-        }
-        //If no panel is visible or another panel is showing, you can return a default value or error
-        else {
-            return "Unknown Panel";
-        }
-    }
+            Questions q = currentQuestionList.get(questionNumber - 1); //index starts at 0
+        }}
 
     /**
      * Navigate to creation screen
@@ -244,11 +199,11 @@ public class SmartHire {
         generatePasswords();
 
         try {
-            DatabaseConnection.getConnection(); // Ensure the connection is established
+            DatabaseConnection.getConnection(); //Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
             List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium",12 );
             List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
 
             //Combine all questions into one list and shuffle
@@ -257,10 +212,9 @@ public class SmartHire {
             allQuestions.addAll(hardQuestions);
             currentQuestionList.addAll(allQuestions);
             Collections.shuffle(currentQuestionList);
-            currentQuestion = 1; // Add this field if not declared already
+            currentQuestion = 1;
             showQuestion(currentQuestion);
             updateProgress(currentQuestion);
-
 
         } catch (SQLException e) {
             System.err.println("SQL Server JDBC driver not found.");
@@ -284,11 +238,11 @@ public class SmartHire {
         for (Enumeration<AbstractButton> buttons = AvatarButtonGroup.getElements(); buttons.hasMoreElements(); ) {
             AbstractButton button = buttons.nextElement();
             button.setContentAreaFilled(false);
-            button.setOpaque(true); // Ensures background is visible
+            button.setOpaque(true); //Ensures background is visible
             button.setBorderPainted(false);
 
             button.addChangeListener(e -> {
-                // Loop again to update all buttons
+                //Loop again to update all buttons
                 for (Enumeration<AbstractButton> btns = AvatarButtonGroup.getElements(); btns.hasMoreElements(); ) {
                     AbstractButton b = btns.nextElement();
                     if (b.isSelected()) {
@@ -301,8 +255,7 @@ public class SmartHire {
                         b.setForeground(Color.BLACK);
                     }
                 }
-            });
-        }
+            });}
 
         loginBtn.addActionListener(new ActionListener() {
             @Override
@@ -315,14 +268,14 @@ public class SmartHire {
             String username = Username;
             int score = totalScore;
             String timeTaken = formatTime(secondsElapsed);
-            String famousPerson = PersonalityMatcher.getPersonalityName(score); // Or CertificateGenerator if you moved it
+            String famousPerson = PersonalityMatcher.getPersonalityName(score);
 
-            // 👉 Open file chooser to pick save location
+            //Open file chooser to pick save location
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Save Certificate As...");
-            fileChooser.setSelectedFile(new File("certificate_" + username + ".pdf")); // default name
+            fileChooser.setSelectedFile(new File("certificate_" + username + ".pdf"));
 
-            int userSelection = fileChooser.showSaveDialog(SmartHireHub); // your parent component
+            int userSelection = fileChooser.showSaveDialog(SmartHireHub);
 
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToSave = fileChooser.getSelectedFile();
@@ -377,8 +330,8 @@ public class SmartHire {
             public void actionPerformed(ActionEvent e) {
                 if (currentQuestion < 25) {
                     currentQuestion++;
-                    showQuestion(currentQuestion); //your method to load next question
-                    updateProgress(currentQuestion); //this updates the progress bar
+                    showQuestion(currentQuestion); //method to load next question
+                    updateProgress(currentQuestion); //updates the progress bar
                 }
                 //Disable next button until answer is checked
                 nextButton.setEnabled(false);
@@ -391,19 +344,19 @@ public class SmartHire {
                 if (cLbl.isSelected()) selectedAnswer = "C";
                 if (dLbl.isSelected()) selectedAnswer = "D";
 
-                //Check if an answer is selected
+                //check if an answer is selected
                 if (selectedAnswer != null) {
-                    //Get the current question based on the current question index
+                    //get the current question based on the current question index
                     Questions currentQuestion = currentQuestionList.get(currentQuestionIndex);
 
 
-                    //Call checkAnswer with selectedAnswer and currentQuestion
+                    //call checkAnswer with selectedAnswer and currentQuestion
                     checkAnswer(selectedAnswer, currentQuestion);  //Checks if the answer is correct
 
                     currentQuestionIndex++; //Move on to the next question
                     displayNextQuestion();  //Update the UI with the next question
 
-                    //Clear the selection on the radio buttons for the next question
+                    //clear the selection on the radio buttons for the next question
                     AnswersBtnGroupRadio.clearSelection();
 
                     //Re-enable the next button for the next question
@@ -434,7 +387,6 @@ public class SmartHire {
             }
         });
 
-
         BGMusicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -442,8 +394,8 @@ public class SmartHire {
                 music();
 
             }
-
         });
+
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -456,6 +408,7 @@ public class SmartHire {
                 displayRandomQuestions("hard");
             }
         });
+
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -463,6 +416,7 @@ public class SmartHire {
                 Settings.showSettingsDialog(frame);
             }
         });
+
         leaderboardBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -503,7 +457,7 @@ public class SmartHire {
         optBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // If the checkbox is selected, show the confirmation dialog
+                //If the checkbox is selected, show the confirmation dialog
                 if (optBtn.isSelected()) {
                     int confirm = JOptionPane.showConfirmDialog(SmartHireHub,
                             "Are you sure you want to opt out of the leaderboard?\nYour score will be submitted anonymously.",
@@ -512,19 +466,17 @@ public class SmartHire {
                             JOptionPane.WARNING_MESSAGE);
 
                     if (confirm == JOptionPane.YES_OPTION) {
-                        optOut = true;  // Confirm opt-out
-                        System.out.println("Opt-out status: " + optOut); // Debugging log
+                        optOut = true;  //opt-out
                     } else {
-                        optOut = false; // Cancel opt-out if user pressed "No"
-                        optBtn.setSelected(false);  // Uncheck the checkbox
-                        System.out.println("Opt-out status: " + optOut); // Debugging log
+                        optOut = false; //Cancel opt-out if user pressed "No"
+                        optBtn.setSelected(false);  //Uncheck the checkbox
                     }
                 } else {
-                    optOut = false; // If the checkbox is unchecked
-                    System.out.println("Opt-out status: " + optOut); // Debugging log
+                    optOut = false; //If the checkbox is unchecked
                 }
             }
         });
+
         finishBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -534,24 +486,18 @@ public class SmartHire {
                         "Finish Confirmation",
                         JOptionPane.YES_NO_OPTION
                 );
-
                 if (option == JOptionPane.YES_OPTION)
-                {JOptionPane.showMessageDialog(null, "Thank you for using SmartHire IQ Quiz, Donations to be sent to Roksana Blazejczyk 11091568 80-45-78 Thank you for funding our empire!");
-                    System.exit(0); // Exit the program
+                {JOptionPane.showMessageDialog(null, "Thank you for using SmartHire IQ Quiz, Donations to be sent to DevFast 11091568 80-45-78 Thank you for funding our empire!");
+                    System.exit(0); //Exit the program
                 } else {
-                    // Stay on the current screen (do nothing)
+                    //Stay on the current screen (do nothing)
                     JOptionPane.showMessageDialog(null, "You can continue with the leaderboard or save your results.");
-                }
-            }
-
-
-        });
-
+                }}});
 
        adminBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Load and scale the image
+                //Load and scale the image
                 ImageIcon originalIcon = new
                         ImageIcon("icons/admin.jpg");
                 Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -572,31 +518,26 @@ public class SmartHire {
                         }
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-    }
+                    ex.printStackTrace();}}});}
 
+    /**
+     *
+     * @param questionNumber
+     */
     public void updateProgress(int questionNumber) {
         SwingUtilities.invokeLater(() -> {
             progressBar.setValue(questionNumber);
-            progressBar.setString("Question " + questionNumber + " of 25");
-        });
-    }
-
+            progressBar.setString("Question " + questionNumber + " of 25");});}
 
     /**
      * Method to check if any radio button is selected
      */
     private void checkIfAnyRadioButtonSelected() {
         if (aLbl.isSelected() || bLbl.isSelected() || cLbl.isSelected() || dLbl.isSelected()) {
-            nextButton.setEnabled(true);  // Enable the next button
+            nextButton.setEnabled(true);  //enable the next button
         } else {
-            nextButton.setEnabled(false); // Disable the next button if no selection
-        }
-    }
-
+            nextButton.setEnabled(false); //Disable the next button if no selection
+          }}
     /**
      * Generates a username in the format name_surname and displays a generated password
      * V2 has validation to make sure only letters for names
@@ -641,20 +582,18 @@ public class SmartHire {
 
         //Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
-        cards.previous(mainPanel);
-    }
+        cards.previous(mainPanel);}
 
     /**
      * Will be called to set next question into Labels
      * Can be moved to Questions class
-     *
      * @param index
      */
     private void displayQuestionAtIndex(int index) {
         if (index < currentQuestionList.size()) {
             Questions question = currentQuestionList.get(index);
 
-            // Display the question and options
+            //Display the question and options
             questionLbl.setText(question.getQuestionText());
             aLbl.setText("A. " + question.getOptionA());
             bLbl.setText("B. " + question.getOptionB());
@@ -671,15 +610,14 @@ public class SmartHire {
 
             try {
                 ImageIcon imageIcon = new ImageIcon(new URL(imageUrl));
-                Image image = imageIcon.getImage(); // Transform it
-                Image scaledImage = image.getScaledInstance(250, 250, Image.SCALE_SMOOTH); //Scale the image
+                Image image = imageIcon.getImage(); //Transform it
+                Image scaledImage = image.getScaledInstance(275, 275, Image.SCALE_SMOOTH); //Scale the image
                 photoLbl.setIcon(new ImageIcon(scaledImage));
-                photoLbl.setText(""); // Clear any previous error message
+                photoLbl.setText(""); //Clear any previous error message
             } catch (MalformedURLException e) {
                 System.out.println("Invalid image URL: " + imageUrl);
                 photoLbl.setText("Image not available");
-                photoLbl.setIcon(null);
-            }
+                photoLbl.setIcon(null);}
 
             //Store the correct answer for validation
             correctAnswer = question.getCorrectAnswer();
@@ -690,14 +628,19 @@ public class SmartHire {
         }
     }
 
-
+    /**
+     * Method to display the next question
+     * Stopping the timer
+     * disable nextBtn
+     * Showing results on screen
+     */
     private void displayNextQuestion() {
         if (currentQuestionIndex < currentQuestionList.size()) {
             displayQuestionAtIndex(currentQuestionIndex);
         } else {
             if (timer != null) {
-                timer.cancel(); // Stop the timer
-                finalTimeTaken = formatTime(secondsElapsed); // Capture the time when the quiz ends
+                timer.cancel(); //Stop the timer
+                finalTimeTaken = formatTime(secondsElapsed); //Capture the time when the quiz ends
                 nextButton.setVisible(false);
             }
 
@@ -705,45 +648,38 @@ public class SmartHire {
             int score = totalScore;
             String timeTaken = finalTimeTaken;
 
-            System.out.println("Uploading results: " + username + ", Score: " + score + ", Time: " + timeTaken + ", Opt-out: " + optOut);
             DatabaseLeaderboard.uploadResults(username, score, timeTaken, optOut);
 
             //Show the results screen
             navigateToNextCard();
             printToFileBtn.setVisible(true);
             iqTxt.setText(String.valueOf(totalScore));
-            // Get personality
+            //Get personality
             String personalityName = PersonalityMatcher.getPersonalityName(totalScore);
             String personalityImagePath = PersonalityMatcher.getPersonalityImagePath(totalScore);
+            personalityNameLbll.setText("Your IQ is similar to: " + personalityName);
 
-
-            personalityNameLbll.setText("Your IQ is similar to: " + personalityName);//name
-
-//load and scale the picture
+            //load and scale the picture
             ImageIcon icon = new ImageIcon(personalityImagePath);
             Image scaledImage = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             figureImg.setIcon(new ImageIcon(scaledImage));
 
-
             if (optOut) {
                 JOptionPane.showMessageDialog(SmartHireHub, "Your opt-out has been recorded.", "Opted Out", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-    }
+            }}}
 
     /**
      * Method to navigate to the next screen (e.g., after completing the quiz)
      */
 
     private void navigateToNextCard() {
-        // Your logic to navigate to the next screen, for example:
+        //Your logic to navigate to the next screen
         CardLayout cards = (CardLayout) mainPanel.getLayout();
         cards.next(mainPanel);
     }
 
     /**
      * Fetches and displays two random questions based on the given difficulty.
-     *
      * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
      */
     private void displayRandomQuestions(String difficulty) {
@@ -768,20 +704,17 @@ public class SmartHire {
             correctAnswer = question.getCorrectAnswer();
         } else {
             JOptionPane.showMessageDialog(SmartHireHub, "Not enough questions found!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+        }}
 
     /**
      * Checks the answer selected by the user.
-     *
      * @param selectedAnswer The answer selected by the user
      */
     private void checkAnswer(String selectedAnswer, Questions question) {
         //Check if the selected answer is correct
         if (selectedAnswer.equals(question.getCorrectAnswer())) {
-            totalScore += question.getScore(); // Add the score from the database to the total score
-        }
-    }
+            totalScore += question.getScore(); //Add the score from the database to the total score
+        }}
 
     /**
      * Generates 100 unique random 4-digit passwords and associates them with usernames
@@ -803,7 +736,7 @@ public class SmartHire {
     public void logIn() {
         String firstName = firstNameTxt.getText().trim();
         String surname = surnameTxt.getText().trim();
-        this.Username = firstName + "_" + surname;  // Use this.Username to refer to the instance variable
+        this.Username = firstName + "_" + surname;
 
         if (firstName.isEmpty() || surname.isEmpty()) {
             JOptionPane.showMessageDialog(SmartHireHub,
@@ -815,7 +748,7 @@ public class SmartHire {
         boolean found = false;
 
         for (int i = 0; i < usernameCount; i++) {
-            if (usernames[i].equals(this.Username)) {  // Use this.Username to refer to the instance variable
+            if (usernames[i].equals(this.Username)) {
                 String inputPassword = passwordTxt.getText().trim();
                 String correctPassword = passwords[i];
 
@@ -825,9 +758,9 @@ public class SmartHire {
 
                     found = true;
 
-                    profileName.setText(this.Username.replace("_", " "));  // Use this.Username
+                    profileName.setText(this.Username.replace("_", " "));
 
-                    // Set the selected avatar's icon to profilePic label
+                    //set the selected avatar's icon to profilePic label
                     ButtonModel selectedModel = AvatarButtonGroup.getSelection();
                     if (selectedModel != null) {
                         for (Enumeration<AbstractButton> buttons = AvatarButtonGroup.getElements(); buttons.hasMoreElements(); ) {
@@ -835,9 +768,8 @@ public class SmartHire {
                             if (button.getModel() == selectedModel) {
                                 profilePic.setIcon(button.getIcon());
                                 break;
-                            }
-                        }
-                    }
+                            }}}
+
                     CardLayout cards = (CardLayout) mainPanel.getLayout();
                     cards.show(mainPanel, "Card3");
                     BGMusicButton.setVisible(true);
@@ -851,14 +783,9 @@ public class SmartHire {
                             "Error", JOptionPane.ERROR_MESSAGE);
                     found = true;
                     break;
-                }
-            }
-        }
+                }}}
 
         if (!found) {
             JOptionPane.showMessageDialog(SmartHireHub,
                     "Username not found. Please try again.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-}
+                    "Error", JOptionPane.ERROR_MESSAGE);}}}
