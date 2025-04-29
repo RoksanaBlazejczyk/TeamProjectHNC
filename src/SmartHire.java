@@ -97,8 +97,8 @@ public class SmartHire {
     private int currentQuestion = 1;
     private Clip clip;
     private boolean isPlaying = false;
-    private ImageIcon playIcon = new ImageIcon("images/icons/no music2 icon 32x30.png");
-    private ImageIcon pauseIcon = new ImageIcon("images/icons/music2 icon 30x30.png");
+    private ImageIcon playIcon = new ImageIcon("images/icons/volumeOFF 50x50.png");
+    private ImageIcon pauseIcon = new ImageIcon("images/icons/volumeON 50x50.png");
 
 
     /**
@@ -128,26 +128,36 @@ public class SmartHire {
      */
     public void music() {
         try {
-            File musicFile = new File("src/music/music.wav"); // Adjust path if needed
-            if (!musicFile.exists()) {
-                System.out.println("Music file not found: " + musicFile.getAbsolutePath());
-                return;
+            if (clip == null) {
+                File musicFile = new File("src/music/music.wav");
+                if (!musicFile.exists()) {
+                    System.out.println("Music file not found: " + musicFile.getAbsolutePath());
+                    return;
+                }
+
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioStream);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
 
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            if (isPlaying) {
+                clip.stop();
+                BGMusicButton.setIcon(playIcon); // ← ustaw ikonę "play"
+                System.out.println("Music paused.");
+            } else {
+                clip.start();
+                BGMusicButton.setIcon(pauseIcon); // ← ustaw ikonę "pause"
+                System.out.println("Music is playing in a loop...");
+            }
 
-            //Loop the music indefinitely
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            isPlaying = !isPlaying;
 
-            //Start playing
-            clip.start();
-            System.out.println("Music is playing in a loop...");
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
     }
+
 
 
     /**
@@ -247,9 +257,9 @@ public class SmartHire {
             DatabaseConnection.getConnection(); // Ensure the connection is established
 
             //Load specific number of random questions for each difficulty
-            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 8);
-            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 12);
-            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 5);
+            List<Questions> easyQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("easy", 2);
+            List<Questions> mediumQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("medium", 2);
+            List<Questions> hardQuestions = DatabaseConnection.getRandomQuestionsByDifficulty("hard", 2);
 
             //Combine all questions into one list and shuffle
             allQuestions.addAll(easyQuestions);

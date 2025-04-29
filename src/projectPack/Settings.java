@@ -7,7 +7,7 @@ public class Settings {
 
     //Current settings
     private static boolean isDarkMode = false;
-    private static int fontSize = 14;
+    private static int fontSize = 13;
     private static Color fontColor = Color.BLACK;
 
     /**
@@ -46,7 +46,7 @@ public class Settings {
             isDarkMode = modeBox.getSelectedIndex() == 1;
 
             //Font Size
-            fontSize = fontBox.getSelectedIndex() == 0 ? 12 : 16;
+            fontSize = fontBox.getSelectedIndex() == 0 ? 12 : 14;
 
             //Font Color (only for light mode)
             switch (colorBox.getSelectedIndex()) {
