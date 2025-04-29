@@ -104,7 +104,7 @@ public class SmartHire {
      * @param args
      */
     public static void main(String[] args) {
-        //Ensure GUI runs on the Event Dispatch Thread (EDT)
+        // Ensure GUI runs on the Event Dispatch Thread (EDT)
       SwingUtilities.invokeLater(() -> {
             JFrame myApp = new JFrame("SmartHire App");
 
@@ -680,6 +680,7 @@ public class SmartHire {
 
     /**
      * Fetches and displays two random questions based on the given difficulty.
+     *
      * @param difficulty The difficulty level (e.g., "easy", "medium", "hard")
      */
     private void displayRandomQuestions(String difficulty) {
