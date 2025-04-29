@@ -50,7 +50,6 @@ public class SmartHire {
     private JButton createBtn;
     private JButton BGMusicButton;
     private JButton settingsButton;
-    private JTextField outputPasswordTxt;
     private JPanel avatarPanel;
     private JRadioButton avatar1RadioBtn, avatar2RadioBtn, avatar3RadioBtn, avatar4RadioBtn, avatar5RadioBtn, avatar6RadioBtn;
     private JRadioButton avatar7RadioBtn, avatar8RadioBtn, avatar9RadioBtn, avatar10RadioBtn, avatar11RadioBtn, avatar12RadioBtn;
@@ -72,7 +71,6 @@ public class SmartHire {
     private JButton finishBtn;
     private JProgressBar progressBar;
     private ButtonGroup AvatarButtonGroup, AnswersBtnGroupRadio;
-    private Clip backgroundMusicClip; // Music player
     private Timer timer;
     private int secondsElapsed = 0; // Track elapsed seconds
     private JLabel timerLbl;// Label to display the timer
@@ -100,14 +98,13 @@ public class SmartHire {
     private ImageIcon pauseIcon = new ImageIcon("images/icons/volumeON 50x50.png");
 
 
-    /**
+    /**Runs the GUI with a set size
      * @param args
      */
     public static void main(String[] args) {
-        // Ensure GUI runs on the Event Dispatch Thread (EDT)
+        //Run the GUI
       SwingUtilities.invokeLater(() -> {
             JFrame myApp = new JFrame("SmartHire App");
-
             SmartHire app = new SmartHire();
             myApp.setContentPane(app.SmartHireHub);
             myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -176,7 +173,8 @@ public class SmartHire {
         return String.format("%d:%02d", minutes, seconds);}
 
     /**
-     * @return
+     * Checks indexes and returns a question if list not exhausted
+     * @param questionNumber index of question
      */
     public void showQuestion(int questionNumber) {
         if (questionNumber >= 1 && questionNumber <= currentQuestionList.size()) {
@@ -284,47 +282,40 @@ public class SmartHire {
                 CertificateGenerator certGen = new CertificateGenerator();
                 certGen.generateCertificate(username, score, timeTaken, famousPerson, fileToSave.getAbsolutePath());
 
-            }
-        });
+            }});
 
         //Set up action listeners for answer buttons
         aLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkIfAnyRadioButtonSelected();
-            }
-        });
+            }});
         bLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkIfAnyRadioButtonSelected();
-            }
-        });
+            }});
         cLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkIfAnyRadioButtonSelected();
-            }
-        });
+            }});
         dLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkIfAnyRadioButtonSelected();
-            }
-        });
+            }});
         createAccountBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 goToCreateScreen();
-            }
-        });
+            }});
 
         createBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createUsername();
-            }
-        });
+            }});
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -373,9 +364,7 @@ public class SmartHire {
                     startBtn.setEnabled(true);
                 } else {
                     startBtn.setEnabled(false);
-                }
-            }
-        });
+                }}});
         progressBar.addHierarchyListener(e -> {
             if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0 && progressBar.isShowing()) {
                 progressBar.setMinimum(1); // start from 1
@@ -383,18 +372,13 @@ public class SmartHire {
                 progressBar.setValue(1); // default value
                 progressBar.setStringPainted(true);
                 progressBar.setString("Question 1 of 25");
-
-            }
-        });
+        }});
 
         BGMusicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button clicked! Playing music...");
                 music();
-
-            }
-        });
+        }});
 
         startBtn.addActionListener(new ActionListener() {
             @Override
@@ -406,16 +390,14 @@ public class SmartHire {
                 displayRandomQuestions("easy");
                 displayRandomQuestions("medium");
                 displayRandomQuestions("hard");
-            }
-        });
+        }});
 
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(SmartHireHub);
                 Settings.showSettingsDialog(frame);
-            }
-        });
+        }});
 
         leaderboardBtn.addActionListener(new ActionListener() {
             @Override
@@ -451,8 +433,7 @@ public class SmartHire {
                 JScrollPane scrollPane = new JScrollPane(table); //Add table to scroll pane
                 scrollPane.setPreferredSize(new Dimension(600, 400));
                 JOptionPane.showMessageDialog(SmartHireHub, scrollPane, "Top 15 Leaderboard", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+            }});
 
         optBtn.addActionListener(new ActionListener() {
             @Override
@@ -473,9 +454,7 @@ public class SmartHire {
                     }
                 } else {
                     optOut = false; //If the checkbox is unchecked
-                }
-            }
-        });
+        }}});
 
         finishBtn.addActionListener(new ActionListener() {
             @Override
@@ -492,7 +471,7 @@ public class SmartHire {
                 } else {
                     //Stay on the current screen (do nothing)
                     JOptionPane.showMessageDialog(null, "You can continue with the leaderboard or save your results.");
-                }}});
+        }}});
 
        adminBtn.addActionListener(new ActionListener() {
             @Override
@@ -578,7 +557,7 @@ public class SmartHire {
         usernames[usernameCount] = username;
         usernameCount++;
 
-        usernameTxt.setText(username);  // Set the generated username in the text field
+        usernameTxt.setText(username);  //Set the generated username into text field
 
         //Navigate to the previous screen using CardLayout
         CardLayout cards = (CardLayout) mainPanel.getLayout();
@@ -675,8 +654,7 @@ public class SmartHire {
     private void navigateToNextCard() {
         //Your logic to navigate to the next screen
         CardLayout cards = (CardLayout) mainPanel.getLayout();
-        cards.next(mainPanel);
-    }
+        cards.next(mainPanel);}
 
     /**
      * Fetches and displays two random questions based on the given difficulty.
